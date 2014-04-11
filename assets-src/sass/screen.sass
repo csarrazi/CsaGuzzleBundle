@@ -1,0 +1,28 @@
+.calls
+    .call
+        header>*
+            display: inline-block
+
+        li
+            padding-bottom: 0
+
+        h3
+            margin-bottom: 0
+
+        table
+            table-layout: fixed
+
+        td
+            word-wrap: break-word
+
+        .method
+            padding: 4px 4px 4px 4px
+            color: #fff
+        .tab-content
+            padding: 10px 15px
+
+    @each $method in get, post, put, delete, patch, link, unlink
+        +make-method($method-colors, $method)
+
+    @each $status in server-error, client-error, redirection, success, informational, unknown
+        +make-status($status-colors, $status)

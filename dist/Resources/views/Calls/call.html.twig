@@ -1,0 +1,37 @@
+{% import '@CsaGuzzle/Calls/macros.html.twig' as macros %}
+
+<li class="row call {{ call.request.method|lower }}">
+    <header>
+        <span class="method">{{ call.request.method }}</span>
+        {% if call.request.method == 'GET' %}
+            <h3><a href="{{ call.request.url }}" target="_blank" class="path">{{ call.request.url }}</a></h3>
+        {% else %}
+            <span class="path">{{ call.request.url }}</span>
+        {% endif %}
+        <span class="status-code badge {{ call.response.statusCode|status_code_class }}">{{ call.response.statusCode }} - {{ call.response.reasonPhrase }}</span>
+        <span class="duration badge">{{ call.duration }} ms</span>
+    </header>
+
+    <ul class="nav nav-pills">
+        <li class="active"><a href="#request-{{ loop.index }}" data-toggle="tab">Request</a></li>
+        <li><a href="#response-{{ loop.index }}" data-toggle="tab">Response</a></li>
+    </ul>
+
+    <div class="tab-content">
+        <div class="tab-pane active" id="request-{{ loop.index }}">
+            {{ macros.render_headers(call.request.headers) }}
+            {{ macros.render_body(call.request.body) }}
+        </div>
+        <div class="tab-pane" id="response-{{ loop.index }}">
+            {{ macros.render_headers(call.response.headers) }}
+            {{ macros.render_body(call.response.body) }}
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        $('#request-{{ loop.index }} a').click(function (e) {
+            e.preventDefault();
+            $(this).tab('show');
+        })
+    </script>
+</li>

@@ -1,0 +1,35 @@
+{% macro render_headers(headers) %}
+    <h4>Headers</h4>
+    <table>
+        <tr>
+            <th>Header</th>
+            <th>Value</th>
+        </tr>
+        {% for header, values in headers %}
+            <tr>
+                <td>{{ header }}</td>
+                <td>
+                    {% if values|length > 1 %}
+                    <ul>
+                        {% for value in values %}
+                            <li>{{ value }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% else %}
+                        {{ values.0 }}
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endmacro %}
+
+{% macro render_body(body) %}
+    {% if body is not empty %}
+        <h4>Content</h4>
+
+        {% set lang = detect_lang(body) %}
+
+        <pre><code class="language-{{ lang }}">{{ body|pretty_print(lang) }}</code></pre>
+    {% endif %}
+{% endmacro %}

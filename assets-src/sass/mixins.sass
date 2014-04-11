@@ -1,0 +1,37 @@
+=make-method($map, $method)
+    $color: map-get($map, $method)
+
+    .call.#{$method}
+        header, table th, .nav>li>a:hover
+            background-color: lighten($color, 55%)
+
+        table, tr, th, td
+            border: 1px solid $color
+
+        h3, h4
+            color: $color
+
+        .nav-pills>a, a
+            color: map-get($map, $method)
+
+        .nav-pills>.active
+            a, a:hover
+                color: #fff
+                background-color: $color
+
+        &>*
+            border-left: 1px solid $color
+            border-bottom: 1px solid $color
+            border-right: 1px solid $color
+
+        &>:first-child
+            border-top: 1px solid $color
+
+        header .duration, .method
+            background-color: $color
+
+=make-status($map, $status)
+    $color: map-get($map, $status)
+
+    .status-code.#{$status}
+        background-color: $color

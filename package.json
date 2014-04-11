@@ -1,0 +1,33 @@
+{
+  "name": "guzzle-bundle",
+  "version": "0.0.1",
+  "description": "A Symfony2 bundle empowering GuzzleHttp",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/csarrazi/CsaGuzzleBundle.git"
+  },
+  "keywords": [
+    "GuzzleHttp",
+    "Symfony2",
+    "Bundle"
+  ],
+  "author": "Charles Sarrazin <charles@sarraz.in>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/csarrazi/CsaGuzzleBundle/issues"
+  },
+  "homepage": "https://github.com/csarrazi/CsaGuzzleBundle",
+  "devDependencies": {
+    "grunt": "^0.4.4",
+    "grunt-base64": "^0.1.0",
+    "grunt-contrib-concat": "^0.4.0",
+    "grunt-contrib-sass": "^0.7.3",
+    "grunt-contrib-uglify": "^0.4.0",
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-imagemagick": "icagstrout/grunt-imagemagick",
+    "grunt-phpunit": "^0.3.3",
+    "grunt-preprocess": "^4.0.0",
+    "grunt-shell": "^0.6.4",
+    "grunt-contrib-cssmin": "^0.9.0"
+  }
+}

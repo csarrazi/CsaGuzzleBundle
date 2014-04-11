@@ -1,0 +1,49 @@
+{% extends 'WebProfilerBundle:Profiler:layout.html.twig' %}
+
+{% block toolbar %}
+
+    {% if collector.calls is empty %}
+        {% set color = 'grey' %}
+    {% else %}
+        {% set color = 'green' %}
+    {% endif %}
+
+    {% set icon %}
+        {% include '@CsaGuzzle/Collector/icon.html.twig' with { alt: collector.name } only %}
+        <span class="sf-toolbar-status sf-toolbar-status-{{ color }}">{{ collector.calls|length }}</span>
+    {% endset %}
+
+    {% set text %}
+        <div class="sf-toolbar-info-piece">
+            <b>Requests</b>
+            <span class="sf-toolbar-status sf-toolbar-status-green">{{ collector.calls|length }}</span>
+        </div>
+    {% endset %}
+
+    {% include 'WebProfilerBundle:Profiler:toolbar_item.html.twig' with { 'link': 'guzzle' } %}
+{% endblock %}
+
+{% block head %}
+{{ parent() }}
+<link rel="stylesheet" href="{{ asset('bundles/csaguzzle/css/screen.min.css') }}">
+<script src="{{ asset('bundles/csaguzzle/js/profile.min.js') }}"></script>
+{% endblock %}
+
+{% block menu %}
+    <span class="label">
+        <span class="icon">
+            {% include '@CsaGuzzle/Collector/icon.html.twig' with { alt: collector.name } only %}
+        </span>
+        <strong>{{ collector.name|capitalize|default('HTTP calls') }}</strong>
+        <span class="count">
+            {% if collector.calls is not empty %}
+                <span>{{ collector.calls|length }}</span>
+            {% endif %}
+        </span>
+    </span>
+{% endblock %}
+
+{% block panel %}
+    <h2>{{ (collector.name|capitalize)|default('HTTP calls') }}</h2>
+    {% include '@CsaGuzzle/Calls/list.html.twig' with { calls: collector.calls } only %}
+{% endblock %}
