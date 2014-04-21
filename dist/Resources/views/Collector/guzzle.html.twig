@@ -4,6 +4,8 @@
 
     {% if collector.calls is empty %}
         {% set color = 'grey' %}
+    {% elseif (collector.calls|last).response is not defined or (collector.calls|last).response.statusCode >= 400 %}
+        {% set color = 'red' %}
     {% else %}
         {% set color = 'green' %}
     {% endif %}
@@ -16,7 +18,7 @@
     {% set text %}
         <div class="sf-toolbar-info-piece">
             <b>Requests</b>
-            <span class="sf-toolbar-status sf-toolbar-status-green">{{ collector.calls|length }}</span>
+            <span class="sf-toolbar-status sf-toolbar-status-{{ color }}">{{ collector.calls|length }}</span>
         </div>
     {% endset %}
 

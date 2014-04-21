@@ -8,13 +8,16 @@
         {% else %}
             <span class="path">{{ call.request.url }}</span>
         {% endif %}
-        <span class="status-code badge {{ call.response.statusCode|status_code_class }}">{{ call.response.statusCode }} - {{ call.response.reasonPhrase }}</span>
+        {% set statusCode = call.response is defined ? call.response.statusCode : 0 %}
+        <span class="status-code badge {{ statusCode|status_code_class }}">
+            {{ statusCode }}{% if call.response is defined %} - {{ call.response.reasonPhrase }}{% endif %}
+        </span>
         <span class="duration badge">{{ call.duration }} ms</span>
     </header>
 
     <ul class="nav nav-pills">
         <li class="active"><a href="#request-{{ loop.index }}" data-toggle="tab">Request</a></li>
-        <li><a href="#response-{{ loop.index }}" data-toggle="tab">Response</a></li>
+        {% if call.response is defined %}<li><a href="#response-{{ loop.index }}" data-toggle="tab">Response</a></li>{% endif %}
     </ul>
 
     <div class="tab-content">
@@ -22,10 +25,12 @@
             {{ macros.render_headers(call.request.headers) }}
             {{ macros.render_body(call.request.body) }}
         </div>
+        {% if call.response is defined %}
         <div class="tab-pane" id="response-{{ loop.index }}">
             {{ macros.render_headers(call.response.headers) }}
             {{ macros.render_body(call.response.body) }}
         </div>
+        {% endif %}
     </div>
 
     <script type="text/javascript">

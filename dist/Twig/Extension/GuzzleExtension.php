@@ -11,11 +11,6 @@
 
 namespace Csa\Bundle\GuzzleBundle\Twig\Extension;
 
-use Csa\Bundle\GuzzleBundle\GuzzleHttp\Subscriber\DebugSubscriber;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\DataCollector\DataCollector;
-
 /**
  * Csa Guzzle Collector
  *

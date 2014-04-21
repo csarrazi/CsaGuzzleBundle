@@ -28,11 +28,12 @@ class GuzzleCollector extends DataCollector
     /**
      * Constructor
      *
-     * @param History $history the request history subscriber
+     * @param DebugSubscriber $history the request history subscriber
      */
     public function __construct(DebugSubscriber $history)
     {
         $this->history = $history;
+        $this->data = [];
     }
 
     /**
@@ -40,11 +41,13 @@ class GuzzleCollector extends DataCollector
      */
     public function collect(Request $request, Response $response, \Exception $exception = null)
     {
+        $data = [];
+
         foreach ($this->history as $transaction) {
             $request = $transaction['request'];
             $response = $transaction['response'];
 
-            $this->data[] = [
+            $req = [
                 'request' => [
                     'method'  => $request->getMethod(),
                     'version' => $request->getProtocolVersion(),
@@ -52,16 +55,23 @@ class GuzzleCollector extends DataCollector
                     'headers' => $request->getHeaders(),
                     'body'    => (string) $request->getBody(),
                 ],
-                'response' => [
+                'duration' => $transaction['duration']
+            ];
+
+            if ($response) {
+                $req['response'] = [
                     'statusCode'   => $response->getStatusCode(),
                     'reasonPhrase' => $response->getReasonPhrase(),
                     'url'          => $response->getEffectiveUrl(),
                     'headers'      => $response->getHeaders(),
                     'body'         => (string) $response->getBody(),
-                ],
-                'duration' => $transaction['duration'],
-            ];
+                ];
+            }
+
+            $data[] = $req;
         }
+
+        $this->data = $data;
     }
 
     public function getCalls()

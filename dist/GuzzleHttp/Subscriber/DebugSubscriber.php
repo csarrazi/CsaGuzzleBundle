@@ -11,16 +11,15 @@
 
 namespace Csa\Bundle\GuzzleBundle\GuzzleHttp\Subscriber;
 
-use GuzzleHttp\Adapter\TransactionInterface;
 use GuzzleHttp\Event\BeforeEvent;
 use GuzzleHttp\Event\CompleteEvent;
 use GuzzleHttp\Event\ErrorEvent;
-use GuzzleHttp\Event\HeadersEvent;
 use GuzzleHttp\Event\RequestEvents;
 use GuzzleHttp\Event\SubscriberInterface;
 use GuzzleHttp\Message\RequestInterface;
 use GuzzleHttp\Message\ResponseInterface;
 use Symfony\Component\Stopwatch\Stopwatch;
+use Symfony\Component\Stopwatch\StopwatchEvent;
 
 /**
  * Csa Guzzle Stopwatch integration
@@ -59,14 +58,23 @@ class DebugSubscriber implements SubscriberInterface, \IteratorAggregate, \Count
 
     public function onComplete(CompleteEvent $event)
     {
-        $stopwatchEvent = $this->stopwatch->stop($event->getRequest()->getUrl(), 'guzzle');
-        $this->add($event->getRequest(), $event->getResponse(), $stopwatchEvent->getDuration());
+        $request = $event->getRequest();
+        $stopwatchEvent = $this->stopwatch->stop($request->getUrl(), 'guzzle');
+        $this->add($request, $event->getResponse(), $stopwatchEvent);
     }
 
     public function onError(ErrorEvent $event)
     {
-        $event = $this->stopwatch->stop($transaction->getRequest()->getUrl(), 'guzzle');
-        $this->add($event->getRequest(), $event->getResponse());
+        $request = $event->getRequest();
+        $url = $request->getUrl();
+
+        if (!$this->stopwatch->isStarted($url)) {
+            return;
+        }
+
+        $stopwatchEvent = $this->stopwatch->stop($url, 'guzzle');
+
+        $this->add($request, $event->getResponse(), $stopwatchEvent);
     }
 
     /**
@@ -138,9 +146,9 @@ class DebugSubscriber implements SubscriberInterface, \IteratorAggregate, \Count
     private function add(
         RequestInterface $request,
         ResponseInterface $response = null,
-        $duration = null
+        StopwatchEvent $event = null
     ) {
-        $this->transactions[] = ['request' => $request, 'response' => $response, 'duration' => $duration];
+        $this->transactions[] = ['request' => $request, 'response' => $response, 'duration' => $event ? $event->getDuration() : 0];
 
         if (count($this->transactions) > $this->limit) {
             array_shift($this->transactions);

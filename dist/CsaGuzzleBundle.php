@@ -11,7 +11,6 @@
 
 namespace Csa\Bundle\GuzzleBundle;
 
-use Csa\Bundle\GuzzleBundle\DependencyInjection\CompilerPass\ClientPass;
 use Csa\Bundle\GuzzleBundle\DependencyInjection\CompilerPass\SubscriberPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
