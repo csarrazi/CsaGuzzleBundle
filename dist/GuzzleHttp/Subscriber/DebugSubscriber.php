@@ -53,13 +53,13 @@ class DebugSubscriber implements SubscriberInterface, \IteratorAggregate, \Count
 
     public function onBefore(BeforeEvent $event)
     {
-        $this->stopwatch->start($event->getRequest()->getUrl(), 'guzzle');
+        $this->stopwatch->start($event->getRequest()->getUrl());
     }
 
     public function onComplete(CompleteEvent $event)
     {
         $request = $event->getRequest();
-        $stopwatchEvent = $this->stopwatch->stop($request->getUrl(), 'guzzle');
+        $stopwatchEvent = $this->stopwatch->stop($request->getUrl());
         $this->add($request, $event->getResponse(), $stopwatchEvent);
     }
 
@@ -72,8 +72,7 @@ class DebugSubscriber implements SubscriberInterface, \IteratorAggregate, \Count
             return;
         }
 
-        $stopwatchEvent = $this->stopwatch->stop($url, 'guzzle');
-
+        $stopwatchEvent = $this->stopwatch->stop($url);
         $this->add($request, $event->getResponse(), $stopwatchEvent);
     }
 
@@ -141,7 +140,7 @@ class DebugSubscriber implements SubscriberInterface, \IteratorAggregate, \Count
      *
      * @param RequestInterface  $request  Request to add
      * @param ResponseInterface $response Response of the request
-     * @param integer           $duration Request duration, in ms
+     * @param StopwatchEvent    $duration Request duration, in ms
      */
     private function add(
         RequestInterface $request,
