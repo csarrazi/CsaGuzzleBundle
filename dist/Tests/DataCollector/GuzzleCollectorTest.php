@@ -5,7 +5,7 @@ namespace Csa\Bundle\GuzzleBundle\Tests\DataCollector;
 use Csa\Bundle\GuzzleBundle\DataCollector\GuzzleCollector;
 use Symfony\Component\HttpFoundation\Request;
 
-class DataCollectorTest extends \PHPUnit_Framework_TestCase
+class GuzzleCollectorTest extends \PHPUnit_Framework_TestCase
 {
     public function testCollect()
     {
@@ -23,15 +23,34 @@ class DataCollectorTest extends \PHPUnit_Framework_TestCase
         $history  = $this
             ->getMockBuilder('Csa\Bundle\GuzzleBundle\GuzzleHttp\Subscriber\DebugSubscriber')
             ->disableOriginalConstructor()
-            ->getMock();
+            ->getMock()
+        ;
+
         $request  = $this
             ->getMockBuilder('GuzzleHttp\Message\Request')
             ->disableOriginalConstructor()
-            ->getMock();
+            ->setMethods(['getMethod', 'getProtocolVersion', 'getUrl', 'getHeaders', 'getBody'])
+            ->getMock()
+        ;
+
+        $request->expects($this->once())->method('getMethod');
+        $request->expects($this->once())->method('getProtocolVersion');
+        $request->expects($this->once())->method('getUrl');
+        $request->expects($this->once())->method('getHeaders');
+        $request->expects($this->once())->method('getBody');
+
         $response = $this
             ->getMockBuilder('GuzzleHttp\Message\Response')
             ->disableOriginalConstructor()
-            ->getMock();
+            ->setMethods(['getStatusCode', 'getReasonPhrase', 'getEffectiveUrl', 'getHeaders', 'getBody'])
+            ->getMock()
+        ;
+
+        $response->expects($this->once())->method('getStatusCode');
+        $response->expects($this->once())->method('getReasonPhrase');
+        $response->expects($this->once())->method('getEffectiveUrl');
+        $response->expects($this->once())->method('getHeaders');
+        $response->expects($this->once())->method('getBody');
 
         $history
             ->expects($this->once())
