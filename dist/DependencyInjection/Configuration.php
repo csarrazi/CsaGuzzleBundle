@@ -44,6 +44,11 @@ class Configuration implements ConfigurationInterface
                     ->useAttributeAsKey('name')
                     ->prototype('boolean')->end()
                 ->end()
+                ->arrayNode('factory')
+                    ->children()
+                        ->scalarNode('class')->defaultValue('Csa\Bundle\GuzzleBundle\Factory\Client')->end()
+                    ->end()
+                ->end()
             ->end()
         ;
 
