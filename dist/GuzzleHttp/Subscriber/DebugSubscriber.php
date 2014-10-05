@@ -140,7 +140,7 @@ class DebugSubscriber implements SubscriberInterface, \IteratorAggregate, \Count
      *
      * @param RequestInterface  $request  Request to add
      * @param ResponseInterface $response Response of the request
-     * @param StopwatchEvent    $duration Request duration, in ms
+     * @param StopwatchEvent    $event    Request duration, in ms
      */
     private function add(
         RequestInterface $request,
