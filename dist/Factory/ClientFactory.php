@@ -11,6 +11,9 @@
 
 namespace Csa\Bundle\GuzzleBundle\Factory;
 
+use GuzzleHttp\Event\HasEmitterInterface;
+use GuzzleHttp\Event\SubscriberInterface;
+
 /**
  * Csa Guzzle client compiler pass
  *
@@ -19,17 +22,28 @@ namespace Csa\Bundle\GuzzleBundle\Factory;
 class ClientFactory
 {
     private $class;
+    private $subscribers;
 
     /**
-     * @param string $class The client's class
+     * @param string                $class       The client's class
+     * @param SubscriberInterface[] $subscribers A list of subscribers to attach to each client
      */
-    public function __construct($class)
+    public function __construct($class, array $subscribers = [])
     {
         $this->class = $class;
+        $this->subscribers = $subscribers;
     }
 
     public function create(array $options = [])
     {
-        return new $this->class($options);
+        $client = new $this->class($options);
+
+        if ($client instanceof HasEmitterInterface) {
+            foreach ($this->subscribers as $subscriber) {
+                $client->getEmitter()->attach($subscriber);
+            }
+        }
+
+        return $client;
     }
 }

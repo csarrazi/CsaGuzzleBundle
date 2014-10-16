@@ -13,6 +13,7 @@
 
         <service id="csa_guzzle.client_factory" class="%csa_guzzle.client_factory.class%">
             <argument>%csa_guzzle.client.class%</argument>
+            <argument />
         </service>
 
     </services>
