@@ -1,0 +1,51 @@
+<?php
+
+/*
+ * This file is part of the CsaGuzzleBundle package
+ *
+ * (c) Charles Sarrazin <charles@sarraz.in>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code
+ */
+
+namespace Csa\Bundle\GuzzleBundle\GuzzleHttp\Cache;
+
+use Doctrine\Common\Cache\Cache;
+use GuzzleHttp\Message\RequestInterface;
+use GuzzleHttp\Message\ResponseInterface;
+
+class DoctrineStorage implements StorageInterface
+{
+    private $cache;
+    private $ttl;
+
+    public function __construct(Cache $cache, $ttl = 0)
+    {
+        $this->cache = $cache;
+    }
+
+    public function fetch(RequestInterface $request)
+    {
+        $key = $this->getKey($request);
+
+        if ($this->cache->contains($key)) {
+            return $this->cache->fetch($key);
+        }
+    }
+
+    public function save(RequestInterface $request, ResponseInterface $response)
+    {
+        $this->cache->save($this->getKey($request), $response, $this->ttl);
+    }
+
+    private function getKey(RequestInterface $request)
+    {
+        return md5(serialize([
+            'method'  => $request->getMethod(),
+            'uri'     => $request->getUrl(),
+            'headers' => $request->getHeaders(),
+            'body'    => $request->getBody(),
+        ]));
+    }
+}

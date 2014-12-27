@@ -30,6 +30,12 @@
         header .duration, .method
             background-color: $color
 
+        header .cache
+            &.hit
+                background-color: map-get($status-colors, success)
+            &.miss
+                background-color: map-get($status-colors, informational)
+
 =make-status($map, $status)
     $color: map-get($map, $status)
 

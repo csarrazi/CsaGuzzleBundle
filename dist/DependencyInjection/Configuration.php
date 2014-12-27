@@ -62,6 +62,7 @@ class Configuration implements ConfigurationInterface
                     ->end()
                 ->end()
                 ->scalarNode('factory_class')->defaultValue('Csa\Bundle\GuzzleBundle\Factory\Client')->end()
+                ->booleanNode('cache')->defaultFalse()->end()
             ->end()
         ;
 

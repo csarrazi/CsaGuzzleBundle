@@ -36,12 +36,18 @@ class CsaGuzzleExtension extends Extension
 
         if (!$config['profiler']) {
             $container->removeDefinition('csa_guzzle.subscriber.debug');
+            $container->removeDefinition('csa_guzzle.subscriber.stopwatch');
             $container->removeDefinition('csa_guzzle.data_collector.guzzle');
             $container->removeDefinition('csa_guzzle.twig.extension');
         }
 
         if (!$config['logger']) {
             $container->removeDefinition('csa_guzzle.subscriber.logger');
+        }
+
+        if (!$config['cache']) {
+            // todo Needs support for other types of caches
+            $container->removeDefinition('csa_guzzle.subscriber.cache');
         }
 
         $definition = $container->getDefinition('csa_guzzle.client_factory');

@@ -55,7 +55,7 @@ class GuzzleCollector extends DataCollector
                     'headers' => $request->getHeaders(),
                     'body'    => (string) $request->getBody(),
                 ],
-                'duration' => $transaction['duration']
+                'duration' => floor($transaction['duration'] * 1000),
             ];
 
             if ($response) {
@@ -66,6 +66,10 @@ class GuzzleCollector extends DataCollector
                     'headers'      => $response->getHeaders(),
                     'body'         => (string) $response->getBody(),
                 ];
+            }
+
+            if ($cache = $request->getConfig()->get('cache_lookup')) {
+                $req['cache'] = $cache;
             }
 
             $data[] = $req;

@@ -11,8 +11,12 @@
         "symfony/framework-bundle": "~2.3",
         "twig/twig": "~1.12"
     },
+    "suggest": {
+        "doctrine/cache": "Allows caching of responses"
+    },
     "require-dev": {
-        "phpunit/phpunit": "~4.0"
+        "phpunit/phpunit": "~4.0",
+        "doctrine/cache": "~1.1"
     },
     "autoload": {
         "psr-4": { "Csa\\Bundle\\GuzzleBundle\\": "dist" }

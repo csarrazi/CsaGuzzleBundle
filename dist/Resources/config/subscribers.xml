@@ -6,14 +6,22 @@
 
     <services>
 
-        <service id="csa_guzzle.subscriber.debug" class="Csa\Bundle\GuzzleBundle\GuzzleHttp\Subscriber\DebugSubscriber">
+        <service id="csa_guzzle.subscriber.stopwatch" class="Csa\Bundle\GuzzleBundle\GuzzleHttp\Subscriber\StopwatchSubscriber">
             <argument type="service" id="debug.stopwatch" />
+            <tag name="csa_guzzle.subscriber" alias="stopwatch" />
+        </service>
+
+        <service id="csa_guzzle.subscriber.debug" class="Csa\Bundle\GuzzleBundle\GuzzleHttp\Subscriber\DebugSubscriber">
             <tag name="csa_guzzle.subscriber" alias="debug" />
         </service>
 
         <service id="csa_guzzle.subscriber.logger" class="Csa\Bundle\GuzzleBundle\GuzzleHttp\Subscriber\LoggerSubscriber">
             <argument type="service" id="logger" on-invalid="null" />
             <tag name="csa_guzzle.subscriber" alias="logger" />
+        </service>
+
+        <service id="csa_guzzle.subscriber.cache" class="Csa\Bundle\GuzzleBundle\GuzzleHttp\Subscriber\CacheSubscriber">
+            <tag name="csa_guzzle.subscriber" alias="cache" />
         </service>
 
         <service id="csa_guzzle.emitter" class="Guzzlehttp\Event\Emitter" abstract="true" public="false" />
