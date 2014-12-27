@@ -29,11 +29,22 @@ class CsaGuzzleExtension extends Extension
 
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
 
-        if ($config['profiler']) {
-            $loader->load('collector.xml');
-            $loader->load('twig.xml');
+        $loader->load('subscribers.xml');
+        $loader->load('collector.xml');
+        $loader->load('twig.xml');
+        $loader->load('factory.xml');
+
+        if (!$config['profiler']) {
+            $container->removeDefinition('csa_guzzle.subscriber.debug');
+            $container->removeDefinition('csa_guzzle.data_collector.guzzle');
+            $container->removeDefinition('csa_guzzle.twig.extension');
         }
 
-        $loader->load('factory.xml');
+        if (!$config['logger']) {
+            $container->removeDefinition('csa_guzzle.subscriber.logger');
+        }
+
+        $definition = $container->getDefinition('csa_guzzle.client_factory');
+        $definition->replaceArgument(0, $config['factory_class']);
     }
 }

@@ -125,7 +125,7 @@ module.exports = function (grunt) {
         },
         phpunit: {
             classes: {
-                dir: '<%= vars.distDir %>/Tests/',
+                dir: '<%= vars.distDir %>/Tests/'
             },
             options: {
                 bin: '<%= vars.vendorDir %>/bin/phpunit',
@@ -145,8 +145,8 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-phpunit');
-    grunt.registerTask('clean', ['shell:clean']);
     grunt.registerTask('icon', ['shell:mkdir', 'imagemagick-convert', 'base64', 'preprocess']);
     grunt.registerTask('assets', ['sass', 'cssmin', 'concat', 'uglify']);
-    grunt.registerTask('default', ['icon', 'assets', 'clean']);
-}
+    grunt.registerTask('default', ['icon', 'assets', 'shell:clean']);
+};
+
