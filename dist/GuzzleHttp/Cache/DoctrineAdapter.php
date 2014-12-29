@@ -15,7 +15,7 @@ use Doctrine\Common\Cache\Cache;
 use GuzzleHttp\Message\RequestInterface;
 use GuzzleHttp\Message\ResponseInterface;
 
-class DoctrineStorage implements StorageInterface
+class DoctrineAdapter implements StorageAdapterInterface
 {
     private $cache;
     private $ttl;

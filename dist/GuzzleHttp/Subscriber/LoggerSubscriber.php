@@ -28,7 +28,7 @@ class LoggerSubscriber implements SubscriberInterface
 {
     private $logger;
 
-    public function __construct(LoggerInterface $logger)
+    public function __construct(LoggerInterface $logger = null)
     {
         $this->logger = $logger ?: new NullLogger();
     }

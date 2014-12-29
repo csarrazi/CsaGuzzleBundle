@@ -11,8 +11,8 @@
 
 namespace Csa\Bundle\GuzzleBundle\GuzzleHttp\Subscriber;
 
-use Csa\Bundle\GuzzleBundle\GuzzleHttp\Cache\DoctrineStorage;
-use Csa\Bundle\GuzzleBundle\GuzzleHttp\Cache\StorageInterface;
+use Csa\Bundle\GuzzleBundle\GuzzleHttp\Cache\DoctrineAdapter;
+use Csa\Bundle\GuzzleBundle\GuzzleHttp\Cache\StorageAdapterInterface;
 use Doctrine\Common\Cache\ArrayCache;
 use GuzzleHttp\Event\BeforeEvent;
 use GuzzleHttp\Event\CompleteEvent;
@@ -28,9 +28,9 @@ class CacheSubscriber implements SubscriberInterface
 {
     private $storage;
 
-    public function __construct(StorageInterface $storage = null)
+    public function __construct(StorageAdapterInterface $storage = null)
     {
-        $this->storage = $storage ?: new DoctrineStorage(new ArrayCache());
+        $this->storage = $storage ?: new DoctrineAdapter(new ArrayCache());
     }
 
     public function getEvents()

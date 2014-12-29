@@ -14,7 +14,7 @@ namespace Csa\Bundle\GuzzleBundle\GuzzleHttp\Cache;
 use GuzzleHttp\Message\RequestInterface;
 use GuzzleHttp\Message\ResponseInterface;
 
-interface StorageInterface
+interface StorageAdapterInterface
 {
     public function fetch(RequestInterface $request);
 
