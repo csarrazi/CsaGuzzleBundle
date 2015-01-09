@@ -11,8 +11,8 @@
 
 namespace Csa\Bundle\GuzzleBundle\GuzzleHttp\Subscriber;
 
-use GuzzleHttp\Event\AbstractRetryableEvent;
 use GuzzleHttp\Event\BeforeEvent;
+use GuzzleHttp\Event\CompleteEvent;
 use GuzzleHttp\Event\ErrorEvent;
 use GuzzleHttp\Event\RequestEvents;
 use GuzzleHttp\Event\SubscriberInterface;
@@ -36,7 +36,7 @@ class DebugSubscriber implements SubscriberInterface, \IteratorAggregate
     {
         return [
             'before'   => ['onBefore', RequestEvents::EARLY],
-            'complete' => ['onComplete', RequestEvents::EARLY],
+            'complete' => ['onComplete', RequestEvents::LATE],
             'error'    => ['onError', RequestEvents::EARLY],
         ];
     }
@@ -46,7 +46,7 @@ class DebugSubscriber implements SubscriberInterface, \IteratorAggregate
         $event->getRequest()->getConfig()->set('profile_start', microtime(true));
     }
 
-    public function onComplete(AbstractRetryableEvent $event)
+    public function onComplete(CompleteEvent $event)
     {
         $this->add($event->getRequest(), $event->getResponse());
     }

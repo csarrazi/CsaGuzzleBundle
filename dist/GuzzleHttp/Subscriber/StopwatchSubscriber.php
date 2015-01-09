@@ -35,7 +35,7 @@ class StopwatchSubscriber implements SubscriberInterface
     {
         return [
             'before'   => ['onBefore', RequestEvents::EARLY],
-            'complete' => ['onFinish', RequestEvents::EARLY],
+            'complete' => ['onFinish', RequestEvents::LATE],
             'error'    => ['onFinish', RequestEvents::EARLY],
         ];
     }

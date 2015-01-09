@@ -37,7 +37,7 @@ class LoggerSubscriber implements SubscriberInterface
     {
         return [
             'before'   => ['onBefore', RequestEvents::EARLY],
-            'complete' => ['onComplete', RequestEvents::EARLY],
+            'complete' => ['onComplete', RequestEvents::LATE],
             'error'    => ['onError', RequestEvents::EARLY],
         ];
     }
