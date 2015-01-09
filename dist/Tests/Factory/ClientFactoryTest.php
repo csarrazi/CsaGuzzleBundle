@@ -13,7 +13,7 @@ class ClientFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreateClient()
     {
-        $factory = new ClientFactory('Csa\Bundle\GuzzleBundle\Factory\Client');
-        $this->assertInstanceOf('Csa\Bundle\GuzzleBundle\Factory\Client', $factory->create());
+        $factory = new ClientFactory('GuzzleHttp\Client');
+        $this->assertInstanceOf('GuzzleHttp\Client', $factory->create());
     }
 }

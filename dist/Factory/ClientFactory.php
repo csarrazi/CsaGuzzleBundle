@@ -23,27 +23,70 @@ class ClientFactory
 {
     private $class;
     private $subscribers;
+    private $clientOptions;
 
     /**
-     * @param string                $class       The client's class
-     * @param SubscriberInterface[] $subscribers A list of subscribers to attach to each client
+     * @param string $class The client's class
      */
-    public function __construct($class, array $subscribers = [])
+    public function __construct($class)
     {
         $this->class = $class;
-        $this->subscribers = $subscribers;
+        $this->subscribers = [];
+        $this->clientOptions = [];
     }
 
-    public function create(array $options = [])
+    public function create(array $options = [], array $subscribers = [])
     {
         $client = new $this->class($options);
 
         if ($client instanceof HasEmitterInterface) {
-            foreach ($this->subscribers as $subscriber) {
-                $client->getEmitter()->attach($subscriber);
+            foreach ($this->subscribers as $name => $subscriber) {
+                if (!$subscribers || (isset($subscribers[$name]) && $subscribers[$name])) {
+                    $client->getEmitter()->attach($subscriber);
+                }
             }
         }
 
         return $client;
+    }
+
+    public function createNamed($alias)
+    {
+        if (!isset($this->clientOptions[$alias])) {
+            throw new \InvalidArgumentException(sprintf('Could not find configuration for client "%s"', $alias));
+        }
+
+        $clientOptions = $this->clientOptions[$alias];
+
+        $client = new $this->class($clientOptions['options']);
+
+        if (!$client instanceof HasEmitterInterface) {
+            return;
+        }
+
+        foreach ($clientOptions['subscribers'] as $subscriber => $enabled) {
+            if (!isset($this->subscribers[$subscriber])) {
+                throw new \LogicException(sprintf('Invalid subscriber "%s" in configuration for client "%s"', $subscriber, $alias));
+            }
+
+            if ($enabled) {
+                $client->getEmitter()->attach($this->subscribers[$subscriber]);
+            }
+        }
+
+        return $client;
+    }
+
+    public function registerSubscriber($name, SubscriberInterface $subscriber)
+    {
+        $this->subscribers[$name] = $subscriber;
+    }
+
+    public function registerClientConfiguration($alias, array $options = [], array $subscribers = [])
+    {
+        $this->clientOptions[$alias] = [
+            'options' => $options,
+            'subscribers' => $subscribers,
+        ];
     }
 }

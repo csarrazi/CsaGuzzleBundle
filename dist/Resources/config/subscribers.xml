@@ -21,10 +21,11 @@
         </service>
 
         <service id="csa_guzzle.subscriber.cache" class="Csa\Bundle\GuzzleBundle\GuzzleHttp\Subscriber\CacheSubscriber">
+            <argument type="service" id="csa_guzzle.default_cache_adapter" />
             <tag name="csa_guzzle.subscriber" alias="cache" />
         </service>
 
-        <service id="csa_guzzle.emitter" class="Guzzlehttp\Event\Emitter" abstract="true" public="false" />
+        <service id="csa_guzzle.cache.adapter.doctrine" class="Csa\Bundle\GuzzleBundle\GuzzleHttp\Cache\DoctrineAdapter" />
 
     </services>
 

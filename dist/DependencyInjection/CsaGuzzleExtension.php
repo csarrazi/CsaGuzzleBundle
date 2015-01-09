@@ -13,7 +13,10 @@ namespace Csa\Bundle\GuzzleBundle\DependencyInjection;
 
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Definition;
+use Symfony\Component\DependencyInjection\DefinitionDecorator;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
+use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 /**
@@ -45,12 +48,50 @@ class CsaGuzzleExtension extends Extension
             $container->removeDefinition('csa_guzzle.subscriber.logger');
         }
 
-        if (!$config['cache']) {
-            // todo Needs support for other types of caches
-            $container->removeDefinition('csa_guzzle.subscriber.cache');
-        }
+        $this->processCacheConfiguration($config, $container);
 
         $definition = $container->getDefinition('csa_guzzle.client_factory');
         $definition->replaceArgument(0, $config['factory_class']);
+
+        $this->processClientsConfiguration($config, $container, $definition);
+    }
+
+    private function processCacheConfiguration(array $config, ContainerBuilder $container)
+    {
+        if (!$config['cache']['enabled']) {
+            $container->removeDefinition('csa_guzzle.subscriber.cache');
+
+            return;
+        }
+
+        $id = sprintf(
+            'csa_guzzle.cache.adapter.%s',
+            $config['cache']['type']
+        );
+
+        if (!$cacheService = $config['cache']['service']) {
+            throw new \InvalidArgumentException('The "service" node is mandatory if the cache is enabled');
+        }
+
+        $adapter = $container->getDefinition($id);
+        $adapter->addArgument(new Reference($cacheService));
+        $container->setAlias('csa_guzzle.default_cache_adapter', $id);
+    }
+
+    private function processClientsConfiguration(array $config, ContainerBuilder $container, Definition $clientFactory)
+    {
+        foreach ($config['clients'] as $name => $options) {
+            $clientFactory->addMethodCall('registerClientConfiguration', [
+                $name,
+                $options['config'],
+                $options['subscribers']]
+            );
+            $client = new DefinitionDecorator('csa_guzzle.client.abstract');
+            $client->setFactoryService('csa_guzzle.client_factory');
+            $client->setClass($config['factory_class']);
+            $client->setFactoryMethod('createNamed');
+            $client->setArguments([$name]);
+            $container->setDefinition(sprintf('csa_guzzle.client.%s', $name), $client);
+        }
     }
 }

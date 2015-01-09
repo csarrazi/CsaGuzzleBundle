@@ -30,12 +30,13 @@ class SubscriberPass implements CompilerPassInterface
             return;
         }
 
-        // Factory
         $factory = $container->findDefinition('csa_guzzle.client_factory');
-        $arg = [];
+
         foreach ($subscribers as $subscriber => $options) {
-            $arg[] = new Reference($subscriber);
+            $factory->addMethodCall('registerSubscriber', [
+                $options[0]['alias'],
+                new Reference($subscriber),
+            ]);
         }
-        $factory->replaceArgument(1, $arg);
     }
 }

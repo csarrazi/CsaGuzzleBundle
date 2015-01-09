@@ -2,9 +2,12 @@
 
 {% block toolbar %}
 
-    {% if collector.calls is empty %}
+    {% set callCount = collector.calls|length %}
+    {% set errorCount = collector.errors|length %}
+
+    {% if callCount == 0 %}
         {% set color = 'grey' %}
-    {% elseif (collector.calls|last).response is not defined or (collector.calls|last).response.statusCode >= 400 %}
+    {% elseif errorCount > 0 %}
         {% set color = 'red' %}
     {% else %}
         {% set color = 'green' %}
@@ -12,13 +15,17 @@
 
     {% set icon %}
         {% include '@CsaGuzzle/Collector/icon.html.twig' with { alt: collector.name } only %}
-        <span class="sf-toolbar-status sf-toolbar-status-{{ color }}">{{ collector.calls|length }}</span>
+        <span class="sf-toolbar-status sf-toolbar-status-{{ color }}">{{ callCount }}</span>
     {% endset %}
 
     {% set text %}
         <div class="sf-toolbar-info-piece">
-            <b>Requests</b>
-            <span class="sf-toolbar-status sf-toolbar-status-{{ color }}">{{ collector.calls|length }}</span>
+            <b>Success</b>
+            <span class="sf-toolbar-status sf-toolbar-status-green">{{ callCount - errorCount }}</span>
+        </div>
+        <div class="sf-toolbar-info-piece">
+            <b>Errors</b>
+            <span class="sf-toolbar-status sf-toolbar-status-red">{{ errorCount }}</span>
         </div>
     {% endset %}
 

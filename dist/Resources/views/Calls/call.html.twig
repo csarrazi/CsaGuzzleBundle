@@ -10,7 +10,7 @@
         {% endif %}
         {% set statusCode = call.response is defined ? call.response.statusCode : 0 %}
         <span class="status-code badge {{ statusCode|status_code_class }}">
-            {{ statusCode }}{% if call.response is defined %} - {{ call.response.reasonPhrase }}{% endif %}
+            {{ statusCode }} - {{ call.response is defined ? call.response.reasonPhrase : 'Unknown error' }}
         </span>
         <span class="duration badge">{{ call.duration }} ms</span>
         {% if call.cache is defined %}<span class="cache {{ call.cache|lower }} badge">Cache {{ call.cache }}</span>{% endif %}
@@ -39,7 +39,7 @@
             $('#request-{{ loop.index }} a').click(function (e) {
                 e.preventDefault();
                 $(this).tab('show');
-            })
+            });
         </script>
     </div>
 </li>

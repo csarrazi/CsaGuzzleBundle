@@ -3,8 +3,8 @@
 namespace Csa\Bundle\GuzzleBundle\Tests\DataCollector;
 
 use Csa\Bundle\GuzzleBundle\DataCollector\GuzzleCollector;
-use Csa\Bundle\GuzzleBundle\Factory\Client;
 use Csa\Bundle\GuzzleBundle\GuzzleHttp\Subscriber\DebugSubscriber;
+use GuzzleHttp\Client;
 use GuzzleHttp\Message\Response;
 use GuzzleHttp\Subscriber\Mock;
 use Symfony\Component\HttpFoundation\Request;

@@ -46,6 +46,7 @@ class GuzzleCollector extends DataCollector
         foreach ($this->history as $transaction) {
             $request = $transaction['request'];
             $response = $transaction['response'];
+            $error = $transaction['exception'];
 
             $req = [
                 'request' => [
@@ -68,6 +69,17 @@ class GuzzleCollector extends DataCollector
                 ];
             }
 
+            if ($error) {
+                $req['error'] = [
+                    'message' => $error->getMessage(),
+                    'line'    => $error->getLine(),
+                    'file'    => $error->getFile(),
+                    'code'    => $error->getCode(),
+                    'trace'   => $error->getTraceAsString(),
+                ];
+            }
+
+
             if ($cache = $request->getConfig()->get('cache_lookup')) {
                 $req['cache'] = $cache;
             }
@@ -76,6 +88,13 @@ class GuzzleCollector extends DataCollector
         }
 
         $this->data = $data;
+    }
+
+    public function getErrors()
+    {
+        return array_filter($this->data, function ($call) {
+            return !isset($call['response']) || $call['response']['statusCode'] >= 400;
+        });
     }
 
     public function getCalls()
