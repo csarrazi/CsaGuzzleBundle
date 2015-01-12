@@ -11,7 +11,7 @@
 
 namespace Csa\Bundle\GuzzleBundle\GuzzleHttp\Subscriber;
 
-use GuzzleHttp\Event\AbstractRetryableEvent;
+use GuzzleHttp\Event\CompleteEvent;
 use GuzzleHttp\Event\BeforeEvent;
 use GuzzleHttp\Event\RequestEvents;
 use GuzzleHttp\Event\SubscriberInterface;
@@ -45,7 +45,7 @@ class StopwatchSubscriber implements SubscriberInterface
         $this->stopwatch->start($event->getRequest()->getUrl(), 'guzzle');
     }
 
-    public function onFinish(AbstractRetryableEvent $event)
+    public function onFinish(CompleteEvent $event)
     {
         $url = $event->getRequest()->getUrl();
 
