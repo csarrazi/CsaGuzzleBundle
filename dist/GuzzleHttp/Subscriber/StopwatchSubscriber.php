@@ -13,6 +13,7 @@ namespace Csa\Bundle\GuzzleBundle\GuzzleHttp\Subscriber;
 
 use GuzzleHttp\Event\CompleteEvent;
 use GuzzleHttp\Event\BeforeEvent;
+use GuzzleHttp\Event\ErrorEvent;
 use GuzzleHttp\Event\RequestEvents;
 use GuzzleHttp\Event\SubscriberInterface;
 use Symfony\Component\Stopwatch\Stopwatch;
@@ -36,7 +37,7 @@ class StopwatchSubscriber implements SubscriberInterface
         return [
             'before'   => ['onBefore', RequestEvents::EARLY],
             'complete' => ['onFinish', RequestEvents::LATE],
-            'error'    => ['onFinish', RequestEvents::EARLY],
+            'error'    => ['onError', RequestEvents::EARLY],
         ];
     }
 
@@ -46,6 +47,17 @@ class StopwatchSubscriber implements SubscriberInterface
     }
 
     public function onFinish(CompleteEvent $event)
+    {
+        $url = $event->getRequest()->getUrl();
+
+        if (!$this->stopwatch->isStarted($url)) {
+            return;
+        }
+
+        $this->stopwatch->stop($url);
+    }
+
+    public function onError(ErrorEvent $event)
     {
         $url = $event->getRequest()->getUrl();
 
