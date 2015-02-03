@@ -49,7 +49,7 @@ class Configuration implements ConfigurationInterface
                     ->useAttributeAsKey('name')
                     ->prototype('array')
                         ->children()
-                            ->arrayNode('config')->end()
+                            ->variableNode('config')->end()
                             ->arrayNode('subscribers')
                                 ->useAttributeAsKey('subscriber_name')
                                 ->prototype('boolean')->end()
