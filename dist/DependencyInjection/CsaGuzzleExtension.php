@@ -37,7 +37,10 @@ class CsaGuzzleExtension extends Extension
         $loader->load('twig.xml');
         $loader->load('factory.xml');
 
-        if (!$config['profiler']) {
+        $dataCollector = $container->getDefinition('csa_guzzle.data_collector.guzzle');
+        $dataCollector->addArgument($config['profiler']['max_body_size']);
+
+        if (!$config['profiler']['enabled']) {
             $container->removeDefinition('csa_guzzle.subscriber.debug');
             $container->removeDefinition('csa_guzzle.subscriber.stopwatch');
             $container->removeDefinition('csa_guzzle.data_collector.guzzle');

@@ -11,6 +11,7 @@
 
 namespace Csa\Bundle\GuzzleBundle\DependencyInjection;
 
+use Csa\Bundle\GuzzleBundle\DataCollector\GuzzleCollector;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
@@ -35,10 +36,15 @@ class Configuration implements ConfigurationInterface
         $rootNode
             ->fixXmlConfig('client')
             ->children()
-                ->booleanNode('profiler')
-                    ->info('Whether or not to enable the profiler')
-                    ->example('%kernel.debug%')
-                    ->defaultFalse()
+                ->arrayNode('profiler')
+                    ->canBeEnabled()
+                    ->children()
+                        ->integerNode('max_body_size')
+                            ->info('The maximum size of the body which should be stored in the profiler (in bytes)')
+                            ->example('65536')
+                            ->defaultValue(GuzzleCollector::MAX_BODY_SIZE)
+                        ->end()
+                    ->end()
                 ->end()
                 ->booleanNode('logger')
                     ->info('Whether or not to enable the logger')

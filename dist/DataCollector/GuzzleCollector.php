@@ -12,6 +12,7 @@
 namespace Csa\Bundle\GuzzleBundle\DataCollector;
 
 use Csa\Bundle\GuzzleBundle\GuzzleHttp\Subscriber\DebugSubscriber;
+use GuzzleHttp\Stream\StreamInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\DataCollector\DataCollector;
@@ -23,16 +24,20 @@ use Symfony\Component\HttpKernel\DataCollector\DataCollector;
  */
 class GuzzleCollector extends DataCollector
 {
+    const MAX_BODY_SIZE = 0x10000;
+
     private $history;
+    private $maxBodySize;
 
     /**
      * Constructor
      *
      * @param DebugSubscriber $history the request history subscriber
      */
-    public function __construct(DebugSubscriber $history)
+    public function __construct(DebugSubscriber $history, $maxBodySize = self::MAX_BODY_SIZE)
     {
         $this->history = $history;
+        $this->maxBodySize = $maxBodySize;
         $this->data = [];
     }
 
@@ -54,7 +59,7 @@ class GuzzleCollector extends DataCollector
                     'version' => $request->getProtocolVersion(),
                     'url'     => (string) $request->getUrl(),
                     'headers' => $request->getHeaders(),
-                    'body'    => (string) $request->getBody(),
+                    'body'    => $this->cropContent($request->getBody()),
                 ],
                 'duration' => floor($transaction['duration'] * 1000),
             ];
@@ -65,7 +70,7 @@ class GuzzleCollector extends DataCollector
                     'reasonPhrase' => $response->getReasonPhrase(),
                     'url'          => $response->getEffectiveUrl(),
                     'headers'      => $response->getHeaders(),
-                    'body'         => (string) $response->getBody(),
+                    'body'         => $this->cropContent($response->getBody()),
                 ];
             }
 
@@ -88,6 +93,13 @@ class GuzzleCollector extends DataCollector
         }
 
         $this->data = $data;
+    }
+
+    private function cropContent(StreamInterface $stream = null)
+    {
+        return (null === $stream || $stream->getSize() < $this->maxBodySize)
+                ? (string) $stream
+                : '(partial content)' . $stream->read($this->maxBodySize) . '(...)';
     }
 
     public function getErrors()
