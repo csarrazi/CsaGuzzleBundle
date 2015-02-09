@@ -32,8 +32,26 @@ class StreamResponse extends Response
 
     public function sendContent()
     {
+        $chunked = $this->headers->has('Transfer-Encoding');
+
         while (!$this->content->eof()) {
-            echo $this->content->read($this->bufferSize);
+            $chunk = $this->content->read($this->bufferSize);
+
+            if ($chunked) {
+                echo sprintf("%x\r\n", strlen($chunk));
+            }
+
+            echo $chunk;
+
+            if ($chunked) {
+                echo "\r\n";
+            }
+
+            flush();
+        }
+
+        if ($chunked) {
+            echo sprintf("%x\r\n\r\n", 0);
             flush();
         }
     }
