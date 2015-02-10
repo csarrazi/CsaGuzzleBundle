@@ -66,7 +66,11 @@ class ClientFactory
 
         foreach ($clientOptions['subscribers'] as $subscriber => $enabled) {
             if (!isset($this->subscribers[$subscriber])) {
-                throw new \LogicException(sprintf('Invalid subscriber "%s" in configuration for client "%s"', $subscriber, $alias));
+                throw new \LogicException(sprintf(
+                    'Invalid subscriber "%s" in configuration for client "%s"',
+                    $subscriber,
+                    $alias
+                ));
             }
 
             if ($enabled) {

@@ -87,8 +87,9 @@ class CsaGuzzleExtension extends Extension
             $clientFactory->addMethodCall('registerClientConfiguration', [
                 $name,
                 $options['config'],
-                $options['subscribers']]
-            );
+                $options['subscribers']
+            ]);
+
             $client = new DefinitionDecorator('csa_guzzle.client.abstract');
             $client->setFactoryService('csa_guzzle.client_factory');
             $client->setClass($config['factory_class']);
