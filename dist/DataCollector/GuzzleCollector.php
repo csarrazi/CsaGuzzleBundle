@@ -97,9 +97,15 @@ class GuzzleCollector extends DataCollector
 
     private function cropContent(StreamInterface $stream = null)
     {
-        return (null === $stream || $stream->getSize() < $this->maxBodySize)
-                ? (string) $stream
-                : '(partial content)' . $stream->read($this->maxBodySize) . '(...)';
+        if (null === $stream) {
+            return '';
+        }
+
+        if ($stream->getSize() < $this->maxBodySize) {
+            return (string) $stream;
+        }
+
+        return '(partial content)' . $stream->read($this->maxBodySize) . '(...)';
     }
 
     public function getErrors()
