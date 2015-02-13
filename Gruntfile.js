@@ -3,7 +3,7 @@ module.exports = function (grunt) {
         vars: {
             sourceDir: 'assets-src',
             buildDir: 'build',
-            distDir: 'dist',
+            distDir: 'src',
             resourcesDir: '<%= vars.distDir %>/Resources',
             vendorDir: 'vendor',
             twigResource: 'views/Collector/icon.html.twig'
@@ -153,4 +153,3 @@ module.exports = function (grunt) {
     grunt.registerTask('assets', ['sass', 'cssmin', 'concat', 'uglify']);
     grunt.registerTask('default', ['icon', 'assets', 'shell:clean']);
 };
-

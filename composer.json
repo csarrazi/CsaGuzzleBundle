@@ -21,7 +21,7 @@
         "symfony/web-profiler-bundle": "~2.3"
     },
     "autoload": {
-        "psr-4": { "Csa\\Bundle\\GuzzleBundle\\": "dist" }
+        "psr-4": { "Csa\\Bundle\\GuzzleBundle\\": "src" }
     },
     "extra": {
         "branch-alias": {
