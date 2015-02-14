@@ -11,8 +11,6 @@
 
 namespace Csa\Bundle\GuzzleBundle\HttpFoundation;
 
-use Doctrine\Common\Cache\Cache;
-use GuzzleHttp\Message\RequestInterface;
 use GuzzleHttp\Message\ResponseInterface;
 use Symfony\Component\HttpFoundation\Response;
 
