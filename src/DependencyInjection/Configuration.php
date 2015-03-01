@@ -46,40 +46,72 @@ class Configuration implements ConfigurationInterface
                         ->end()
                     ->end()
                 ->end()
-                ->booleanNode('logger')
-                    ->info('Whether or not to enable the logger')
-                    ->example('%kernel.debug%')
-                    ->defaultFalse()
-                ->end()
-                ->arrayNode('clients')
-                    ->useAttributeAsKey('name')
-                    ->prototype('array')
-                        ->children()
-                            ->variableNode('config')->end()
-                            ->arrayNode('subscribers')
-                                ->useAttributeAsKey('subscriber_name')
-                                ->prototype('boolean')->end()
-                            ->end()
-                        ->end()
+                ->arrayNode('logger')
+                    ->canBeEnabled()
+                    ->children()
+                        ->scalarNode('service')->defaultNull()->end()
                     ->end()
                 ->end()
+                ->append($this->createClientsNode())
                 ->scalarNode('factory_class')->defaultValue('GuzzleHttp\Client')->end()
-                ->arrayNode('cache')
-                    ->canBeEnabled()
+                ->append($this->createCacheNode())
+            ->end()
+        ;
+
+        return $treeBuilder;
+    }
+
+    private function createClientsNode()
+    {
+        $treeBuilder = new TreeBuilder();
+        $node = $treeBuilder->root('clients');
+
+        $node
+            ->useAttributeAsKey('name')
+            ->prototype('array')
+                ->children()
+                    ->variableNode('config')->end()
+                    ->arrayNode('subscribers')
+                        ->useAttributeAsKey('subscriber_name')
+                        ->prototype('boolean')->end()
+                    ->end()
+                ->end()
+            ->end()
+        ;
+
+        return $node;
+    }
+
+    private function createCacheNode()
+    {
+        $treeBuilder = new TreeBuilder();
+        $node = $treeBuilder->root('cache');
+
+        $node
+            ->canBeEnabled()
+            ->children()
+                ->arrayNode('adapter')
+                    ->validate()
+                        ->ifTrue(function ($v) {
+                            return 'custom' === $v['type'] && null === $v['service'];
+                        })
+                        ->thenInvalid('The "service" node is mandatory when using a custom adapter')
+                    ->end()
                     ->children()
                         ->scalarNode('type')
                             ->defaultValue('doctrine')
                             ->validate()
-                                ->ifNotInArray(['doctrine'])
+                                ->ifNotInArray(['doctrine', 'custom'])
                                 ->thenInvalid('Invalid cache adapter')
                             ->end()
                         ->end()
                         ->scalarNode('service')->end()
                     ->end()
                 ->end()
+                ->scalarNode('service')->isRequired()->end()
             ->end()
         ;
 
-        return $treeBuilder;
+        return $node;
     }
 }

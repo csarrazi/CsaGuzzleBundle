@@ -47,11 +47,18 @@ class CsaGuzzleExtension extends Extension
             $container->removeDefinition('csa_guzzle.twig.extension');
         }
 
-        if (!$config['logger']) {
+        if ($config['logger']['service']) {
+            $container
+                ->getDefinition('csa_guzzle.subscriber.logger')
+                ->replaceArgument(0, new Reference($config['logger']['service']))
+            ;
+        }
+
+        if (!$config['logger']['enabled']) {
             $container->removeDefinition('csa_guzzle.subscriber.logger');
         }
 
-        $this->processCacheConfiguration($config, $container);
+        $this->processCacheConfiguration($config['cache'], $container);
 
         $definition = $container->getDefinition('csa_guzzle.client_factory');
         $definition->replaceArgument(0, $config['factory_class']);
@@ -61,24 +68,19 @@ class CsaGuzzleExtension extends Extension
 
     private function processCacheConfiguration(array $config, ContainerBuilder $container)
     {
-        if (!$config['cache']['enabled']) {
+        if (!$config['enabled']) {
             $container->removeDefinition('csa_guzzle.subscriber.cache');
 
             return;
         }
 
-        $id = sprintf(
-            'csa_guzzle.cache.adapter.%s',
-            $config['cache']['type']
-        );
+        $adapterId = ('custom' === $config['adapter']['type'])
+            ? $config['adapter']['service']
+            : sprintf('csa_guzzle.cache.adapter.%s', $config['adapter']['type']);
 
-        if (!$cacheService = $config['cache']['service']) {
-            throw new \InvalidArgumentException('The "service" node is mandatory if the cache is enabled');
-        }
-
-        $adapter = $container->getDefinition($id);
-        $adapter->addArgument(new Reference($cacheService));
-        $container->setAlias('csa_guzzle.default_cache_adapter', $id);
+        $adapter = $container->getDefinition($adapterId);
+        $adapter->addArgument(new Reference($config['service']));
+        $container->setAlias('csa_guzzle.default_cache_adapter', $adapterId);
     }
 
     private function processClientsConfiguration(array $config, ContainerBuilder $container, Definition $clientFactory)

@@ -54,6 +54,7 @@ Documentation
 
 * [Creating clients](src/Resources/doc/clients.md)
 * [Registering new event subscribers](src/Resources/doc/event_subscribers.md)
+* [Available event subscribers](src/Resources/doc/available_subscribers.md)
 * [Configuration reference](src/Resources/doc/configuration_reference.md)
 
 License
