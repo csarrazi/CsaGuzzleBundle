@@ -60,8 +60,9 @@ the PSR-3 `LoggerInterface`:
 
 ```yml
 csa_guzzle:
-    logger: true
-    service: my_logger_service
+    logger:
+        enabled: true
+        service: my_logger_service
 ```
 
 You can configure the log format using the syntax described on [guzzle/log-subscriber's documentation](https://github.com/guzzle/log-subscriber#message-formatter).
