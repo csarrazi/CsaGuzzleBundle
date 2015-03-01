@@ -13,38 +13,54 @@ Installation
 
 Add the required package using composer.
 
-    composer require csa/guzzle-bundle:dev-master
+```bash
+composer require csa/guzzle-bundle:@stable
+```
 
 Add the bundle to your AppKernel.
 
-    <?php
-    // in %kernel.root_dir%/AppKernel.php
-    $bundles[] = new Csa\Bundle\GuzzleBundle\CsaGuzzleBundle();
+```php
+<?php
+// in %kernel.root_dir%/AppKernel.php
+$bundles[] = new Csa\Bundle\GuzzleBundle\CsaGuzzleBundle();
+```
 
-To enable the data collector (only in the ```dev``` environment, you may simply configure the CsaGuzzleBundle as follows:
+To enable the data collector (only in the ```dev``` environment, you may simply
+configure the CsaGuzzleBundle as follows:
 
-    csa_guzzle:
-        profiler: %kernel.debug%
+```yml
+csa_guzzle:
+    profiler: %kernel.debug%
+```
 
-Create a client using the provided factory service
---------------------------------------------------
+You may also enable the included logger, in order log outcoming requests:
 
-Simply create a service as follows:
+```yml
+csa_guzzle:
+    logger: true
+```
 
-    <service
-            id="acme.client"
-            class="%acme.client.class%"
-            factory-service="csa_guzzle.client_factory"
-            factory-method="create">
-        <!-- An array of configuration values -->
-        <tag name="csa_guzzle.client" />
-    </service>
+Upgrade
+-------
+
+Although I try to guarantee forward-compatibility of the bundle with previous versions.
+Here are the upgrade notes between each version.
+
+* Upgrade [from 1.0 to 1.1](UPGRADE-1.1.md)
+* Upgrade [from 1.1 to 1.2](UPGRADE-1.2.md)
+
+Documentation
+-------------
+
+* [Creating clients](src/Resources/doc/clients.md)
+* [Registering new event subscribers](src/Resources/doc/event_subscribers.md)
+* [Configuration reference](src/Resources/doc/configuration_reference.md)
 
 License
 -------
 
 This library is under the MIT license. For the full copyright and license
-information, please view the LICENSE file that was distributed with this source
-code.
+information, please view the [LICENSE](src/Resources/meta/LICENSE) file that was
+distributed with this source code.
 
 [![Built with Grunt](https://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/)
