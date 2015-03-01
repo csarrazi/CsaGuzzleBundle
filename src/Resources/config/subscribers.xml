@@ -15,7 +15,7 @@
             <tag name="csa_guzzle.subscriber" alias="debug" />
         </service>
 
-        <service id="csa_guzzle.subscriber.logger" class="Csa\Bundle\GuzzleBundle\GuzzleHttp\Subscriber\LoggerSubscriber">
+        <service id="csa_guzzle.subscriber.logger" class="GuzzleHttp\Subscriber\Log\LogSubscriber">
             <argument type="service" id="logger" on-invalid="null" />
             <tag name="csa_guzzle.subscriber" alias="logger" />
         </service>
