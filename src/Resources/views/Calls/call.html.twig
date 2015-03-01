@@ -8,7 +8,7 @@
         {% else %}
             <span class="path">{{ call.info.url }}</span>
         {% endif %}
-        {% set statusCode = call.response is defined ? call.response.statusCode : 0 %}
+        {% set statusCode = call.response is defined and call.info ? call.info.http_code : 0 %}
         <span class="status-code badge {{ statusCode|csa_guzzle_status_code_class }}">
             {{ statusCode }} - {{ call.response is defined ? call.response.reasonPhrase : 'Unknown error' }}
         </span>

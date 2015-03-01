@@ -66,7 +66,6 @@ class GuzzleCollector extends DataCollector
 
             if ($response) {
                 $req['response'] = [
-                    'statusCode'   => $info['http_code'],
                     'reasonPhrase' => $response->getReasonPhrase(),
                     'headers'      => $response->getHeaders(),
                     'body'         => $this->cropContent($response->getBody()),
@@ -110,7 +109,7 @@ class GuzzleCollector extends DataCollector
     public function getErrors()
     {
         return array_filter($this->data, function ($call) {
-            return !isset($call['response']) || $call['response']['statusCode'] >= 400;
+            return !isset($call['response']) || $call['info']['http_code'] >= 400;
         });
     }
 
