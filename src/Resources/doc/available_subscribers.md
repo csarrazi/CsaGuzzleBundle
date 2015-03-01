@@ -58,8 +58,9 @@ the PSR-3 `LoggerInterface`:
 
 ```yml
 csa_guzzle:
-    logger: true
-    service: my_logger_service
+    logger:
+        enabled: true
+        service: my_logger_service
 ```
 
 The `cache` subscriber
