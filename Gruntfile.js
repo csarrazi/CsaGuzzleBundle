@@ -51,9 +51,9 @@ module.exports = function (grunt) {
             js: {
                 src: [
                     'bower_components/jquery/dist/jquery.js',
-                    'bower_components/bootstrap-sass-official/vendor/assets/javascripts/bootstrap/tab.js',
-                    'bower_components/bootstrap-sass-official/vendor/assets/javascripts/bootstrap/collapse.js',
-                    'bower_components/bootstrap-sass-official/vendor/assets/javascripts/bootstrap/transition.js',
+                    'bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/tab.js',
+                    'bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/collapse.js',
+                    'bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/transition.js',
                     'bower_components/prism/components/prism-core.js',
                     'bower_components/prism/components/prism-markup.js',
                     'bower_components/prism/plugins/line-numbers/prism-line-numbers.js',
@@ -103,9 +103,9 @@ module.exports = function (grunt) {
             js: {
                 files: [
                     'bower_components/jquery/dist/jquery.js',
-                    'bower_components/bootstrap-sass-official/vendor/assets/javascripts/bootstrap/tab.js',
-                    'bower_components/bootstrap-sass-official/vendor/assets/javascripts/bootstrap/collapse.js',
-                    'bower_components/bootstrap-sass-official/vendor/assets/javascripts/bootstrap/transition.js',
+                    'bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/tab.js',
+                    'bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/collapse.js',
+                    'bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/transition.js',
                     'bower_components/prism/components/prism-core.js',
                     'bower_components/prism/components/prism-markup.js',
                     '<%= vars.sourceDir %>/js/*.js'
