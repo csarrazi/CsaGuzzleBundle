@@ -47,11 +47,15 @@ class CsaGuzzleExtension extends Extension
             $container->removeDefinition('csa_guzzle.twig.extension');
         }
 
+
+        $loggerDefinition = $container->getDefinition('csa_guzzle.subscriber.logger');
+
         if ($config['logger']['service']) {
-            $container
-                ->getDefinition('csa_guzzle.subscriber.logger')
-                ->replaceArgument(0, new Reference($config['logger']['service']))
-            ;
+            $loggerDefinition->replaceArgument(0, new Reference($config['logger']['service']));
+        }
+
+        if ($config['logger']['format']) {
+            $loggerDefinition->replaceArgument(1, $config['logger']['format']);
         }
 
         if (!$config['logger']['enabled']) {

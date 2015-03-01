@@ -50,6 +50,14 @@ class Configuration implements ConfigurationInterface
                     ->canBeEnabled()
                     ->children()
                         ->scalarNode('service')->defaultNull()->end()
+                        ->scalarNode('format')
+                            ->beforeNormalization()
+                                ->ifInArray(['clf', 'debug', 'short'])
+                                ->then(function ($v) {
+                                    return constant('GuzzleHttp\Subscriber\Log\Formatter::'.strtoupper($v));
+                                })
+                            ->end()
+                        ->end()
                     ->end()
                 ->end()
                 ->append($this->createClientsNode())

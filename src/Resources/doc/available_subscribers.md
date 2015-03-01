@@ -8,6 +8,7 @@ Currently, four event subscribers are available:
 * the `logger` subscriber
 * the `cache` subscriber
 
+
 The `debug` and `stopwatch` subscribers
 ---------------------------------------
 
@@ -32,6 +33,7 @@ or use the shorthand version:
 csa_guzzle:
     profiler: true
 ```
+
 
 The `logger` subscriber
 -----------------------
@@ -61,6 +63,17 @@ csa_guzzle:
     logger: true
     service: my_logger_service
 ```
+
+You can configure the log format using the syntax described on [guzzle/log-subscriber's documentation](https://github.com/guzzle/log-subscriber#message-formatter).
+You may also use of the three levels described in the formatter: `clf` (Apache log format), `debug`, or `short`:
+
+```yml
+csa_guzzle:
+    logger:
+        enabled: true
+        format: debug
+```
+
 
 The `cache` subscriber
 ----------------------

@@ -17,6 +17,7 @@
 
         <service id="csa_guzzle.subscriber.logger" class="GuzzleHttp\Subscriber\Log\LogSubscriber">
             <argument type="service" id="logger" on-invalid="null" />
+            <argument />
             <tag name="csa_guzzle.subscriber" alias="logger" />
         </service>
 
