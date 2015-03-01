@@ -11,7 +11,6 @@
 
 namespace Csa\Bundle\GuzzleBundle\GuzzleHttp\Subscriber;
 
-use GuzzleHttp\Event\BeforeEvent;
 use GuzzleHttp\Event\CompleteEvent;
 use GuzzleHttp\Event\ErrorEvent;
 use GuzzleHttp\Event\RequestEvents;
