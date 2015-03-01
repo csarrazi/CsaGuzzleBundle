@@ -79,9 +79,14 @@ class DebugSubscriber implements SubscriberInterface, \IteratorAggregate
         ResponseInterface $response = null,
         RequestException $exception = null
     ) {
+        if (isset($this->transactions[$hash = spl_object_hash($request) . spl_object_hash($response ?: $exception)])) {
+            return;
+        }
+
         $duration = microtime(true) - $request->getConfig()->get('profile_start');
-        $this->transactions[] = [
+        $this->transactions[$hash] = [
             'request' => $request,
+            'uri' => $request->getUrl(),
             'response' => $response,
             'duration' => $duration,
             'exception' => $exception,
