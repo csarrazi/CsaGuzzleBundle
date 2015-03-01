@@ -52,23 +52,22 @@ class GuzzleCollector extends DataCollector
             $request = $transaction['request'];
             $response = $transaction['response'];
             $error = $transaction['exception'];
+            $info = $transaction['info'];
 
             $req = [
                 'request' => [
                     'method'  => $request->getMethod(),
                     'version' => $request->getProtocolVersion(),
-                    'url'     => $transaction['uri'],
                     'headers' => $request->getHeaders(),
                     'body'    => $this->cropContent($request->getBody()),
                 ],
-                'duration' => floor($transaction['duration'] * 1000),
+                'info' => $info,
             ];
 
             if ($response) {
                 $req['response'] = [
-                    'statusCode'   => $response->getStatusCode(),
+                    'statusCode'   => $info['http_code'],
                     'reasonPhrase' => $response->getReasonPhrase(),
-                    'url'          => $response->getEffectiveUrl(),
                     'headers'      => $response->getHeaders(),
                     'body'         => $this->cropContent($response->getBody()),
                 ];

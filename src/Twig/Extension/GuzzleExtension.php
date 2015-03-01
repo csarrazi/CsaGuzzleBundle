@@ -21,15 +21,16 @@ class GuzzleExtension extends \Twig_Extension
     public function getFilters()
     {
         return [
-            new \Twig_SimpleFilter('pretty_print', [$this, 'prettyPrint']),
-            new \Twig_SimpleFilter('status_code_class', [$this, 'statusCodeClass']),
+            new \Twig_SimpleFilter('csa_guzzle_pretty_print', [$this, 'prettyPrint']),
+            new \Twig_SimpleFilter('csa_guzzle_status_code_class', [$this, 'statusCodeClass']),
+            new \Twig_SimpleFilter('csa_guzzle_format_duration', [$this, 'formatDuration']),
         ];
     }
 
     public function getFunctions()
     {
         return [
-            new \Twig_SimpleFunction('detect_lang', [$this, 'detectLang']),
+            new \Twig_SimpleFunction('csa_guzzle_detect_lang', [$this, 'detectLang']),
         ];
     }
 
@@ -78,6 +79,21 @@ class GuzzleExtension extends \Twig_Extension
             default:
                 return 'unknown';
         }
+    }
+
+    public function formatDuration($seconds)
+    {
+        $formats = ['%.2f s', '%d ms', '%d µs'];
+
+        while ($format = array_shift($formats)) {
+            if ($seconds > 1) {
+                break;
+            }
+
+            $seconds *= 1000;
+        }
+
+        return sprintf($format, $seconds);
     }
 
     public function getName()

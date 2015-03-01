@@ -4,15 +4,14 @@
     <header data-toggle="collapse" data-target="#collapse-call-{{ loop.index }}">
         <span class="method">{{ call.request.method }}</span>
         {% if call.request.method == 'GET' %}
-            <h3><a href="{{ call.request.url }}" target="_blank" class="path">{{ call.request.url }}</a></h3>
+            <h3><a href="{{ call.info.url }}" target="_blank" class="path">{{ call.info.url }}</a></h3>
         {% else %}
-            <span class="path">{{ call.request.url }}</span>
+            <span class="path">{{ call.info.url }}</span>
         {% endif %}
         {% set statusCode = call.response is defined ? call.response.statusCode : 0 %}
-        <span class="status-code badge {{ statusCode|status_code_class }}">
+        <span class="status-code badge {{ statusCode|csa_guzzle_status_code_class }}">
             {{ statusCode }} - {{ call.response is defined ? call.response.reasonPhrase : 'Unknown error' }}
         </span>
-        <span class="duration badge">{{ call.duration }} ms</span>
         {% if call.cache is defined %}<span class="cache {{ call.cache|lower }} badge">Cache {{ call.cache }}</span>{% endif %}
     </header>
 
@@ -24,6 +23,7 @@
 
         <div class="tab-content">
             <div class="tab-pane active" id="request-{{ loop.index }}">
+                {{ macros.render_infos(call.info) }}
                 {{ macros.render_headers(call.request.headers) }}
                 {{ macros.render_body(call.request.body) }}
             </div>

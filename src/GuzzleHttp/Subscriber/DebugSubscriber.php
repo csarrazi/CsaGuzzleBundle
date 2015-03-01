@@ -35,25 +35,19 @@ class DebugSubscriber implements SubscriberInterface, \IteratorAggregate
     public function getEvents()
     {
         return [
-            'before'   => ['onBefore', RequestEvents::EARLY],
             'complete' => ['onComplete', RequestEvents::LATE],
             'error'    => ['onError', RequestEvents::EARLY],
         ];
     }
 
-    public function onBefore(BeforeEvent $event)
-    {
-        $event->getRequest()->getConfig()->set('profile_start', microtime(true));
-    }
-
     public function onComplete(CompleteEvent $event)
     {
-        $this->add($event->getRequest(), $event->getResponse());
+        $this->add($event->getRequest(), $event->getTransferInfo(), $event->getResponse());
     }
 
     public function onError(ErrorEvent $event)
     {
-        $this->add($event->getRequest(), $event->getResponse(), $event->getException());
+        $this->add($event->getRequest(), $event->getTransferInfo(), $event->getResponse(), $event->getException());
     }
 
     /**
@@ -71,11 +65,13 @@ class DebugSubscriber implements SubscriberInterface, \IteratorAggregate
      * Add a request to the history
      *
      * @param RequestInterface  $request   Request to add.
+     * @param array             $info      Transfer info.
      * @param ResponseInterface $response  Response of the request.
      * @param RequestException  $exception The exception thrown during the request, if any.
      */
     private function add(
         RequestInterface $request,
+        array $info = [],
         ResponseInterface $response = null,
         RequestException $exception = null
     ) {
@@ -83,12 +79,10 @@ class DebugSubscriber implements SubscriberInterface, \IteratorAggregate
             return;
         }
 
-        $duration = microtime(true) - $request->getConfig()->get('profile_start');
         $this->transactions[$hash] = [
             'request' => $request,
-            'uri' => $request->getUrl(),
             'response' => $response,
-            'duration' => $duration,
+            'info' => $info,
             'exception' => $exception,
         ];
     }
