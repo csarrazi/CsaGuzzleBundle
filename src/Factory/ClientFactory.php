@@ -64,18 +64,14 @@ class ClientFactory
             return;
         }
 
-        foreach ($clientOptions['subscribers'] as $subscriber => $enabled) {
-            if (!isset($this->subscribers[$subscriber])) {
-                throw new \LogicException(sprintf(
-                    'Invalid subscriber "%s" in configuration for client "%s"',
-                    $subscriber,
-                    $alias
-                ));
-            }
+        $clientSubscribers = $clientOptions['subscribers'];
 
-            if ($enabled) {
-                $client->getEmitter()->attach($this->subscribers[$subscriber]);
-            }
+        $subscribers = array_filter(array_keys($this->subscribers), function ($name) use ($clientSubscribers) {
+            return !isset($clientSubscribers[$name]) || $clientSubscribers[$name];
+        });
+
+        foreach ($subscribers as $subscriber) {
+            $client->getEmitter()->attach($this->subscribers[$subscriber]);
         }
 
         return $client;
