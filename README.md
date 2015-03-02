@@ -56,6 +56,7 @@ Documentation
 * [Registering new event subscribers](src/Resources/doc/event_subscribers.md)
 * [Available event subscribers](src/Resources/doc/available_subscribers.md)
 * [Configuration reference](src/Resources/doc/configuration_reference.md)
+* [Streaming a guzzle response](src/Resources/doc/response_streaming.md)
 
 License
 -------
