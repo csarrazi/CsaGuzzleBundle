@@ -91,6 +91,7 @@ class Configuration implements ConfigurationInterface
             ->canBeEnabled()
             ->children()
                 ->arrayNode('adapter')
+                    ->addDefaultsIfNotSet(['type' => 'doctrine'])
                     ->validate()
                         ->ifTrue(function ($v) {
                             return 'custom' === $v['type'] && null === $v['service'];
