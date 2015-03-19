@@ -17,8 +17,9 @@ csa_guzzle:
         github_api:
             config:
                 base_url: https://api.github.com
-                headers:
-                    Accept: application/vnd.github.v3+json
+                defaults:
+                    headers:
+                        Accept: application/vnd.github.v3+json
 ```
 
 The previous code will create a new service, called `csa_guzzle.client.github_api`.

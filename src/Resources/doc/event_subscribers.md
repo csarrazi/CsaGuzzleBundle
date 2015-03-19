@@ -24,8 +24,9 @@ csa_guzzle:
         github_api:
             config:
                 base_url: https://api.github.com
-                headers:
-                    Accept: application/vnd.github.v3+json
+                defaults:
+                    headers:
+                        Accept: application/vnd.github.v3+json
             subscribers:
                 logger: false
                 my_subscriber: false # Note the use of the alias defined earlier in the service definition.
