@@ -16,7 +16,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
 /**
- * Csa Guzzle client compiler pass
+ * Csa Guzzle subscriber compiler pass
  *
  * @author Charles Sarrazin <charles@sarraz.in>
  */
