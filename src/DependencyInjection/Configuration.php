@@ -57,6 +57,7 @@ class Configuration implements ConfigurationInterface
                                     return constant('GuzzleHttp\Subscriber\Log\Formatter::'.strtoupper($v));
                                 })
                             ->end()
+                            ->defaultValue('clf')
                         ->end()
                     ->end()
                 ->end()

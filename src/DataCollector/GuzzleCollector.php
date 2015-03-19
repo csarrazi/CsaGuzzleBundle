@@ -99,9 +99,11 @@ class GuzzleCollector extends DataCollector
             return '';
         }
 
-        if ($stream->getSize() < $this->maxBodySize) {
+        if ($stream->getSize() <= $this->maxBodySize) {
             return (string) $stream;
         }
+
+        $stream->seek(0);
 
         return '(partial content)' . $stream->read($this->maxBodySize) . '(...)';
     }
