@@ -83,6 +83,20 @@ class Configuration implements ConfigurationInterface
                         ->useAttributeAsKey('subscriber_name')
                         ->prototype('boolean')->end()
                     ->end()
+                    ->scalarNode('description')
+                        ->validate()
+                            ->ifTrue(function ($path) {
+                                return !is_readable($path) || is_dir($path);
+                            })
+                            ->thenInvalid('File "%s" is not readable description file')
+                        ->end()
+                        ->validate()
+                            ->ifTrue(function () {
+                                return !class_exists('GuzzleHttp\\Command\\Guzzle\\GuzzleClient');
+                            })
+                            ->thenInvalid('Class %s is missing. Did you forget to add guzzlehttp/services to your project\'s composer.json?')
+                        ->end()
+                    ->end()
                 ->end()
             ->end()
         ;

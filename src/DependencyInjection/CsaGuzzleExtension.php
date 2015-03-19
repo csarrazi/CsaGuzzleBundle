@@ -17,6 +17,7 @@ use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\DefinitionDecorator;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\DependencyInjection\Reference;
+use Symfony\Component\ExpressionLanguage\Expression;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 /**
@@ -36,6 +37,10 @@ class CsaGuzzleExtension extends Extension
         $loader->load('collector.xml');
         $loader->load('twig.xml');
         $loader->load('factory.xml');
+
+        $loader->load('services.xml');
+
+        $descriptionFactory = $container->getDefinition('csa_guzzle.description_factory');
 
         $dataCollector = $container->getDefinition('csa_guzzle.data_collector.guzzle');
         $dataCollector->addArgument($config['profiler']['max_body_size']);
@@ -67,7 +72,7 @@ class CsaGuzzleExtension extends Extension
         $definition = $container->getDefinition('csa_guzzle.client_factory');
         $definition->replaceArgument(0, $config['factory_class']);
 
-        $this->processClientsConfiguration($config, $container, $definition);
+        $this->processClientsConfiguration($config, $container, $definition, $descriptionFactory);
     }
 
     private function processCacheConfiguration(array $config, ContainerBuilder $container)
@@ -87,7 +92,7 @@ class CsaGuzzleExtension extends Extension
         $container->setAlias('csa_guzzle.default_cache_adapter', $adapterId);
     }
 
-    private function processClientsConfiguration(array $config, ContainerBuilder $container, Definition $clientFactory)
+    private function processClientsConfiguration(array $config, ContainerBuilder $container, Definition $clientFactory, Definition $descriptionFactory)
     {
         foreach ($config['clients'] as $name => $options) {
             $clientFactory->addMethodCall('registerClientConfiguration', [
@@ -101,7 +106,21 @@ class CsaGuzzleExtension extends Extension
             $client->setClass($config['factory_class']);
             $client->setFactoryMethod('createNamed');
             $client->setArguments([$name]);
-            $container->setDefinition(sprintf('csa_guzzle.client.%s', $name), $client);
+
+            $clientServiceId = sprintf('csa_guzzle.client.%s', $name);
+            $container->setDefinition($clientServiceId, $client);
+
+            if (isset($options['description'])) {
+                $descriptionFactory->addMethodCall('addResource', [$name, $options['description']]);
+
+                $serviceDefinition = new DefinitionDecorator('csa_guzzle.service.abstract');
+                $serviceDefinition->addArgument(new Reference($clientServiceId));
+                $serviceDefinition->addArgument(new Expression(sprintf(
+                    'service("csa_guzzle.description_factory").getDescription("%s")',
+                    $name
+                )));
+                $container->setDefinition(sprintf('csa_guzzle.service.%s', $name), $serviceDefinition);
+            }
         }
     }
 }
