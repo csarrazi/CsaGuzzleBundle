@@ -2,9 +2,9 @@
 
 namespace Csa\Bundle\GuzzleBundle\Factory;
 
-use Csa\Bundle\GuzzleBundle\Description\Loader\LoaderInterface;
 use GuzzleHttp\Command\Guzzle\Description;
 use Symfony\Component\Config\ConfigCache;
+use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\Config\Resource\FileResource;
 
 class DescriptionFactory

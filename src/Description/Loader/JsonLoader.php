@@ -11,17 +11,19 @@
 
 namespace Csa\Bundle\GuzzleBundle\Description\Loader;
 
+use Symfony\Component\Config\Loader\Loader;
+
 /**
  * Loads descriptions from JSON files.
  *
  * @author Charles Sarrazin <charles@sarraz.in>
  */
-class JsonLoader implements LoaderInterface
+class JsonLoader extends Loader
 {
     /**
      * @inheritdoc
      */
-    public function load($resource)
+    public function load($resource, $type = null)
     {
         return json_decode(file_get_contents($resource), true);
     }
@@ -29,7 +31,7 @@ class JsonLoader implements LoaderInterface
     /**
      * @inheritdoc
      */
-    public function supports($resource)
+    public function supports($resource, $type = null)
     {
         return 'json' === pathinfo($resource, PATHINFO_EXTENSION);
     }

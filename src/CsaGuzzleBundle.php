@@ -11,6 +11,7 @@
 
 namespace Csa\Bundle\GuzzleBundle;
 
+use Csa\Bundle\GuzzleBundle\DependencyInjection\CompilerPass\LoaderPass;
 use Csa\Bundle\GuzzleBundle\DependencyInjection\CompilerPass\SubscriberPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
@@ -27,5 +28,6 @@ class CsaGuzzleBundle extends Bundle
         parent::build($container);
 
         $container->addCompilerPass(new SubscriberPass());
+        $container->addCompilerPass(new LoaderPass());
     }
 }
