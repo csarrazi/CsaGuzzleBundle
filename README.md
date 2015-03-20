@@ -46,8 +46,7 @@ Upgrade
 Although I try to guarantee forward-compatibility of the bundle with previous versions.
 Here are the upgrade notes between each version.
 
-* Upgrade [from 1.0 to 1.1](UPGRADE-1.1.md)
-* Upgrade [from 1.1 to 1.2](UPGRADE-1.2.md)
+See [Upgrade.md](UPGRADE.md).
 
 Documentation
 -------------
@@ -57,6 +56,7 @@ Documentation
 * [Available event subscribers](src/Resources/doc/available_subscribers.md)
 * [Configuration reference](src/Resources/doc/configuration_reference.md)
 * [Streaming a guzzle response](src/Resources/doc/response_streaming.md)
+* [Service descriptions](src/Resources/doc/service_descriptions.md)
 
 License
 -------

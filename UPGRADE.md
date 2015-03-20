@@ -1,12 +1,19 @@
-UPGRADE FROM 1.0 to 1.1
-=======================
+UPGRADE documentation
+=====================
 
-Known Backwards-Compatibility Breaks
-------------------------------------
+* Upgrade [from 1.0 to 1.1](UPGRADE-1.1.md)
+* Upgrade [from 1.1 to 1.2](UPGRADE-1.2.md)
+* Upgrade [from 1.2 to 1.3](UPGRADE-1.3.md)
+
+UPGRADE FROM 1.0 to 1.1 [from 1.0 to 1.1]
+-----------------------------------------
+
+### Known Backwards-Compatibility Breaks
 
 * If you use the `Csa\Bundle\GuzzleBundle\Factory\Client`, the class was removed as it is no longer needed.
 
   You should now use the base `GuzzleHttp\Client` class, or your own class, extending Guzzle's class.
+
 * If you registered event subscribers using the compiler pass, you now need to give it an alias.
 
 Before:
@@ -33,3 +40,17 @@ After:
     </services>
 </container>
 ```
+
+UPGRADE FROM 1.1 to 1.2 [from 1.1 to 1.2]
+-----------------------------------------
+
+### Known Backwards-Compatibility Breaks
+
+* None yet
+
+UPGRADE FROM 1.2 to 1.3 [from 1.2 to 1.3]
+-----------------------------------------
+
+### Known Backward-Compatibility Breaks
+
+* None yet
