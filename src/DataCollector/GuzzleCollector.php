@@ -62,6 +62,7 @@ class GuzzleCollector extends DataCollector
                     'body'    => $this->cropContent($request->getBody()),
                 ],
                 'info' => $info,
+                'url'     => $request->getUrl(),
             ];
 
             if ($response) {
@@ -71,6 +72,8 @@ class GuzzleCollector extends DataCollector
                     'body'         => $this->cropContent($response->getBody()),
                 ];
             }
+
+            $req['httpCode'] = $response ? $response->getStatusCode() : 0;
 
             if ($error) {
                 $req['error'] = [
@@ -111,7 +114,7 @@ class GuzzleCollector extends DataCollector
     public function getErrors()
     {
         return array_filter($this->data, function ($call) {
-            return !isset($call['response']) || $call['info']['http_code'] >= 400;
+            return isset($call['httpCode']) && $call['httpCode'] >= 400;
         });
     }
 
