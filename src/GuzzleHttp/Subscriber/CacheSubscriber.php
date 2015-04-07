@@ -57,6 +57,6 @@ class CacheSubscriber implements SubscriberInterface
 
     public function onComplete(CompleteEvent $event)
     {
-        $this->storage->save($event->getRequest(), $event->getResponse());
+        $this->storage->save($event->getRequest(), $event->getResponse(), $event->getTransferInfo());
     }
 }
