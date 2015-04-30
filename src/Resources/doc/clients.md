@@ -22,7 +22,22 @@ csa_guzzle:
                         Accept: application/vnd.github.v3+json
 ```
 
-The previous code will create a new service, called `csa_guzzle.client.github_api`.
+The previous code will create a new service, called `csa_guzzle.client.github_api`, that you can use in your controller, or that you can inject in another service:
+
+```php
+<?php
+
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+
+class MyController extends Controller
+{
+    public function indexAction()
+    {
+        $client = $this->get('csa_guzzle.client.github_api');
+        // ...
+    }
+}
+```
 
 Creating a client using the provided factory service
 ----------------------------------------------------

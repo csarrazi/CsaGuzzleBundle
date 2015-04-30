@@ -25,7 +25,22 @@ csa_guzzle:
             description: /path/to/file.json
 ```
 
-This will create a new service (`csa_guzzle.service.github`), which will use your description.
+This will create a new service (`csa_guzzle.service.github`), which will use your description. You can use the service-enabled client the same way as you would use your normal client, in your controller or in another service:
+
+```php
+<?php
+
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+
+class MyController extends Controller
+{
+    public function indexAction()
+    {
+        $client = $this->get('csa_guzzle.service.github_api');
+        // ...
+    }
+}
+```
 
 Creating new description loaders
 --------------------------------
