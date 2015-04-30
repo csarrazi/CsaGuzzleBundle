@@ -8,6 +8,19 @@ CsaGuzzleBundle
 [![Build Status](https://travis-ci.org/csarrazi/CsaGuzzleBundle.png?branch=master)](https://travis-ci.org/csarrazi/CsaGuzzleBundle "Build status")
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/eceadd60-cc6c-473c-9d20-e8207654d70b/mini.png)](https://insight.sensiolabs.com/projects/eceadd60-cc6c-473c-9d20-e8207654d70b "SensioLabsInsight")
 
+Description
+-----------
+
+This bundle integrates Guzzle >=4.0 in Symfony. Currently, it supports the following features:
+
+* Integration with Symfony's debug tools (web debug toolbar, profiler, logger, timeline, ...)
+* Configuring a Guzzle client simply using configuration
+* Service descriptions to describe your services is json format
+
+![Web debug Toolbar](https://cloud.githubusercontent.com/assets/465798/7407652/dda8bda4-ef14-11e4-9e9e-1db2fa6a346d.png)
+![Profiler panel integration](https://cloud.githubusercontent.com/assets/465798/7407654/e4432b2c-ef14-11e4-8f84-b11b32dcce86.png)
+![Profiler timeline integration](https://cloud.githubusercontent.com/assets/465798/7407656/e7241e14-ef14-11e4-875c-d36ef726679e.png)
+
 Installation
 ------------
 
