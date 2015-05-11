@@ -6,19 +6,29 @@ php:
   - 5.6
   - hhvm
 
-before_script: composer install --dev --prefer-source
+matrix:
+  include:
+    - php: 5.4
+      env: deps=low
+
+install:
+  - if [ "$deps" = "no" ]; then composer install; fi;
+  - if [ "$deps" = "low" ]; then composer --prefer-lowest --prefer-stable update; fi;
+
+script:
+  phpunit
 
 sudo: false
 
 cache:
-    directories:
-        - node_modules
-        - vendor
-        - bower_components
+  directories:
+    - node_modules
+    - vendor
+    - bower_components
 
 webhooks:
-    urls:
-        - https://webhooks.gitter.im/e/31edf9087439c96470f5
-    on_success: change
-    on_failure: always
-    on_start: false
+  urls:
+    - https://webhooks.gitter.im/e/31edf9087439c96470f5
+  on_success: change
+  on_failure: always
+  on_start: false
