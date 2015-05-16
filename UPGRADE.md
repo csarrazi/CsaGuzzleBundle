@@ -53,4 +53,24 @@ UPGRADE FROM 1.2 to 1.3 [from 1.2 to 1.3]
 
 ### Known Backward-Compatibility Breaks
 
-* None yet
+* `ClientFactory` was deprecated in favor of directly tagging Guzzle clients,
+  and will be removed in 2.0.
+
+  Before:
+
+  ```xml
+  <service
+          id="acme.client"
+          class="%acme.client.class%"
+          factory-service="csa_guzzle.client_factory"
+          factory-method="create">
+      <!-- An array of configuration values -->
+  </service>
+  ```
+
+  After:
+
+  ```xml
+  <service id="acme.client" class="%acme.client.class%">
+      <tag name="csa_guzzle.client" />
+  </service>

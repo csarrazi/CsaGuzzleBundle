@@ -18,6 +18,8 @@ use GuzzleHttp\Event\SubscriberInterface;
  * Csa Guzzle client compiler pass
  *
  * @author Charles Sarrazin <charles@sarraz.in>
+ *
+ * @deprecated since version 1.3, to be removed in 2.0
  */
 class ClientFactory
 {
