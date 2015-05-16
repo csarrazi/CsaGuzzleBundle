@@ -4,7 +4,7 @@ Creating a service for your client
 There are two ways for creating a service for your client:
 
 * Using the semantic configuration (Beginners)
-* Creating your own service, using the provided factory (Advanced users)
+* Registering your own service (Advanced users)
 
 Creating a client using semantic configuration
 ----------------------------------------------
@@ -39,17 +39,13 @@ class MyController extends Controller
 }
 ```
 
-Creating a client using the provided factory service
-----------------------------------------------------
+Registering your own service
+----------------------------
 
-Simply create a service as follows:
+To have a client supported by the bundle, simply tag it as such:
 
 ```xml
-<service
-        id="acme.client"
-        class="%acme.client.class%"
-        factory-service="csa_guzzle.client_factory"
-        factory-method="create">
-    <!-- An array of configuration values -->
+<service id="acme.client" class="%acme.client.class%">
+    <tag name="csa_guzzle.client" />
 </service>
 ```
