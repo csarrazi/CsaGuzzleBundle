@@ -23,7 +23,6 @@ class ClientFactory
 {
     private $class;
     private $subscribers;
-    private $clientOptions;
 
     /**
      * @param string $class The client's class
@@ -50,43 +49,8 @@ class ClientFactory
         return $client;
     }
 
-    public function createNamed($alias)
-    {
-        if (!isset($this->clientOptions[$alias])) {
-            throw new \InvalidArgumentException(sprintf('Could not find configuration for client "%s"', $alias));
-        }
-
-        $clientOptions = $this->clientOptions[$alias];
-
-        $client = new $this->class($clientOptions['options']);
-
-        if (!$client instanceof HasEmitterInterface) {
-            return;
-        }
-
-        $clientSubscribers = $clientOptions['subscribers'];
-
-        $subscribers = array_filter(array_keys($this->subscribers), function ($name) use ($clientSubscribers) {
-            return !isset($clientSubscribers[$name]) || $clientSubscribers[$name];
-        });
-
-        foreach ($subscribers as $subscriber) {
-            $client->getEmitter()->attach($this->subscribers[$subscriber]);
-        }
-
-        return $client;
-    }
-
     public function registerSubscriber($name, SubscriberInterface $subscriber)
     {
         $this->subscribers[$name] = $subscriber;
-    }
-
-    public function registerClientConfiguration($alias, array $options = [], array $subscribers = [])
-    {
-        $this->clientOptions[$alias] = [
-            'options' => $options,
-            'subscribers' => $subscribers,
-        ];
     }
 }
