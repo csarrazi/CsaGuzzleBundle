@@ -5,7 +5,6 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
-
         <service id="csa_guzzle.subscriber.stopwatch" class="Csa\Bundle\GuzzleBundle\GuzzleHttp\Subscriber\StopwatchSubscriber">
             <argument type="service" id="debug.stopwatch" />
             <tag name="csa_guzzle.subscriber" alias="stopwatch" />
@@ -26,8 +25,9 @@
             <tag name="csa_guzzle.subscriber" alias="cache" />
         </service>
 
-        <service id="csa_guzzle.cache.adapter.doctrine" class="Csa\Bundle\GuzzleBundle\GuzzleHttp\Cache\DoctrineAdapter" />
-
+        <service id="csa_guzzle.cache.adapter.doctrine" class="Csa\Bundle\GuzzleBundle\GuzzleHttp\Cache\DoctrineAdapter" abstract="true">
+            <argument/>
+        </service>
     </services>
 
 </container>
