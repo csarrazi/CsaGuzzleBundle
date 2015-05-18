@@ -12,6 +12,7 @@
 namespace Csa\Bundle\GuzzleBundle\DependencyInjection;
 
 use Csa\Bundle\GuzzleBundle\DataCollector\GuzzleCollector;
+use GuzzleHttp\Subscriber\Log\Formatter;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
