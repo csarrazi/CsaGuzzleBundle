@@ -35,7 +35,7 @@
 {% endmacro %}
 
 {% macro render_infos(info) %}
-    {% if info %}
+    {% if info and info.total_time %}
         <h4>Time</h4>
 
         {% set wait_time = info.namelookup_time + info.connect_time + info.redirect_time %}
