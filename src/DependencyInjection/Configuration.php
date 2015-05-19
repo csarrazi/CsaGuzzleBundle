@@ -122,6 +122,12 @@ class Configuration implements ConfigurationInterface
                     return $v;
                 })
             ->end()
+            ->validate()
+                ->ifTrue(function ($v) {
+                    return null === $v['service'] && null === $v['adapter']['service'];
+                })
+                ->thenInvalid('The csa_guzzle.cache.adapter key should be configured.')
+            ->end()
             ->canBeEnabled()
             ->children()
                 ->arrayNode('adapter')
