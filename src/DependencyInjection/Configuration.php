@@ -112,9 +112,38 @@ class Configuration implements ConfigurationInterface
         $node = $treeBuilder->root('cache');
 
         $node
+            ->beforeNormalization()
+                ->ifTrue(function ($v) {
+                    return isset($v['service']);
+                })
+                ->then(function ($v) {
+                    trigger_error('The csa_guzzle.cache.service configuration key is deprecated since version 1.3 and will be removed in 2.0. Please directly use csa_guzzle.cache.adapter instead', E_USER_DEPRECATED);
+
+                    return $v;
+                })
+            ->end()
             ->canBeEnabled()
             ->children()
                 ->arrayNode('adapter')
+                    ->beforeNormalization()
+                        ->ifTrue(function ($v) {
+                            return is_array($v) && (isset($v['type']) || isset($v['service']));
+                        })
+                        ->then(function ($v) {
+                            trigger_error('The csa_guzzle.cache.adapter.type and csa_guzzle.cache.adapter.service configuration keys are deprecated since version 1.3 and will be removed in 2.0. Please directly use csa_guzzle.cache.adapter instead', E_USER_DEPRECATED);
+
+                            return $v;
+                        })
+                    ->end()
+                    ->beforeNormalization()
+                        ->ifString()
+                        ->then(function ($v) {
+                            return [
+                                'type' => 'custom',
+                                'service' => $v,
+                            ];
+                        })
+                    ->end()
                     ->addDefaultsIfNotSet(['type' => 'doctrine'])
                     ->validate()
                         ->ifTrue(function ($v) {
@@ -130,10 +159,10 @@ class Configuration implements ConfigurationInterface
                                 ->thenInvalid('Invalid cache adapter')
                             ->end()
                         ->end()
-                        ->scalarNode('service')->end()
+                        ->scalarNode('service')->defaultNull()->end()
                     ->end()
                 ->end()
-                ->scalarNode('service')->isRequired()->end()
+                ->scalarNode('service')->defaultNull()->end()
             ->end()
         ;
 
