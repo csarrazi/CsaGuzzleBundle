@@ -1,12 +1,13 @@
 UPGRADE documentation
 =====================
 
-* Upgrade [from 1.0 to 1.1](UPGRADE-1.1.md)
-* Upgrade [from 1.1 to 1.2](UPGRADE-1.2.md)
-* Upgrade [from 1.2 to 1.3](UPGRADE-1.3.md)
+* Upgrade [from 1.0 to 1.1](#upgrade-from-10-to-11)
+* Upgrade [from 1.1 to 1.2](#upgrade-from-11-to-12)
+* Upgrade [from 1.2 to 1.3](#upgrade-from-12-to-13)
+* Upgrade [from 1.x to 2.0](#upgrade-from-1x-to-20)
 
-UPGRADE FROM 1.0 to 1.1 [from 1.0 to 1.1]
------------------------------------------
+UPGRADE FROM 1.0 to 1.1
+-----------------------
 
 ### Known Backwards-Compatibility Breaks
 
@@ -41,36 +42,44 @@ After:
 </container>
 ```
 
-UPGRADE FROM 1.1 to 1.2 [from 1.1 to 1.2]
------------------------------------------
+UPGRADE FROM 1.1 to 1.2
+-----------------------
 
 ### Known Backwards-Compatibility Breaks
 
 * None yet
 
-UPGRADE FROM 1.2 to 1.3 [from 1.2 to 1.3]
------------------------------------------
+UPGRADE FROM 1.2 to 1.3
+-----------------------
 
 ### Known Backward-Compatibility Breaks
 
 * `ClientFactory` was deprecated in favor of directly tagging Guzzle clients,
   and will be removed in 2.0.
 
-  Before:
+Before:
 
-  ```xml
-  <service
-          id="acme.client"
-          class="%acme.client.class%"
-          factory-service="csa_guzzle.client_factory"
-          factory-method="create">
-      <!-- An array of configuration values -->
-  </service>
-  ```
+```xml
+<service
+    id="acme.client"
+    class="%acme.client.class%"
+    factory-service="csa_guzzle.client_factory"
+    factory-method="create">
+<!-- An array of configuration values -->
+</service>
+```
 
-  After:
+After:
 
-  ```xml
-  <service id="acme.client" class="%acme.client.class%">
-      <tag name="csa_guzzle.client" />
-  </service>
+```xml
+<service id="acme.client" class="%acme.client.class%">
+    <tag name="csa_guzzle.client" />
+</service>
+```
+
+UPGRADE FROM 1.x to 2.0
+-----------------------
+
+### Known Backwards-Compatibility Breaks
+
+* None yet
