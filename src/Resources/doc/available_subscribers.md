@@ -81,9 +81,10 @@ The `cache` subscriber
 
 The `cache` subscriber's objective is to provide a very simple cache, in order to cache Guzzle responses.
 
-Even though only a [doctrine/cache](https://github.com/doctrine/cache) implementation is provided, the
-subscriber is agnostic. If you wish to use your own cache implementation with the `cache` subscriber, you
-simply need to implement `Csa\Bundle\GuzzleBundle\GuzzleHttp\Cache\StorageAdapterInterface`, and you're set!
+Even though only a [doctrine/cache](https://github.com/doctrine/cache) adapter is provided
+(`Csa\Bundle\GuzzleBundle\GuzzleHttp\Cache\DoctrineAdapter`), the subscriber is agnostic.
+If you wish to use your own cache implementation with the `cache` subscriber, you simply need
+to implement `Csa\Bundle\GuzzleBundle\GuzzleHttp\Cache\StorageAdapterInterface`, and you're set!
 
 This subscriber can be configured with the following configuration:
 
@@ -91,19 +92,18 @@ This subscriber can be configured with the following configuration:
 csa_guzzle:
     cache:
         enabled: true
-        adapter:
-            type: doctrine
-        service: my.cache.service
+        adapter: my_storage_adapter
 ```
 
-You may even set your own adapter using the following configuration:
+To use the doctrine cache adapter, you need to use the `Csa\Bundle\GuzzleBundle\GuzzleHttp\Cache\DoctrineAdapter`
+class, in which you should inject your doctrine cache service. For example, using doctrine/cache's `FilesystemCache`:
 
-```yml
-csa_guzzle:
-    cache:
-        enabled: true
-        adapter:
-            type: custom
-            service: my.adapter.service
-        service: my.cache.service
+```xml
+<service id="my_storage_adapter" class="Csa\Bundle\GuzzleBundle\GuzzleHttp\Cache\DoctrineAdapter">
+    <argument type="service" id="my_cache_service" />
+</service>
+
+<service id="my_cache_service" class="Doctrine\Common\Cache\FilesystemCache">
+    <argument>%kernel.cache_dir%/my_cache_folder</argument>
+</service>
 ```

@@ -22,9 +22,6 @@ csa_guzzle:
                 subscriber_name:      ~
     factory_class:        GuzzleHttp\Client
     cache:
-        enabled:              false
-        adapter:
-            type:                 doctrine
-            service:              ~
-        service:              ~ # Required
+        enabled: false
+        adapter: ~
 ```
