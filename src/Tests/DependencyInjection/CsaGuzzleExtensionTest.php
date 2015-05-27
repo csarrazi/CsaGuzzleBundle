@@ -22,7 +22,7 @@ class CsaGuzzleExtensionTest extends \PHPUnit_Framework_TestCase
     {
         $yaml = <<<YAML
 profiler:
-    enabled: true
+    enabled: false
 clients:
     foo:
         config: { base_url: example.com }
@@ -44,6 +44,31 @@ YAML;
             ['base_url' => 'example.com'],
             $client->getArgument(0),
             'Config must be passed to client constructor.'
+        );
+    }
+
+    public function testSubscribersAddedToClient()
+    {
+        $yaml = <<<YAML
+logger: true
+profiler: true
+clients:
+    foo:
+        subscribers:
+            stopwatch: false
+            debug: true
+YAML;
+
+        $container = $this->createContainer($yaml);
+
+        $this->assertTrue($container->hasDefinition('csa_guzzle.client.foo'), 'Client must be created.');
+
+        $client = $container->getDefinition('csa_guzzle.client.foo');
+
+        $this->assertEquals(
+            [SubscriberPass::CLIENT_TAG => [['subscribers' => 'debug,logger']]],
+            $client->getTags(),
+            'Only explicitly disabled subscribers shouldn\'t be added.'
         );
     }
 

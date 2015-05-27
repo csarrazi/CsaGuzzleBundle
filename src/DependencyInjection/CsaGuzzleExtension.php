@@ -97,10 +97,11 @@ class CsaGuzzleExtension extends Extension
     {
         foreach ($config['clients'] as $name => $options) {
             $client = new Definition($config['factory_class']);
-            $client->addArgument($options['config']);
-            $client->addTag(SubscriberPass::CLIENT_TAG, [
-                'subscribers' => implode(', ', $options['subscribers'])
-            ]);
+            $client->addArgument(isset($options['config']) ? $options['config'] : null);
+            $client->addTag(
+                SubscriberPass::CLIENT_TAG,
+                ['subscribers' => implode(',', $this->findSubscriberIds($options['subscribers'], $container))]
+            );
 
             $clientServiceId = sprintf('csa_guzzle.client.%s', $name);
             $container->setDefinition($clientServiceId, $client);
@@ -117,5 +118,17 @@ class CsaGuzzleExtension extends Extension
                 $container->setDefinition(sprintf('csa_guzzle.service.%s', $name), $serviceDefinition);
             }
         }
+    }
+
+    private function findSubscriberIds(array $explicitlyConfiguredIds, ContainerBuilder $container)
+    {
+        $allNames = array_values(array_map(
+            function ($tags) { return $tags[0]['alias']; },
+            $container->findTaggedServiceIds(SubscriberPass::SUBSCRIBER_TAG)
+        ));
+
+        return array_filter($allNames, function ($name) use ($explicitlyConfiguredIds) {
+            return !isset($explicitlyConfiguredIds[$name]) || $explicitlyConfiguredIds[$name];
+        });
     }
 }
