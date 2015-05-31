@@ -11,6 +11,7 @@
 
 namespace Csa\Bundle\GuzzleBundle\DependencyInjection;
 
+use Csa\Bundle\GuzzleBundle\DependencyInjection\CompilerPass\SubscriberPass;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
@@ -95,17 +96,12 @@ class CsaGuzzleExtension extends Extension
     private function processClientsConfiguration(array $config, ContainerBuilder $container, Definition $clientFactory, Definition $descriptionFactory)
     {
         foreach ($config['clients'] as $name => $options) {
-            $clientFactory->addMethodCall('registerClientConfiguration', [
-                $name,
-                $options['config'],
-                $options['subscribers']
-            ]);
-
-            $client = new DefinitionDecorator('csa_guzzle.client.abstract');
-            $client->setFactoryService('csa_guzzle.client_factory');
-            $client->setClass($config['factory_class']);
-            $client->setFactoryMethod('createNamed');
-            $client->setArguments([$name]);
+            $client = new Definition($config['factory_class']);
+            $client->addArgument(isset($options['config']) ? $options['config'] : null);
+            $client->addTag(
+                SubscriberPass::CLIENT_TAG,
+                ['subscribers' => implode(',', $this->findSubscriberIds($options['subscribers'], $container))]
+            );
 
             $clientServiceId = sprintf('csa_guzzle.client.%s', $name);
             $container->setDefinition($clientServiceId, $client);
@@ -122,5 +118,17 @@ class CsaGuzzleExtension extends Extension
                 $container->setDefinition(sprintf('csa_guzzle.service.%s', $name), $serviceDefinition);
             }
         }
+    }
+
+    private function findSubscriberIds(array $explicitlyConfiguredIds, ContainerBuilder $container)
+    {
+        $allNames = array_values(array_map(
+            function ($tags) { return $tags[0]['alias']; },
+            $container->findTaggedServiceIds(SubscriberPass::SUBSCRIBER_TAG)
+        ));
+
+        return array_filter($allNames, function ($name) use ($explicitlyConfiguredIds) {
+            return !isset($explicitlyConfiguredIds[$name]) || $explicitlyConfiguredIds[$name];
+        });
     }
 }

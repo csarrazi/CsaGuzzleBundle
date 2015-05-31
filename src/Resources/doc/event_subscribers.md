@@ -31,3 +31,14 @@ csa_guzzle:
                 logger: false
                 my_subscriber: false # Note the use of the alias defined earlier in the service definition.
 ```
+
+When registering your own clients with the bundle, you can explicitly list all
+enabled subscribers. The `subscribers` attribute takes a comma-delimited list of
+subscriber names. In that case any other subscriber will be disabled for that
+client:
+
+```xml
+<service id="acme.client" class="%acme.client.class%">
+    <tag name="csa_guzzle.client" subscribers="my_subscriber,another_subscriber" />
+</service>
+```

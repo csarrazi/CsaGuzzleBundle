@@ -11,8 +11,6 @@
             <argument type="collection" />
         </service>
 
-        <service id="csa_guzzle.client.abstract" abstract="true" />
-
     </services>
 
 </container>
