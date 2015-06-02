@@ -47,7 +47,7 @@ UPGRADE FROM 1.1 to 1.2
 
 ### Known Backwards-Compatibility Breaks
 
-* None yet
+* None yet.
 
 UPGRADE FROM 1.2 to 1.3
 -----------------------
@@ -82,4 +82,7 @@ UPGRADE FROM 1.x to 2.0
 
 ### Known Backwards-Compatibility Breaks
 
-* None yet
+* `ClientFactory` is removed.
+* The bundle now needs at least version `6.0` of `guzzlehttp/guzzle`.
+* Client and cache configuration have been simplified.
+* PHP version requirement has been bumped to at least `5.5.0`.
