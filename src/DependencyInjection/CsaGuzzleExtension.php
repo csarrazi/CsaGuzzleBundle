@@ -115,7 +115,19 @@ class CsaGuzzleExtension extends Extension
                     'service("csa_guzzle.description_factory").getDescription("%s")',
                     $name
                 )));
+                $serviceDefinition->addArgument(['process' => false]);
+                $serviceDefinition->addMethodCall('setSerializer', [new Reference('serializer')]);
+                $serviceDefinition->addMethodCall('addProcess');
+
                 $container->setDefinition(sprintf('csa_guzzle.service.%s', $name), $serviceDefinition);
+                $container->getDefinition('csa_guzzle.paramconverter.guzzle')->addMethodCall(
+                    'addService',
+                    [
+                        sprintf('csa_guzzle.service.%s', $name),
+                        new Reference(sprintf('csa_guzzle.service.%s', $name))
+                    ]
+                );
+
             }
         }
     }

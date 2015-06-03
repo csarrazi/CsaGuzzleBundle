@@ -27,7 +27,12 @@
             <tag name="kernel.cache_warmer" />
         </service>
 
-        <service id="csa_guzzle.service.abstract" class="GuzzleHttp\Command\Guzzle\GuzzleClient" abstract="true" />
+        <service id="csa_guzzle.paramconverter.guzzle" class="Csa\Bundle\GuzzleBundle\Request\ParamConverter\GuzzleConverter">
+            <tag name="request.param_converter" />
+        </service>
+
+
+        <service id="csa_guzzle.service.abstract" class="Csa\Bundle\GuzzleBundle\GuzzleHttp\Command\Guzzle\GuzzleClient" abstract="true" />
 
     </services>
 
