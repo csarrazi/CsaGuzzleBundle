@@ -23,6 +23,7 @@ class DoctrineAdapter implements StorageAdapterInterface
     public function __construct(Cache $cache, $ttl = 0)
     {
         $this->cache = $cache;
+        $this->ttl = $ttl;
     }
 
     public function fetch(RequestInterface $request)
