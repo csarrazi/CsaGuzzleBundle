@@ -9,6 +9,9 @@ use GuzzleHttp\Message\Response;
 use GuzzleHttp\Subscriber\Mock;
 use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * @covers Csa\Bundle\GuzzleBundle\DataCollector\GuzzleCollector
+ */
 class GuzzleCollectorTest extends \PHPUnit_Framework_TestCase
 {
     public function testCollect()

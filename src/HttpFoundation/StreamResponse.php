@@ -33,7 +33,7 @@ class StreamResponse extends Response
         $chunked = $this->headers->has('Transfer-Encoding');
         $this->content->seek(0);
 
-        while (!$this->content->eof()) {
+        for (;;) {
             $chunk = $this->content->read($this->bufferSize);
 
             if ($chunked) {
@@ -47,11 +47,10 @@ class StreamResponse extends Response
             }
 
             flush();
-        }
 
-        if ($chunked) {
-            echo sprintf("%x\r\n\r\n", 0);
-            flush();
+            if (!$chunk) {
+                return;
+            }
         }
     }
 

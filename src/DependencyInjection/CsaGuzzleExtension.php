@@ -38,7 +38,6 @@ class CsaGuzzleExtension extends Extension
         $loader->load('collector.xml');
         $loader->load('twig.xml');
         $loader->load('factory.xml');
-
         $loader->load('services.xml');
 
         $descriptionFactory = $container->getDefinition('csa_guzzle.description_factory');
@@ -52,7 +51,6 @@ class CsaGuzzleExtension extends Extension
             $container->removeDefinition('csa_guzzle.data_collector.guzzle');
             $container->removeDefinition('csa_guzzle.twig.extension');
         }
-
 
         $loggerDefinition = $container->getDefinition('csa_guzzle.subscriber.logger');
 
@@ -84,12 +82,15 @@ class CsaGuzzleExtension extends Extension
             return;
         }
 
-        $adapterId = ('custom' === $config['adapter']['type'])
-            ? $config['adapter']['service']
-            : sprintf('csa_guzzle.cache.adapter.%s', $config['adapter']['type']);
+        $adapterId = $config['adapter']['service'];
 
-        $adapter = $container->getDefinition($adapterId);
-        $adapter->addArgument(new Reference($config['service']));
+        if ('doctrine' === $config['adapter']['type']) {
+            $adapterId = 'csa_guzzle.cache.adapter.doctrine';
+
+            $adapter = $container->getDefinition($adapterId);
+            $adapter->addArgument(new Reference($config['service']));
+        }
+
         $container->setAlias('csa_guzzle.default_cache_adapter', $adapterId);
     }
 

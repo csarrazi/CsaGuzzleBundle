@@ -6,11 +6,11 @@ use Csa\Bundle\GuzzleBundle\Factory\ClientFactory;
 
 /**
  * ClientTest
+ *
+ * @group legacy
  */
 class ClientFactoryTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     */
     public function testCreateClient()
     {
         $factory = new ClientFactory('GuzzleHttp\Client');
