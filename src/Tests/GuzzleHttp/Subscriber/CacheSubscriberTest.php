@@ -36,8 +36,7 @@ class DoctrineAdapterTest extends \PHPUnit_Framework_TestCase
             ->method('save')
             ->with(
                 $this->isInstanceOf('GuzzleHttp\Message\RequestInterface'),
-                $this->equalTo($response),
-                $this->isType('array')
+                $this->equalTo($response)
             )
         ;
         $adapter

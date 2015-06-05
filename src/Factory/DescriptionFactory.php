@@ -48,7 +48,7 @@ class DescriptionFactory
      */
     public function loadDescriptions()
     {
-        if ($this->descriptions) {
+        if (!empty($this->descriptions)) {
             return;
         }
 

@@ -34,7 +34,6 @@ class ClientFactory
     {
         $this->class = $class;
         $this->subscribers = [];
-        $this->clientOptions = [];
     }
 
     /**
@@ -52,7 +51,7 @@ class ClientFactory
 
         if ($client instanceof HasEmitterInterface) {
             foreach ($this->subscribers as $name => $subscriber) {
-                if (!$subscribers || (isset($subscribers[$name]) && $subscribers[$name])) {
+                if (empty($subscribers) || (isset($subscribers[$name]) && $subscribers[$name])) {
                     $client->getEmitter()->attach($subscriber);
                 }
             }
