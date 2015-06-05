@@ -16,6 +16,9 @@ use GuzzleHttp\Event\BeforeEvent;
 use GuzzleHttp\Event\CompleteEvent;
 use GuzzleHttp\Event\RequestEvents;
 use GuzzleHttp\Event\SubscriberInterface;
+use GuzzleHttp\Message\MessageFactory;
+use GuzzleHttp\Message\MessageParser;
+use GuzzleHttp\Message\Response;
 
 /**
  * Csa Guzzle Cache integration
@@ -48,6 +51,8 @@ class CacheSubscriber implements SubscriberInterface
 
             return;
         }
+        $messageFactory = new MessageFactory();
+        $response = $messageFactory->fromMessage($response);
 
         $request->getConfig()->set('cache_lookup', 'HIT');
         $request->getConfig()->set('cache_hit', true);

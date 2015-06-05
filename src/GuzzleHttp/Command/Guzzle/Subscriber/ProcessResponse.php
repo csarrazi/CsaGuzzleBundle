@@ -21,7 +21,7 @@ use GuzzleHttp\Command\Guzzle\ResponseLocation\StatusCodeLocation;
 use GuzzleHttp\Command\Guzzle\ResponseLocation\ReasonPhraseLocation;
 use GuzzleHttp\Command\Guzzle\ResponseLocation\HeaderLocation;
 use GuzzleHttp\Command\Guzzle\ResponseLocation\XmlLocation;
-use JMS\Serializer\SerializerInterface;
+use Symfony\Component\Serializer\SerializerInterface;
 
 /**
  * Class ProcessResponse
@@ -40,9 +40,9 @@ class ProcessResponse implements SubscriberInterface
     private $serializer;
 
     /**
-     * @param \GuzzleHttp\Command\Guzzle\DescriptionInterface $description
-     * @param \JMS\Serializer\SerializerInterface             $serializer
-     * @param array                                           $responseLocations
+     * @param \GuzzleHttp\Command\Guzzle\DescriptionInterface   $description
+     * @param \Symfony\Component\Serializer\SerializerInterface $serializer
+     * @param array                                             $responseLocations
      */
     public function __construct(
         DescriptionInterface $description,

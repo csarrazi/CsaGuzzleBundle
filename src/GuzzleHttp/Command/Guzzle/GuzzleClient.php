@@ -10,7 +10,7 @@ namespace Csa\Bundle\GuzzleBundle\GuzzleHttp\Command\Guzzle;
 
 use Csa\Bundle\GuzzleBundle\GuzzleHttp\Command\Guzzle\Subscriber\ProcessResponse;
 use GuzzleHttp\Command\Guzzle\GuzzleClient as AbstractGuzzleClient;
-use JMS\Serializer\SerializerInterface;
+use Symfony\Component\Serializer\SerializerInterface;
 
 class GuzzleClient extends AbstractGuzzleClient
 {
@@ -20,7 +20,7 @@ class GuzzleClient extends AbstractGuzzleClient
     protected $serializer;
 
     /**
-     * @param SerializerInterface $serializer
+     * @param \Symfony\Component\Serializer\SerializerInterface $serializer
      */
     public function setSerializer(SerializerInterface $serializer)
     {
