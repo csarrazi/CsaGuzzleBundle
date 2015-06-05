@@ -140,7 +140,7 @@ class SubscriberPass implements CompilerPassInterface
     }
 
     /**
-     * @param array $serviceIds
+     * @param array $subscriberIds
      *
      * @return array Subscriber service ids as values & their aliases as keys
      */

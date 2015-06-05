@@ -149,6 +149,17 @@ YAML;
         $this->assertSame('my.service.id', (string)$container->getDefinition((string) $alias)->getArgument(0));
     }
 
+    public function testLegacyFactoryConfiguration()
+    {
+        $yaml = <<<YAML
+factory_class: GuzzleHttp\Client
+YAML;
+
+        $container = $this->createContainer($yaml);
+        $factory = $container->getDefinition('csa_guzzle.client_factory');
+        $this->assertSame('GuzzleHttp\Client', $factory->getArgument(0));
+    }
+
     /**
      * @expectedException \Symfony\Component\Config\Definition\Exception\InvalidConfigurationException
      * @expectedExceptionMessage Invalid configuration for path "csa_guzzle.cache.adapter.type": Invalid cache adapter
