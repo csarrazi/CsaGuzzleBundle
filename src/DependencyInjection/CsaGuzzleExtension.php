@@ -116,7 +116,28 @@ class CsaGuzzleExtension extends Extension
                     'service("csa_guzzle.description_factory").getDescription("%s")',
                     $name
                 )));
+                $serviceDefinition->addArgument(['process' => false]);
+                if (isset($options['serializer']) && is_array($options['serializer'])) {
+                    if ($options['serializer']['type'] === 'jms') {
+                        $jmsAdapter = new Definition('Csa\Bundle\GuzzleBundle\Serializer\JMSAdapter');
+                        $jmsAdapter->addArgument(new Reference($options['serializer']['service']));
+                        $container->setDefinition('csa_guzzle.adapter.jms', $jmsAdapter);
+                        $options['serializer']['service'] = 'csa_guzzle.adapter.jms';
+
+                    }
+                    $serviceDefinition->addMethodCall('setSerializer', [new Reference($options['serializer']['service'])]);
+                    $serviceDefinition->addMethodCall('addProcess');
+                }
+
                 $container->setDefinition(sprintf('csa_guzzle.service.%s', $name), $serviceDefinition);
+                $container->getDefinition('csa_guzzle.paramconverter.guzzle')->addMethodCall(
+                    'addService',
+                    [
+                        sprintf('csa_guzzle.service.%s', $name),
+                        new Reference(sprintf('csa_guzzle.service.%s', $name))
+                    ]
+                );
+
             }
         }
     }
