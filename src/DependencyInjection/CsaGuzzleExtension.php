@@ -71,7 +71,7 @@ class CsaGuzzleExtension extends Extension
         $definition = $container->getDefinition('csa_guzzle.client_factory');
         $definition->replaceArgument(0, $config['factory_class']);
 
-        $this->processClientsConfiguration($config, $container, $definition, $descriptionFactory);
+        $this->processClientsConfiguration($config, $container, $descriptionFactory);
     }
 
     private function processCacheConfiguration(array $config, ContainerBuilder $container)
@@ -94,7 +94,7 @@ class CsaGuzzleExtension extends Extension
         $container->setAlias('csa_guzzle.default_cache_adapter', $adapterId);
     }
 
-    private function processClientsConfiguration(array $config, ContainerBuilder $container, Definition $clientFactory, Definition $descriptionFactory)
+    private function processClientsConfiguration(array $config, ContainerBuilder $container, Definition $descriptionFactory)
     {
         foreach ($config['clients'] as $name => $options) {
             $client = new Definition($config['factory_class']);

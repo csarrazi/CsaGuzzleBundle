@@ -35,6 +35,14 @@ class Configuration implements ConfigurationInterface
         $rootNode = $treeBuilder->root('csa_guzzle');
 
         $rootNode
+            ->beforeNormalization()
+                ->ifTrue(function ($v) {
+                    return isset($v['factory_class']);
+                })
+                ->then(function ($v) {
+                    trigger_error('The ClientFactory class is deprecated since version 1.3 and will be removed in 2.0. Use the \'csa_guzzle.client\' tag instead', E_USER_DEPRECATED);
+                })
+            ->end()
             ->fixXmlConfig('client')
             ->children()
                 ->arrayNode('profiler')
