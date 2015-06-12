@@ -39,6 +39,20 @@ class MyController extends Controller
 }
 ```
 
+If you override your client's class, you can also set the class for your client:
+
+```yml
+csa_guzzle:
+    clients:
+        my_client:
+            class: AppBundle\Client
+            # ...
+```
+
+Of course, you need to make sure that your client class has no constructor arguments.
+
+If you need to pass constructor arguments to your class, then you should use the tag syntax (see below).
+
 Registering your own service
 ----------------------------
 
