@@ -88,6 +88,7 @@ class Configuration implements ConfigurationInterface
             ->useAttributeAsKey('name')
             ->prototype('array')
                 ->children()
+                    ->scalarNode('class')->defaultValue('GuzzleHttp\Client')->end()
                     ->variableNode('config')->end()
                     ->arrayNode('subscribers')
                         ->useAttributeAsKey('subscriber_name')

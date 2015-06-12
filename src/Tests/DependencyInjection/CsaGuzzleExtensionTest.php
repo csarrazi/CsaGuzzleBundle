@@ -49,6 +49,21 @@ YAML;
         );
     }
 
+    public function testClientClassOverride()
+    {
+        $yaml = <<<YAML
+clients:
+    foo:
+        class: AppBundle\Client
+YAML;
+
+        $container = $this->createContainer($yaml);
+
+        $client = $container->getDefinition('csa_guzzle.client.foo');
+
+        $this->assertEquals('AppBundle\Client', $client->getClass());
+    }
+
     public function testClientWithDescription()
     {
         $yaml = <<<YAML
