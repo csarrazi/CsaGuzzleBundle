@@ -97,7 +97,7 @@ class CsaGuzzleExtension extends Extension
     private function processClientsConfiguration(array $config, ContainerBuilder $container, Definition $descriptionFactory)
     {
         foreach ($config['clients'] as $name => $options) {
-            $client = new Definition($config['factory_class']);
+            $client = new Definition($options['class']);
             $client->addArgument(isset($options['config']) ? $options['config'] : null);
             $client->addTag(
                 SubscriberPass::CLIENT_TAG,
