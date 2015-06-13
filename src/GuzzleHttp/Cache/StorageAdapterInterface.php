@@ -11,12 +11,20 @@
 
 namespace Csa\Bundle\GuzzleBundle\GuzzleHttp\Cache;
 
-use GuzzleHttp\Message\RequestInterface;
-use GuzzleHttp\Message\ResponseInterface;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
 
 interface StorageAdapterInterface
 {
+    /**
+     * @param RequestInterface $request
+     * @return ResponseInterface
+     */
     public function fetch(RequestInterface $request);
 
+    /**
+     * @param RequestInterface $request
+     * @param ResponseInterface $response
+     */
     public function save(RequestInterface $request, ResponseInterface $response);
 }

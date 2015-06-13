@@ -9,9 +9,8 @@
     "require": {
         "php": ">=5.5.0",
         "guzzlehttp/guzzle": "^6.0",
-        "symfony/framework-bundle": "~2.3|~3.0",
-        "twig/twig": "~1.12",
-        "symfony/expression-language": "~2.4|~3.0"
+        "symfony/framework-bundle": "~2.6|~3.0",
+        "twig/twig": "~1.12"
     },
     "suggest": {
         "doctrine/cache": "Allows caching of responses"
