@@ -79,9 +79,7 @@ class MiddlewarePass implements CompilerPassInterface
 
             if (isset($tags[0]['middleware'])) {
                 $whitelist = explode(' ', $tags[0]['middleware']);
-                $clientMiddleware = array_filter($clientMiddleware, function ($alias) use ($whitelist) {
-                    return in_array($alias, $whitelist, true);
-                }, ARRAY_FILTER_USE_KEY);
+                $clientMiddleware = array_intersect_key($clientMiddleware, array_flip($whitelist));
             }
 
             $handlerStack = new DefinitionDecorator('csa_guzzle.handler_stack');
