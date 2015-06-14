@@ -11,9 +11,9 @@
 
 namespace Csa\Bundle\GuzzleBundle\Tests\DependencyInjection;
 
-use Csa\Bundle\GuzzleBundle\DependencyInjection\CompilerPass\SubscriberPass;
+use Csa\Bundle\GuzzleBundle\DependencyInjection\CompilerPass\MiddlewarePass;
 use Csa\Bundle\GuzzleBundle\DependencyInjection\CsaGuzzleExtension;
-use GuzzleHttp\Subscriber\Log\Formatter;
+use GuzzleHttp\MessageFormatter;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\Yaml\Parser;
@@ -37,7 +37,7 @@ YAML;
         $client = $container->getDefinition('csa_guzzle.client.foo');
 
         $this->assertEquals(
-            [SubscriberPass::CLIENT_TAG => [['subscribers' => '']]],
+            [MiddlewarePass::CLIENT_TAG => [[]]],
             $client->getTags(),
             'Clients must be tagged.'
         );
@@ -79,16 +79,14 @@ YAML;
         $this->assertSame('service("csa_guzzle.description_factory").getDescription("foo")', (string)$container->getDefinition('csa_guzzle.service.foo')->getArgument(1));
     }
 
-    public function testSubscribersAddedToClient()
+    public function testMiddlewareAddedToClient()
     {
         $yaml = <<<YAML
 logger: true
 profiler: true
 clients:
     foo:
-        subscribers:
-            stopwatch: false
-            debug: true
+        middleware: [stopwatch, debug]
 YAML;
 
         $container = $this->createContainer($yaml);
@@ -98,9 +96,9 @@ YAML;
         $client = $container->getDefinition('csa_guzzle.client.foo');
 
         $this->assertEquals(
-            [SubscriberPass::CLIENT_TAG => [['subscribers' => 'debug,logger']]],
+            [MiddlewarePass::CLIENT_TAG => [['middleware' => 'stopwatch debug']]],
             $client->getTags(),
-            'Only explicitly disabled subscribers shouldn\'t be added.'
+            'Only explicitly disabled middleware shouldn\'t be added.'
         );
     }
 
@@ -112,13 +110,13 @@ logger:
     service: monolog.logger
     format: %s
 YAML;
-        $formats = ['clf' => Formatter::CLF, 'debug' => Formatter::DEBUG, 'short' => Formatter::SHORT];
+        $formats = ['clf' => MessageFormatter::CLF, 'debug' => MessageFormatter::DEBUG, 'short' => MessageFormatter::SHORT];
 
         foreach ($formats as $alias => $format) {
             $container = $this->createContainer(sprintf($yaml, $alias));
 
-            $this->assertSame($format, $container->getDefinition('csa_guzzle.subscriber.logger')->getArgument(1));
-            $this->assertSame('monolog.logger', (string)$container->getDefinition('csa_guzzle.subscriber.logger')->getArgument(0));
+            $this->assertSame($format, $container->getDefinition('csa_guzzle.logger.message_formatter')->getArgument(0));
+            $this->assertSame('monolog.logger', (string)$container->getDefinition('csa_guzzle.middleware.logger')->getArgument(0));
         }
 
         $yaml = <<<YAML
@@ -126,7 +124,7 @@ logger: false
 YAML;
 
         $container = $this->createContainer($yaml);
-        $this->assertFalse($container->hasDefinition('csa_guzzle.subscriber.logger'));
+        $this->assertFalse($container->hasDefinition('csa_guzzle.middleware.logger'));
     }
 
     public function testCacheConfiguration()
@@ -136,7 +134,7 @@ cache: false
 YAML;
 
         $container = $this->createContainer($yaml);
-        $this->assertFalse($container->hasDefinition('csa_guzzle.subscriber.cache'));
+        $this->assertFalse($container->hasDefinition('csa_guzzle.middleware.cache'));
 
         $yaml = <<<YAML
 cache:
@@ -146,49 +144,8 @@ YAML;
 
         $container = $this->createContainer($yaml);
         $container->setDefinition('my.adapter.id', new Definition());
-        $alias = $container->getAlias('csa_guzzle.default_cache_adapter');
+        $alias = $container->getAlias('csa_guzzle.cache_adapter');
         $this->assertSame('my.adapter.id', (string)$alias);
-    }
-
-    public function testLegacyCacheConfiguration()
-    {
-        $yaml = <<<YAML
-cache:
-    enabled: true
-    service: my.service.id
-YAML;
-
-        $container = $this->createContainer($yaml);
-        $container->setDefinition('my.service.id', new Definition(null, [null, null]));
-        $alias = $container->getAlias('csa_guzzle.default_cache_adapter');
-        $this->assertSame('my.service.id', (string)$container->getDefinition((string) $alias)->getArgument(0));
-    }
-
-    public function testLegacyFactoryConfiguration()
-    {
-        $yaml = <<<YAML
-factory_class: GuzzleHttp\Client
-YAML;
-
-        $container = $this->createContainer($yaml);
-        $factory = $container->getDefinition('csa_guzzle.client_factory');
-        $this->assertSame('GuzzleHttp\Client', $factory->getArgument(0));
-    }
-
-    /**
-     * @expectedException \Symfony\Component\Config\Definition\Exception\InvalidConfigurationException
-     * @expectedExceptionMessage Invalid configuration for path "csa_guzzle.cache.adapter.type": Invalid cache adapter
-     */
-    public function testLegacyWrongCacheAdapterTypeThrowsException()
-    {
-        $yaml = <<<YAML
-cache:
-    enabled: true
-    adapter:
-        type: foo
-YAML;
-
-        $this->createContainer($yaml);
     }
 
     private function createContainer($yaml)

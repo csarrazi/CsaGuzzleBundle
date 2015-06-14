@@ -77,8 +77,14 @@ class Configuration implements ConfigurationInterface
 
         $node
             ->canBeEnabled()
+            ->validate()
+                ->ifTrue(function ($v) {
+                    return $v['enabled'] && null === $v['adapter'];
+                })
+                ->thenInvalid('The \'csa_guzzle.cache.adapter\' key is mandatory if you enable the cache middleware')
+            ->end()
             ->children()
-            ->scalarNode('adapter')->isRequired()->end()
+                ->scalarNode('adapter')->defaultNull()->end()
             ->end()
         ;
 

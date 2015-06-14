@@ -97,9 +97,18 @@ class MiddlewarePass implements CompilerPassInterface
 
             $clientDefinition = $container->findDefinition($clientId);
 
-            $clientConstructorArgs = $clientDefinition->getArgument(0);
-            $clientConstructorArgs['handler'] = new Reference($clientHandlerStackId);
-            $clientDefinition->replaceArgument(0, $clientConstructorArgs);
+            $arguments = $clientDefinition->getArguments();
+
+            $options = [];
+
+            if (!empty($arguments)) {
+                $options = array_shift($arguments);
+            }
+
+            $options['handler'] = new Reference($clientHandlerStackId);
+
+            array_unshift($arguments, $options);
+            $clientDefinition->setArguments($arguments);
         }
     }
 }

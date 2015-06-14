@@ -10,6 +10,7 @@
         "php": ">=5.5.0",
         "guzzlehttp/guzzle": "^6.0",
         "symfony/framework-bundle": "~2.6|~3.0",
+        "symfony/expression-language": "~2.6|~3.0",
         "twig/twig": "~1.12"
     },
     "suggest": {

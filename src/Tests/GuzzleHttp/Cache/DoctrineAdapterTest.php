@@ -12,7 +12,9 @@
 namespace Csa\Bundle\GuzzleBundle\Tests\GuzzleHttp\Cache;
 
 use Csa\Bundle\GuzzleBundle\GuzzleHttp\Cache\DoctrineAdapter;
-use GuzzleHttp\Message\Request;
+use GuzzleHttp\Psr7\Request;
+use GuzzleHttp\Psr7\Response;
+use Psr\Http\Message\ResponseInterface;
 
 class DoctrineAdapterTest extends \PHPUnit_Framework_TestCase
 {
@@ -39,14 +41,20 @@ class DoctrineAdapterTest extends \PHPUnit_Framework_TestCase
         $cache
             ->expects($this->at(2))
             ->method('fetch')
-            ->willReturn($this->getMock('GuzzleHttp\Message\ResponseInterface'))
+            ->willReturn([
+                'status' => 200,
+                'headers' => [],
+                'body' => 'Hello World',
+                'version' => '1.1',
+                'reason' => 'OK',
+            ])
         ;
         $adapter = new DoctrineAdapter($cache, 0);
 
         $request = $this->getRequestMock();
 
         $this->assertNull($adapter->fetch($request));
-        $this->assertInstanceOf('GuzzleHttp\Message\ResponseInterface', $adapter->fetch($request));
+        $this->assertInstanceOf(ResponseInterface::class, $adapter->fetch($request));
     }
 
     public function testSave()
@@ -58,16 +66,22 @@ class DoctrineAdapterTest extends \PHPUnit_Framework_TestCase
             ->method('save')
             ->with(
                 $this->isType('string'),
-                $this->isInstanceOf('GuzzleHttp\Message\ResponseInterface'),
+                [
+                    'status' => 200,
+                    'headers' => [],
+                    'body' => 'Hello World',
+                    'version' => '1.1',
+                    'reason' => 'OK',
+                ],
                 10
             );
         ;
         $adapter = new DoctrineAdapter($cache, 10);
-        $this->assertNull($adapter->save($this->getRequestMock(), $this->getMock('GuzzleHttp\Message\ResponseInterface')));
+        $adapter->save($this->getRequestMock(), new Response(200, [], 'Hello World'));
     }
 
     private function getRequestMock()
     {
-        return new Request('GET', 'http://google.com/', array('Accept' => 'text/html'), $this->getMock('GuzzleHttp\Stream\StreamInterface'));
+        return new Request('GET', 'http://google.com/', array('Accept' => 'text/html'));
     }
 }
