@@ -12,14 +12,11 @@ matrix:
   fast_finish: true
 
 install:
-  - if [ "$deps" = "no" ]; then export SYMFONY_DEPRECATIONS_HELPER=strict; fi;
-  - if [ "$deps" = "no" ]; then composer install; fi;
-  - if [ "$deps" = "low" ]; then composer --prefer-lowest --prefer-stable update; fi;
+  - composer install
 
 env:
   global:
-    - deps=no
-    - SYMFONY_DEPRECATIONS_HELPER=weak
+    - SYMFONY_DEPRECATIONS_HELPER=strict
 
 script:
   phpunit
