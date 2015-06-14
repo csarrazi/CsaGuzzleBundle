@@ -1,25 +1,25 @@
-Available subscribers
-=====================
+Available middleware
+====================
 
-Currently, four event subscribers are available:
+Currently, four middleware are available:
 
-* the `debug` subscriber
-* the `stopwatch` subscriber
-* the `logger` subscriber
-* the `cache` subscriber
+* the `debug` middleware
+* the `stopwatch` middleware
+* the `logger` middleware
+* the `cache` middleware
 
 
-The `debug` and `stopwatch` subscribers
----------------------------------------
+The `debug` and `stopwatch` middleware
+--------------------------------------
 
-These two subscriber's objective is to provide integration with Symfony's debug tools:
+These two middleware's objective is to provide integration with Symfony's debug tools:
 
-* The `debug` subscriber enables the profiler.
-* The `stopwatch` subscriber enables the Guzzle calls to be displayed in Symfony's timeline.
+* The `debug` middleware enables the profiler.
+* The `stopwatch` middleware enables the Guzzle calls to be displayed in Symfony's timeline.
 
-The profiler and stopwatch subscribers are only registered if the profiler is enabled.
+The profiler and stopwatch middleware are only registered if the profiler is enabled.
 
-To enable the two subscribers, you may simply configure CsaGuzzleBundle as follows:
+To enable the two middleware, you may simply configure CsaGuzzleBundle as follows:
 
 ```yml
 csa_guzzle:
@@ -35,10 +35,10 @@ csa_guzzle:
 ```
 
 
-The `logger` subscriber
+The `logger` middleware
 -----------------------
 
-The `logger` subscriber's objective is to provide a simple tool for logging Guzzle requests.
+The `logger` middleware's objective is to provide a simple tool for logging Guzzle requests.
 
 Enabling request logging, you simply need to enable it in Symfony's configuration:
 
@@ -48,7 +48,7 @@ csa_guzzle:
         enabled: true
 ```
 
-Like the `debug` subscriber, there's also a shorthand syntax to enable it:
+Like the `debug` middleware, there's also a shorthand syntax to enable it:
 
 ```yml
 csa_guzzle:
@@ -65,7 +65,7 @@ csa_guzzle:
         service: my_logger_service
 ```
 
-You can configure the log format using the syntax described on [guzzle/log-subscriber's documentation](https://github.com/guzzle/log-subscriber#message-formatter).
+You can configure the log format using the syntax described in [guzzlehttp/guzzle's documentation](https://github.com/guzzle/guzzle/blob/master/src/MessageFormatter.php#L12).
 You may also use of the three levels described in the formatter: `clf` (Apache log format), `debug`, or `short`:
 
 ```yml
@@ -76,17 +76,17 @@ csa_guzzle:
 ```
 
 
-The `cache` subscriber
+The `cache` middleware
 ----------------------
 
-The `cache` subscriber's objective is to provide a very simple cache, in order to cache Guzzle responses.
+The `cache` middleware's objective is to provide a very simple cache, in order to cache Guzzle responses.
 
 Even though only a [doctrine/cache](https://github.com/doctrine/cache) adapter is provided
-(`Csa\Bundle\GuzzleBundle\GuzzleHttp\Cache\DoctrineAdapter`), the subscriber is agnostic.
-If you wish to use your own cache implementation with the `cache` subscriber, you simply need
+(`Csa\Bundle\GuzzleBundle\GuzzleHttp\Cache\DoctrineAdapter`), the middleware is agnostic.
+If you wish to use your own cache implementation with the `cache` middleware, you simply need
 to implement `Csa\Bundle\GuzzleBundle\GuzzleHttp\Cache\StorageAdapterInterface`, and you're set!
 
-This subscriber can be configured with the following configuration:
+This middleware can be configured with the following configuration:
 
 ```yml
 csa_guzzle:

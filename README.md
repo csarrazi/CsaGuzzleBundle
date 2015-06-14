@@ -16,7 +16,7 @@ This bundle integrates Guzzle >=4.0 in Symfony. Currently, it supports the follo
 
 * Integration with Symfony's debug tools (web debug toolbar, profiler, logger, timeline, ...)
 * Configuring a Guzzle client simply using configuration
-* Service descriptions to describe your services is json format
+* Service descriptions to describe your services is json format (only in the 1.3 branch, though)
 
 ![Web debug Toolbar](https://cloud.githubusercontent.com/assets/465798/7407652/dda8bda4-ef14-11e4-9e9e-1db2fa6a346d.png)
 ![Profiler panel integration](https://cloud.githubusercontent.com/assets/465798/7407654/e4432b2c-ef14-11e4-8f84-b11b32dcce86.png)
@@ -25,11 +25,23 @@ This bundle integrates Guzzle >=4.0 in Symfony. Currently, it supports the follo
 Installation
 ------------
 
+### Stable version
+
 Add the required package using composer.
 
 ```bash
 composer require csa/guzzle-bundle:@stable
 ```
+
+### Bleeding-edge version
+
+Add the required package using composer.
+
+```bash
+composer require csa/guzzle-bundle:@dev
+```
+
+### Enabling the bundle
 
 Add the bundle to your AppKernel.
 
@@ -39,7 +51,7 @@ Add the bundle to your AppKernel.
 $bundles[] = new Csa\Bundle\GuzzleBundle\CsaGuzzleBundle();
 ```
 
-To enable the data collector (only in the ```dev``` environment, you may simply
+To enable the data collector (only in the `dev` environment, you may simply
 configure the CsaGuzzleBundle as follows:
 
 ```yml
@@ -65,12 +77,28 @@ See [Upgrade.md](UPGRADE.md).
 Documentation
 -------------
 
+### Documentation for stable (1.3)
+
+* [Creating clients](../1.3/src/Resources/doc/clients.md)
+* [Registering new event subscribers](../1.3/src/Resources/doc/event_subscribers.md)
+* [Available event subscribers](../1.3/src/Resources/doc/available_subscribers.md)
+* [Configuration reference](../1.3/src/Resources/doc/configuration_reference.md)
+* [Streaming a guzzle response](../1.3/src/Resources/doc/response_streaming.md)
+* [Service descriptions](../1.3/src/Resources/doc/service_descriptions.md)
+
+### Documentation for unstable (2.0@dev/dev-master)
+
 * [Creating clients](src/Resources/doc/clients.md)
-* [Registering new event subscribers](src/Resources/doc/event_subscribers.md)
-* [Available event subscribers](src/Resources/doc/available_subscribers.md)
+* [Registering new middleware](src/Resources/doc/middleware.md)
+* [Available middleware](src/Resources/doc/available_middleware.md)
 * [Configuration reference](src/Resources/doc/configuration_reference.md)
 * [Streaming a guzzle response](src/Resources/doc/response_streaming.md)
-* [Service descriptions](src/Resources/doc/service_descriptions.md)
+
+Contributing
+------------
+
+CsaGuzzleBundle is an open source project. If you'd like to contribute, please read
+the [Contributing Guidelines](CONTRIBUTING.md).
 
 License
 -------

@@ -3,10 +3,11 @@
 namespace Csa\Bundle\GuzzleBundle\Tests\DataCollector;
 
 use Csa\Bundle\GuzzleBundle\DataCollector\GuzzleCollector;
-use Csa\Bundle\GuzzleBundle\GuzzleHttp\Subscriber\DebugSubscriber;
 use GuzzleHttp\Client;
-use GuzzleHttp\Message\Response;
-use GuzzleHttp\Subscriber\Mock;
+use GuzzleHttp\Handler\MockHandler;
+use GuzzleHttp\HandlerStack;
+use GuzzleHttp\Middleware;
+use GuzzleHttp\Psr7\Response;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -18,12 +19,11 @@ class GuzzleCollectorTest extends \PHPUnit_Framework_TestCase
     {
         $mocks = array_fill(0, 3, new Response(204));
 
-        $mockSubscriber = new Mock($mocks);
-        $client = new Client();
-        $client->getEmitter()->attach($mockSubscriber);
-        $debugSubscriber = new DebugSubscriber();
-        $client->getEmitter()->attach($debugSubscriber);
-        $collector = new GuzzleCollector($debugSubscriber);
+        $mock = new MockHandler($mocks);
+        $handler = HandlerStack::create($mock);
+        $collector = new GuzzleCollector();
+        $handler->push(Middleware::history($collector->getHistory()));
+        $client = new Client(['handler' => $handler]);
 
         $request = Request::createFromGlobals();
         $response = $this->getMock('Symfony\Component\HttpFoundation\Response');

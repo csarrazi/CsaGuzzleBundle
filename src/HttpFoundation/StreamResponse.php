@@ -11,7 +11,7 @@
 
 namespace Csa\Bundle\GuzzleBundle\HttpFoundation;
 
-use GuzzleHttp\Message\ResponseInterface;
+use Psr\Http\Message\ResponseInterface;
 use Symfony\Component\HttpFoundation\Response;
 
 class StreamResponse extends Response

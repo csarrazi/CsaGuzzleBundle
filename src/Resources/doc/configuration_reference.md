@@ -11,17 +11,15 @@ csa_guzzle:
     logger:
         enabled:              false
         service:              ~
+        format:               clf
+    cache:
+        enabled: false
+        adapter: ~
     clients:
 
         # Prototype
         name:
-            config:               ~
-            subscribers:
-
-                # Prototype
-                subscriber_name:      ~
-    factory_class:        GuzzleHttp\Client
-    cache:
-        enabled: false
-        adapter: ~
+            config:           ~
+            middleware:       []
+            class:            GuzzleHttp\Client
 ```

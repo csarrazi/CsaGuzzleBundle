@@ -12,8 +12,9 @@
 namespace Csa\Bundle\GuzzleBundle\GuzzleHttp\Cache;
 
 use Doctrine\Common\Cache\Cache;
-use GuzzleHttp\Message\RequestInterface;
-use GuzzleHttp\Message\ResponseInterface;
+use GuzzleHttp\Psr7\Response;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
 
 class DoctrineAdapter implements StorageAdapterInterface
 {
@@ -31,22 +32,31 @@ class DoctrineAdapter implements StorageAdapterInterface
         $key = $this->getKey($request);
 
         if ($this->cache->contains($key)) {
-            return $this->cache->fetch($key);
+            $data = $this->cache->fetch($key);
+
+            return new Response($data['status'], $data['headers'], $data['body'], $data['version'], $data['reason']);
         }
     }
 
     public function save(RequestInterface $request, ResponseInterface $response)
     {
-        $this->cache->save($this->getKey($request), $response, $this->ttl);
+        $data = [
+            'status' => $response->getStatusCode(),
+            'headers' => $response->getHeaders(),
+            'body' => (string)$response->getBody(),
+            'version' => $response->getProtocolVersion(),
+            'reason' => $response->getReasonPhrase(),
+        ];
+
+        $this->cache->save($this->getKey($request), $data, $this->ttl);
     }
 
     private function getKey(RequestInterface $request)
     {
         return md5(serialize([
             'method'  => $request->getMethod(),
-            'uri'     => $request->getUrl(),
+            'uri'     => $request->getUri(),
             'headers' => $request->getHeaders(),
-            'body'    => $request->getBody(),
         ]));
     }
 }

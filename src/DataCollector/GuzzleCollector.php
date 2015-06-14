@@ -11,8 +11,9 @@
 
 namespace Csa\Bundle\GuzzleBundle\DataCollector;
 
-use Csa\Bundle\GuzzleBundle\GuzzleHttp\Subscriber\DebugSubscriber;
-use GuzzleHttp\Stream\StreamInterface;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\StreamInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\DataCollector\DataCollector;
@@ -26,18 +27,18 @@ class GuzzleCollector extends DataCollector
 {
     const MAX_BODY_SIZE = 0x10000;
 
-    private $history;
     private $maxBodySize;
+    private $history;
 
     /**
      * Constructor
      *
-     * @param DebugSubscriber $history the request history subscriber
+     * @param int $maxBodySize The max body size to store in the profiler storage
      */
-    public function __construct(DebugSubscriber $history, $maxBodySize = self::MAX_BODY_SIZE)
+    public function __construct($maxBodySize = self::MAX_BODY_SIZE)
     {
-        $this->history = $history;
         $this->maxBodySize = $maxBodySize;
+        $this->history = [];
         $this->data = [];
     }
 
@@ -46,13 +47,13 @@ class GuzzleCollector extends DataCollector
      */
     public function collect(Request $request, Response $response, \Exception $exception = null)
     {
-        $data = [];
-
-        foreach ($this->history as $transaction) {
+        $data = array_map(function ($transaction) {
+            /** @var RequestInterface $request */
             $request = $transaction['request'];
+            /** @var ResponseInterface $response */
             $response = $transaction['response'];
-            $error = $transaction['exception'];
-            $info = $transaction['info'];
+            $error = $transaction['error'];
+            $info = [];
 
             $req = [
                 'request' => [
@@ -62,7 +63,7 @@ class GuzzleCollector extends DataCollector
                     'body'    => $this->cropContent($request->getBody()),
                 ],
                 'info' => $info,
-                'url'     => $request->getUrl(),
+                'uri'     => $request->getUri(),
             ];
 
             if ($response) {
@@ -85,13 +86,12 @@ class GuzzleCollector extends DataCollector
                 ];
             }
 
-
-            if ($cache = $request->getConfig()->get('cache_lookup')) {
-                $req['cache'] = $cache;
+            if ($response->hasHeader('X-Guzzle-Cache')) {
+                $req['cache'] = $response->getHeaderLine('X-Guzzle-Cache');
             }
 
-            $data[] = $req;
-        }
+            return $req;
+        }, $this->history);
 
         $this->data = $data;
     }
@@ -121,6 +121,11 @@ class GuzzleCollector extends DataCollector
     public function getCalls()
     {
         return $this->data;
+    }
+
+    public function &getHistory()
+    {
+        return $this->history;
     }
 
     /**
