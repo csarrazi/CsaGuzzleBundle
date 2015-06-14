@@ -18,7 +18,7 @@ use Symfony\Component\DependencyInjection\Reference;
 
 class MiddlewarePassTest extends \PHPUnit_Framework_TestCase
 {
-    public function testAllSubscribersAddedToTaggedClientsByDefault()
+    public function testAllMiddlewareAddedToTaggedClientsByDefault()
     {
         $container = $this->createContainer();
         $container->setDefinition('client', $client = $this->createClient());
@@ -35,7 +35,7 @@ class MiddlewarePassTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(['push', [new Reference('my_mid2'), 'my_mid2']], $calls[1]);
     }
 
-    public function testSpecificSubscribersAddedToClient()
+    public function testSpecificMiddlewareAddedToClient()
     {
         $client = $this->createClient(['foo', 'bar']);
 
@@ -68,7 +68,7 @@ class MiddlewarePassTest extends \PHPUnit_Framework_TestCase
         $client = new Definition();
         $client->addTag(
             MiddlewarePass::CLIENT_TAG,
-            $middleware ? ['subscribers' => implode(' ', $middleware)] : []
+            $middleware ? ['middleware' => implode(' ', $middleware)] : []
         );
 
         return $client;

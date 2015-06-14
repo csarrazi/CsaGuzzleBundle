@@ -9,7 +9,7 @@
  * file that was distributed with this source code
  */
 
-namespace Csa\Bundle\GuzzleBundle\Tests\GuzzleHttp\Subscriber;
+namespace Csa\Bundle\GuzzleBundle\Tests\GuzzleHttp;
 
 use Csa\Bundle\GuzzleBundle\GuzzleHttp\Middleware;
 use Csa\Bundle\GuzzleBundle\GuzzleHttp\Cache\StorageAdapterInterface;

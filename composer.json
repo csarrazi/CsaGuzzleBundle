@@ -13,6 +13,10 @@
         "symfony/expression-language": "~2.6|~3.0",
         "twig/twig": "~1.12"
     },
+    "conflict": {
+        "guzzlehttp/guzzle-services": "*",
+        "guzzlehttp/command": "*"
+    },
     "suggest": {
         "doctrine/cache": "Allows caching of responses"
     },

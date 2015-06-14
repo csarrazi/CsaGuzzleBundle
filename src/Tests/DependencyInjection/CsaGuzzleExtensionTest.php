@@ -64,21 +64,6 @@ YAML;
         $this->assertEquals('AppBundle\Client', $client->getClass());
     }
 
-    public function testClientWithDescription()
-    {
-        $yaml = <<<YAML
-clients:
-    foo:
-        config: { base_url: example.com }
-        description: %s
-YAML;
-
-        $container = $this->createContainer(sprintf($yaml, realpath(__DIR__ . '/../Fixtures/github.description.json')));
-        $this->assertTrue($container->hasDefinition('csa_guzzle.service.foo'));
-        $this->assertSame('csa_guzzle.client.foo', (string)$container->getDefinition('csa_guzzle.service.foo')->getArgument(0));
-        $this->assertSame('service("csa_guzzle.description_factory").getDescription("foo")', (string)$container->getDefinition('csa_guzzle.service.foo')->getArgument(1));
-    }
-
     public function testMiddlewareAddedToClient()
     {
         $yaml = <<<YAML
