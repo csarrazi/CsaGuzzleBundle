@@ -86,7 +86,7 @@ class GuzzleCollector extends DataCollector
                 ];
             }
 
-            if ($response->hasHeader('X-Guzzle-Cache')) {
+            if ($response && $response->hasHeader('X-Guzzle-Cache')) {
                 $req['cache'] = $response->getHeaderLine('X-Guzzle-Cache');
             }
 
