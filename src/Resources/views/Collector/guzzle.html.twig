@@ -5,6 +5,11 @@
     {% set callCount = collector.calls|length %}
     {% set errorCount = collector.errors|length %}
 
+    {% set cacheHitCount = 0 %}
+    {% for call in collector.calls if call.cache is defined and call.cache == 'HIT' %}
+        {% set cacheHitCount = cacheHitCount + 1 %}
+    {% endfor %}
+
     {% if callCount == 0 %}
         {% set color = 'grey' %}
     {% elseif errorCount > 0 %}
@@ -23,6 +28,12 @@
             <b>Success</b>
             <span class="sf-toolbar-status sf-toolbar-status-green">{{ callCount - errorCount }}</span>
         </div>
+        {% if cacheHitCount %}
+            <div class="sf-toolbar-info-piece">
+                <b>Cached</b>
+                <span class="sf-toolbar-status sf-toolbar-status-green">{{ cacheHitCount }}</span>
+            </div>
+        {% endif %}
         <div class="sf-toolbar-info-piece">
             <b>Errors</b>
             <span class="sf-toolbar-status sf-toolbar-status-red">{{ errorCount }}</span>
