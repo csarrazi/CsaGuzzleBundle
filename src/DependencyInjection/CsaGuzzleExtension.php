@@ -68,6 +68,10 @@ class CsaGuzzleExtension extends Extension
             $formatterDefinition->replaceArgument(0, $config['format']);
         }
 
+        if ($config['level']) {
+            $loggerDefinition->replaceArgument(2, $config['level']);
+        }
+
         if (!$config['enabled']) {
             $container->removeDefinition('csa_guzzle.middleware.logger');
             $container->removeDefinition('csa_guzzle.logger.message_formatter');

@@ -13,6 +13,7 @@ namespace Csa\Bundle\GuzzleBundle\DependencyInjection;
 
 use Csa\Bundle\GuzzleBundle\DataCollector\GuzzleCollector;
 use GuzzleHttp\MessageFormatter;
+use Psr\Log\LogLevel;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
@@ -59,6 +60,18 @@ class Configuration implements ConfigurationInterface
                                 })
                             ->end()
                             ->defaultValue(MessageFormatter::CLF)
+                        ->end()
+                        ->scalarNode('level')
+                            ->beforeNormalization()
+                                ->ifInArray([
+                                    'emergency', 'alert', 'critical', 'error',
+                                    'warning', 'notice', 'info', 'debug',
+                                ])
+                                ->then(function ($v) {
+                                    return constant('Psr\Log\LogLevel::'.strtoupper($v));
+                                })
+                            ->end()
+                            ->defaultValue('debug')
                         ->end()
                     ->end()
                 ->end()
