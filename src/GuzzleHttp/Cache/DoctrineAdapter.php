@@ -46,7 +46,7 @@ class DoctrineAdapter implements StorageAdapterInterface
             'method'  => $request->getMethod(),
             'uri'     => $request->getUrl(),
             'headers' => $request->getHeaders(),
-            'body'    => $request->getBody(),
+            'body'    => (string)$request->getBody(),
         ]));
     }
 }
