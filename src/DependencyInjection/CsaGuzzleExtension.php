@@ -98,7 +98,8 @@ class CsaGuzzleExtension extends Extension
     {
         foreach ($config['clients'] as $name => $options) {
             $client = new Definition($options['class']);
-            $client->addArgument(isset($options['config']) ? $options['config'] : null);
+
+            $client->addArgument($this->buildGuzzleConfig($options));
             $client->addTag(
                 SubscriberPass::CLIENT_TAG,
                 ['subscribers' => implode(',', $this->findSubscriberIds($options['subscribers'], $container))]
@@ -131,5 +132,21 @@ class CsaGuzzleExtension extends Extension
         return array_filter($allNames, function ($name) use ($explicitlyConfiguredIds) {
             return !isset($explicitlyConfiguredIds[$name]) || $explicitlyConfiguredIds[$name];
         });
+    }
+
+    private function buildGuzzleConfig($options)
+    {
+        if (!isset($options['config'])) {
+            return null;
+        }
+
+        $config = $options['config'];
+        foreach (array('message_factory', 'fsm', 'adapter', 'handler') as $service) {
+            if (isset($config[$service])) {
+                $config[$service] = new Reference($config[$service]);
+            }
+        }
+
+        return $config;
     }
 }
