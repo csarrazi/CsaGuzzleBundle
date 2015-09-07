@@ -68,9 +68,8 @@ YAML;
      * @dataProvider clientConfigInstance
      * @covers CsaGuzzleExtension::buildGuzzleConfig
      */
-    public function testClientConfigInstanceOverride($instanceKey)
+    public function testClientConfigInstanceOverride($instanceKey, $serviceId)
     {
-        $serviceId = 'my.message.factory.id';
         $yaml = <<<YAML
 clients:
     foo:
@@ -88,6 +87,21 @@ YAML;
             $serviceId,
             (string)$config[$instanceKey]
         );
+    }
+
+    /**
+     * @expectedException \Symfony\Component\DependencyInjection\Exception\InvalidArgumentException
+     * @expectedExceptionMessage Config for "csa_guzzle.client.foo" should be an array, but got string
+     */
+    public function testInvalidClientConfig()
+    {
+        $yaml = <<<YAML
+clients:
+    foo:
+        config: invalid
+YAML;
+
+        $this->createContainer($yaml);
     }
 
     public function testClientWithDescription()
@@ -231,10 +245,10 @@ YAML;
     public function clientConfigInstance()
     {
         return array(
-            array('message_factory'),
-            array('fsm'),
-            array('adapter'),
-            array('handler'),
+            array('message_factory', 'my.message.factory.id'),
+            array('fsm', 'my.fsm.id'),
+            array('adapter', 'my.adapter.id'),
+            array('handler', 'my.handler.id'),
         );
     }
 }

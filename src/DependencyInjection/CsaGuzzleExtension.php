@@ -18,6 +18,7 @@ use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\DefinitionDecorator;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\DependencyInjection\Reference;
+use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
 use Symfony\Component\ExpressionLanguage\Expression;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
@@ -99,7 +100,17 @@ class CsaGuzzleExtension extends Extension
         foreach ($config['clients'] as $name => $options) {
             $client = new Definition($options['class']);
 
-            $client->addArgument($this->buildGuzzleConfig($options));
+            if (isset($options['config'])) {
+                if (!is_array($options['config'])) {
+                    throw new InvalidArgumentException(sprintf(
+                        'Config for "csa_guzzle.client.%s" should be an array, but got %s',
+                        $name,
+                        gettype($options['config'])
+                    ));
+                }
+                $client->addArgument($this->buildGuzzleConfig($options['config']));
+            }
+
             $client->addTag(
                 SubscriberPass::CLIENT_TAG,
                 ['subscribers' => implode(',', $this->findSubscriberIds($options['subscribers'], $container))]
@@ -134,13 +145,8 @@ class CsaGuzzleExtension extends Extension
         });
     }
 
-    private function buildGuzzleConfig($options)
+    private function buildGuzzleConfig(array $config)
     {
-        if (!isset($options['config'])) {
-            return null;
-        }
-
-        $config = $options['config'];
         foreach (array('message_factory', 'fsm', 'adapter', 'handler') as $service) {
             if (isset($config[$service])) {
                 $config[$service] = new Reference($config[$service]);
