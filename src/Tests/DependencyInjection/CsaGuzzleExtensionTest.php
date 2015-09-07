@@ -64,6 +64,48 @@ YAML;
         $this->assertEquals('AppBundle\Client', $client->getClass());
     }
 
+    /**
+     * @dataProvider clientConfigInstance
+     * @covers CsaGuzzleExtension::buildGuzzleConfig
+     */
+    public function testClientConfigInstanceOverride($instanceKey, $serviceId)
+    {
+        $yaml = <<<YAML
+clients:
+    foo:
+        config:
+            {$instanceKey}: {$serviceId}
+YAML;
+
+        $container = $this->createContainer($yaml);
+        $config = $container->getDefinition('csa_guzzle.client.foo')->getArgument(0);
+        $this->assertInstanceOf(
+            'Symfony\Component\DependencyInjection\Reference',
+            $config[$instanceKey]
+        );
+        $this->assertSame(
+            $serviceId,
+            (string)$config[$instanceKey]
+        );
+    }
+
+    /**
+     * @expectedException \Symfony\Component\DependencyInjection\Exception\InvalidArgumentException
+     * @expectedExceptionMessage Config for "csa_guzzle.client.bar" should be an array, but got string
+     */
+    public function testInvalidClientConfig()
+    {
+        $yaml = <<<YAML
+clients:
+    foo:
+        config: ~       # legacy mode
+    bar:
+        config: invalid # exception
+YAML;
+
+        $this->createContainer($yaml);
+    }
+
     public function testClientWithDescription()
     {
         $yaml = <<<YAML
@@ -200,5 +242,15 @@ YAML;
         $loader->load([$parser->parse($yaml)], $container);
 
         return $container;
+    }
+
+    public function clientConfigInstance()
+    {
+        return array(
+            array('message_factory', 'my.message.factory.id'),
+            array('fsm', 'my.fsm.id'),
+            array('adapter', 'my.adapter.id'),
+            array('handler', 'my.handler.id'),
+        );
     }
 }
