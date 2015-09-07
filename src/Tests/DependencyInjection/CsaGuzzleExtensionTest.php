@@ -91,14 +91,16 @@ YAML;
 
     /**
      * @expectedException \Symfony\Component\DependencyInjection\Exception\InvalidArgumentException
-     * @expectedExceptionMessage Config for "csa_guzzle.client.foo" should be an array, but got string
+     * @expectedExceptionMessage Config for "csa_guzzle.client.bar" should be an array, but got string
      */
     public function testInvalidClientConfig()
     {
         $yaml = <<<YAML
 clients:
     foo:
-        config: invalid
+        config: ~       # legacy mode
+    bar:
+        config: invalid # exception
 YAML;
 
         $this->createContainer($yaml);
