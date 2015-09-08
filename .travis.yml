@@ -4,6 +4,17 @@ matrix:
   include:
     - php: 5.4
       env: deps=low
+    - php: 5.4
+      env: deps=low
+    - php: 5.5
+      env: deps=low
+    - php: 5.6
+      env: deps=low
+    - php: hhvm
+      env: deps=low
+    - php: 7.0
+      env: deps=low
+    - php: 5.4
     - php: 5.5
     - php: 5.6
     - php: hhvm
@@ -11,8 +22,7 @@ matrix:
   fast_finish: true
 
 install:
-  - if [ "$deps" = "no" ]; then export SYMFONY_DEPRECATIONS_HELPER=strict; fi;
-  - if [ "$deps" = "no" ]; then composer install; fi;
+  - if [ "$deps" = "no" ]; then composer --prefer-stable update; fi;
   - if [ "$deps" = "low" ]; then composer --prefer-lowest --prefer-stable update; fi;
 
 env:
