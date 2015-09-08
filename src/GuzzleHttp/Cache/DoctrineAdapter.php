@@ -12,6 +12,7 @@
 namespace Csa\Bundle\GuzzleBundle\GuzzleHttp\Cache;
 
 use Doctrine\Common\Cache\Cache;
+use GuzzleHttp\Message\MessageFactory;
 use GuzzleHttp\Message\RequestInterface;
 use GuzzleHttp\Message\ResponseInterface;
 
@@ -19,6 +20,7 @@ class DoctrineAdapter implements StorageAdapterInterface
 {
     private $cache;
     private $ttl;
+    private $messageFactory;
 
     public function __construct(Cache $cache, $ttl = 0)
     {
@@ -31,15 +33,22 @@ class DoctrineAdapter implements StorageAdapterInterface
         $key = $this->getKey($request);
 
         if ($this->cache->contains($key)) {
-            return $this->cache->fetch($key);
+            return $this->getMessageFactory()->fromMessage($this->cache->fetch($key));
         }
     }
 
     public function save(RequestInterface $request, ResponseInterface $response)
     {
-        $this->cache->save($this->getKey($request), $response, $this->ttl);
+        $this->cache->save($this->getKey($request), (string) $response, $this->ttl);
     }
 
+    private function getMessageFactory() {
+        if (null === $this->messageFactory) {
+            $this->messageFactory = new MessageFactory();
+        }
+
+        return $this->messageFactory;
+    }
     private function getKey(RequestInterface $request)
     {
         return md5(serialize([
