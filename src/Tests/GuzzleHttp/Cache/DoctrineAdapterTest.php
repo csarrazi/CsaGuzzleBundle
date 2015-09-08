@@ -12,6 +12,7 @@
 namespace Csa\Bundle\GuzzleBundle\Tests\GuzzleHttp\Cache;
 
 use Csa\Bundle\GuzzleBundle\GuzzleHttp\Cache\DoctrineAdapter;
+use GuzzleHttp\Message\MessageParser;
 use GuzzleHttp\Message\Request;
 
 class DoctrineAdapterTest extends \PHPUnit_Framework_TestCase
@@ -24,6 +25,8 @@ class DoctrineAdapterTest extends \PHPUnit_Framework_TestCase
 
     public function testFetch()
     {
+        $httpResponse = file_get_contents(__DIR__.'/../../Fixtures/response.txt');
+        $parser = new MessageParser();
         $cache = $this->getMock('Doctrine\Common\Cache\Cache');
 
         $cache
@@ -39,14 +42,25 @@ class DoctrineAdapterTest extends \PHPUnit_Framework_TestCase
         $cache
             ->expects($this->at(2))
             ->method('fetch')
-            ->willReturn($this->getMock('GuzzleHttp\Message\ResponseInterface'))
+            ->willReturn($httpResponse)
         ;
         $adapter = new DoctrineAdapter($cache, 0);
 
         $request = $this->getRequestMock();
 
         $this->assertNull($adapter->fetch($request));
-        $this->assertInstanceOf('GuzzleHttp\Message\ResponseInterface', $adapter->fetch($request));
+
+        $response = $adapter->fetch($request);
+
+        $data = $parser->parseResponse($httpResponse);
+
+        $this->assertInstanceOf('GuzzleHttp\Message\ResponseInterface', $response);
+        $this->assertEquals($data['code'], $response->getStatusCode());
+        $this->assertSame($data['body'], (string) $response->getBody());
+
+        foreach ( $response->getHeaders() as $header => $value) {
+            $this->assertSame($value[0], $data['headers'][$header]);
+        }
     }
 
     public function testSave()
@@ -58,7 +72,7 @@ class DoctrineAdapterTest extends \PHPUnit_Framework_TestCase
             ->method('save')
             ->with(
                 $this->isType('string'),
-                $this->isInstanceOf('GuzzleHttp\Message\ResponseInterface'),
+                $this->isType('string'),
                 10
             );
         ;

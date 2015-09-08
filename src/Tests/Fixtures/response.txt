@@ -1,0 +1,14 @@
+HTTP/1.1 302 Found
+Cache-Control: private
+Content-Length: 258
+Content-Type: text/html; charset=UTF-8
+Date: Tue, 08 Sep 2015 09:53:23 GMT
+Location: http://www.google.fr/?gfe_rd=cr&ei=E7DuVbCGOYju8wfz-6OgDg
+Server: GFE/2.0
+
+<HTML><HEAD><meta http-equiv="content-type" content="text/html;charset=utf-8">
+<TITLE>302 Moved</TITLE></HEAD><BODY>
+<H1>302 Moved</H1>
+The document has moved
+<A HREF="http://www.google.fr/?gfe_rd=cr&amp;ei=E7DuVbCGOYju8wfz-6OgDg">here</A>.
+</BODY></HTML>
