@@ -9,9 +9,10 @@
     "require": {
         "php": ">=5.5.0",
         "guzzlehttp/guzzle": "^6.0",
-        "symfony/framework-bundle": "~2.6|~3.0",
-        "symfony/expression-language": "~2.6|~3.0",
-        "twig/twig": "~1.12"
+        "symfony/framework-bundle": "^2.6|^3.0",
+        "symfony/expression-language": "^2.6|^3.0",
+        "symfony/dependency-injection": "^2.6|^3.0",
+        "twig/twig": "^1.12"
     },
     "conflict": {
         "guzzlehttp/guzzle-services": "*",
@@ -21,10 +22,10 @@
         "doctrine/cache": "Allows caching of responses"
     },
     "require-dev": {
-        "phpunit/phpunit": "~4.0",
-        "doctrine/cache": "~1.1",
-        "symfony/web-profiler-bundle": "~2.3",
-        "symfony/phpunit-bridge": "~2.7|~3.0"
+        "phpunit/phpunit": "^4.8",
+        "doctrine/cache": "^1.1",
+        "symfony/web-profiler-bundle": "^2.3",
+        "symfony/phpunit-bridge": "^2.7|^3.0"
     },
     "autoload": {
         "psr-4": { "Csa\\Bundle\\GuzzleBundle\\": "src" }
