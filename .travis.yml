@@ -23,6 +23,7 @@ install:
 env:
   global:
     - SYMFONY_DEPRECATIONS_HELPER=strict
+    - deps=no
 
 script:
   phpunit
