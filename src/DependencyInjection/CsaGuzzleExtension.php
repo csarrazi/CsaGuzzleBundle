@@ -121,10 +121,8 @@ class CsaGuzzleExtension extends Extension
 
     private function buildGuzzleConfig(array $config)
     {
-        foreach (array('message_factory', 'fsm', 'adapter', 'handler') as $service) {
-            if (isset($config[$service])) {
-                $config[$service] = new Reference($config[$service]);
-            }
+        if (isset($config['handler'])) {
+            $config['handler'] = new Reference($config['handler']);
         }
 
         return $config;

@@ -63,29 +63,25 @@ YAML;
 
         $this->assertEquals('AppBundle\Client', $client->getClass());
     }
-    
-    /**
-     * @dataProvider clientConfigInstance
-     * @covers CsaGuzzleExtension::buildGuzzleConfig
-     */
-    public function testClientConfigInstanceOverride($instanceKey, $serviceId)
+
+    public function testClientConfigInstanceOverride()
     {
         $yaml = <<<YAML
 clients:
     foo:
         config:
-            {$instanceKey}: {$serviceId}
+            handler: my.handler.id
 YAML;
 
         $container = $this->createContainer($yaml);
         $config = $container->getDefinition('csa_guzzle.client.foo')->getArgument(0);
         $this->assertInstanceOf(
             'Symfony\Component\DependencyInjection\Reference',
-            $config[$instanceKey]
+            $config['handler']
         );
         $this->assertSame(
-            $serviceId,
-            (string)$config[$instanceKey]
+            'my.handler.id',
+            (string)$config['handler']
         );
     }
 
@@ -184,15 +180,5 @@ YAML;
         $loader->load([$parser->parse($yaml)], $container);
 
         return $container;
-    }
-
-    public function clientConfigInstance()
-    {
-        return array(
-            array('message_factory', 'my.message.factory.id'),
-            array('fsm', 'my.fsm.id'),
-            array('adapter', 'my.adapter.id'),
-            array('handler', 'my.handler.id'),
-        );
     }
 }
