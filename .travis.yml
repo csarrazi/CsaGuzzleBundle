@@ -3,16 +3,22 @@ language: php
 matrix:
   include:
     - php: 5.5
+      env: deps=low
+    - php: 5.6
+      env: deps=low
+    - php: hhvm
+      env: deps=low
+    - php: 7.0
+      env: deps=low
+    - php: 5.5
     - php: 5.6
     - php: hhvm
-    - php: nightly
-  allow_failures:
-    - php: nightly
-    - php: hhvm
+    - php: 7.0
   fast_finish: true
 
 install:
-  - composer install
+  - if [ "$deps" = "no" ]; then composer --prefer-stable update; fi;
+  - if [ "$deps" = "low" ]; then composer --prefer-lowest --prefer-stable update; fi;
 
 env:
   global:
