@@ -51,7 +51,7 @@ class CsaGuzzleExtension extends Extension
 
         $this->processCacheConfiguration($config['cache'], $container, $config['profiler']['enabled']);
 
-        $this->processClientsConfiguration($config, $container);
+        $this->processClientsConfiguration($config, $container, $config['profiler']['enabled']);
     }
 
     private function processLoggerConfiguration(array $config, ContainerBuilder $container)
@@ -90,7 +90,7 @@ class CsaGuzzleExtension extends Extension
         $container->setAlias('csa_guzzle.cache_adapter', $config['adapter']);
     }
 
-    private function processClientsConfiguration(array $config, ContainerBuilder $container)
+    private function processClientsConfiguration(array $config, ContainerBuilder $container, $debug)
     {
         foreach ($config['clients'] as $name => $options) {
             $client = new Definition($options['class']);
@@ -103,7 +103,7 @@ class CsaGuzzleExtension extends Extension
                         gettype($options['config'])
                     ));
                 }
-                $client->addArgument($this->buildGuzzleConfig($options['config']));
+                $client->addArgument($this->buildGuzzleConfig($options['config'], $debug));
             }
 
             $attributes = [];
@@ -119,10 +119,14 @@ class CsaGuzzleExtension extends Extension
         }
     }
 
-    private function buildGuzzleConfig(array $config)
+    private function buildGuzzleConfig(array $config, $debug)
     {
         if (isset($config['handler'])) {
             $config['handler'] = new Reference($config['handler']);
+        }
+
+        if ($debug) {
+            $config['on_stats'] = [new Reference('csa_guzzle.data_collector.guzzle'), 'addStats'];
         }
 
         return $config;

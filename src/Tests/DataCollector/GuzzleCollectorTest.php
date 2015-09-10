@@ -6,7 +6,7 @@ use Csa\Bundle\GuzzleBundle\DataCollector\GuzzleCollector;
 use GuzzleHttp\Client;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
-use GuzzleHttp\Middleware;
+use Csa\Bundle\GuzzleBundle\GuzzleHttp\Middleware;
 use GuzzleHttp\Psr7\Response;
 use Symfony\Component\HttpFoundation\Request;
 

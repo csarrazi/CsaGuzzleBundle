@@ -17,7 +17,7 @@
         </service>
 
         <service id="csa_guzzle.middleware.history" class="Closure">
-            <factory class="GuzzleHttp\Middleware" method="history" />
+            <factory class="Csa\Bundle\GuzzleBundle\GuzzleHttp\Middleware" method="history" />
             <argument type="expression">service('csa_guzzle.data_collector.guzzle').getHistory()</argument>
             <tag name="csa_guzzle.middleware" alias="history" />
         </service>

@@ -11,6 +11,7 @@
 
 namespace Csa\Bundle\GuzzleBundle\DataCollector;
 
+use GuzzleHttp\TransferStats;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
@@ -38,8 +39,16 @@ class GuzzleCollector extends DataCollector
     public function __construct($maxBodySize = self::MAX_BODY_SIZE)
     {
         $this->maxBodySize = $maxBodySize;
-        $this->history = [];
+        $this->history = new \SplObjectStorage();
         $this->data = [];
+    }
+
+    public function addStats(TransferStats $stats)
+    {
+        $request = $stats->getRequest();
+        $data = isset($this->history[$request]) ? $this->history[$request] : [];
+        $data['info'] = $stats->getHandlerStats();
+        $this->history->attach($request, $data);
     }
 
     /**
@@ -47,13 +56,15 @@ class GuzzleCollector extends DataCollector
      */
     public function collect(Request $request, Response $response, \Exception $exception = null)
     {
-        $data = array_map(function ($transaction) {
-            /** @var RequestInterface $request */
-            $request = $transaction['request'];
+        $data = [];
+
+        /** @var RequestInterface $request */
+        foreach ($this->history as $request) {
+            $transaction = $this->history[$request];
             /** @var ResponseInterface $response */
             $response = $transaction['response'];
             $error = $transaction['error'];
-            $info = [];
+            $info = $transaction['info'];
 
             $req = [
                 'request' => [
@@ -90,8 +101,8 @@ class GuzzleCollector extends DataCollector
                 $req['cache'] = $response->getHeaderLine('X-Guzzle-Cache');
             }
 
-            return $req;
-        }, $this->history);
+            $data[] = $req;
+        }
 
         $this->data = $data;
     }
@@ -123,7 +134,7 @@ class GuzzleCollector extends DataCollector
         return $this->data;
     }
 
-    public function &getHistory()
+    public function getHistory()
     {
         return $this->history;
     }

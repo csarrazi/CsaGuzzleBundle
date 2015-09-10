@@ -8,7 +8,7 @@
     ],
     "require": {
         "php": ">=5.5.0",
-        "guzzlehttp/guzzle": "^6.0",
+        "guzzlehttp/guzzle": "^6.1",
         "symfony/framework-bundle": "^2.6|^3.0",
         "symfony/expression-language": "^2.6|^3.0",
         "symfony/dependency-injection": "^2.6|^3.0",

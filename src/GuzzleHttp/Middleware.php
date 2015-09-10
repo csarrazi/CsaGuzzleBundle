@@ -13,6 +13,7 @@ namespace Csa\Bundle\GuzzleBundle\GuzzleHttp;
 
 use Csa\Bundle\GuzzleBundle\GuzzleHttp\Cache\StorageAdapterInterface;
 use GuzzleHttp\Promise\FulfilledPromise;
+use GuzzleHttp\Promise\RejectedPromise;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Symfony\Component\Stopwatch\Stopwatch;
@@ -68,6 +69,38 @@ class Middleware
                 }
 
                 return new FulfilledPromise($response);
+            };
+        };
+    }
+
+    public static function history(\SplObjectStorage $container)
+    {
+        return function (callable $handler) use ($container) {
+            return function ($request, array $options) use ($handler, $container) {
+                return $handler($request, $options)->then(
+                    function ($value) use ($request, $container, $options) {
+                        $info = isset($container[$request]) ? $container[$request]['info'] : null;
+                        $container->attach($request, [
+                            'response' => $value,
+                            'error' => null,
+                            'options' => $options,
+                            'info' => $info,
+                        ]);
+
+                        return $value;
+                    },
+                    function ($reason) use ($request, $container, $options) {
+                        $info = isset($container[$request]) ? $container[$request]['info'] : null;
+                        $container->attach($request, [
+                            'response' => null,
+                            'error' => $reason,
+                            'options' => $options,
+                            'info' => $info,
+                        ]);
+
+                        return new RejectedPromise($reason);
+                    }
+                );
             };
         };
     }
