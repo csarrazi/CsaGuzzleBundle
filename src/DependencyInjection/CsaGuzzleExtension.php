@@ -109,7 +109,13 @@ class CsaGuzzleExtension extends Extension
             $attributes = [];
 
             if (!empty($options['middleware'])) {
-                $attributes['middleware'] = implode(' ', $options['middleware']);
+                if ($debug) {
+                    $options['middleware'][] = 'stopwatch';
+                    $options['middleware'][] = 'history';
+                    $options['middleware'][] = 'logger';
+                }
+
+                $attributes['middleware'] = implode(' ', array_unique($options['middleware']));
             }
 
             $client->addTag(MiddlewarePass::CLIENT_TAG, $attributes);
