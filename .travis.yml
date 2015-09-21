@@ -22,8 +22,8 @@ matrix:
   fast_finish: true
 
 install:
-  - if [ "$deps" = "no" ]; then composer --prefer-stable update; fi;
-  - if [ "$deps" = "low" ]; then composer --prefer-lowest --prefer-stable update; fi;
+  - if [ "$deps" = "no" ]; then composer --prefer-stable --no-interaction update; fi;
+  - if [ "$deps" = "low" ]; then composer --prefer-lowest --no-interaction --prefer-stable update; fi;
 
 env:
   global:
