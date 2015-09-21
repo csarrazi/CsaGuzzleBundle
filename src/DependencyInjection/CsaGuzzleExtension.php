@@ -111,9 +111,11 @@ class CsaGuzzleExtension extends Extension
                 $client->addArgument($this->buildGuzzleConfig($options['config']));
             }
 
+            $subscribers = $this->findSubscriberIds($options['subscribers']);
+
             $client->addTag(
                 SubscriberPass::CLIENT_TAG,
-                ['subscribers' => implode(',', $this->findSubscriberIds($options['subscribers']))]
+                count($subscribers) ? ['subscribers' => implode(',', $subscribers)] : []
             );
 
             $clientServiceId = sprintf('csa_guzzle.client.%s', $name);

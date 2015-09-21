@@ -37,7 +37,7 @@ YAML;
         $client = $container->getDefinition('csa_guzzle.client.foo');
 
         $this->assertEquals(
-            [SubscriberPass::CLIENT_TAG => [['subscribers' => '']]],
+            [SubscriberPass::CLIENT_TAG => [[]]],
             $client->getTags(),
             'Clients must be tagged.'
         );
