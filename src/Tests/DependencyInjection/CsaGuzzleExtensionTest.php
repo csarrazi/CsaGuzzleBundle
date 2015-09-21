@@ -131,6 +131,7 @@ clients:
         subscribers:
             stopwatch: false
             debug: true
+            logger: true
 YAML;
 
         $container = $this->createContainer($yaml);
@@ -141,6 +142,39 @@ YAML;
 
         $this->assertEquals(
             [SubscriberPass::CLIENT_TAG => [['subscribers' => 'debug,logger']]],
+            $client->getTags(),
+            'Only explicitly disabled subscribers shouldn\'t be added.'
+        );
+    }
+
+
+
+    public function testCustomSubscribersAddedToClient()
+    {
+        $yaml = <<<YAML
+logger: true
+profiler: true
+clients:
+    foo:
+        subscribers:
+            stopwatch: false
+            debug: true
+            logger: true
+            foo: true
+YAML;
+
+        $container = $this->createContainer($yaml);
+
+        $definition = new Definition();
+        $definition->addTag('csa_guzzle.subscriber', ['alias' => 'foo']);
+        $container->setDefinition('my.service.foo', $definition);
+
+        $this->assertTrue($container->hasDefinition('csa_guzzle.client.foo'), 'Client must be created.');
+
+        $client = $container->getDefinition('csa_guzzle.client.foo');
+
+        $this->assertEquals(
+            [SubscriberPass::CLIENT_TAG => [['subscribers' => 'debug,logger,foo']]],
             $client->getTags(),
             'Only explicitly disabled subscribers shouldn\'t be added.'
         );
