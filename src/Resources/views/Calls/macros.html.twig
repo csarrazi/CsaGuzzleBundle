@@ -1,4 +1,4 @@
-{% macro render_headers(headers) %}
+{% macro render_headers(headers, uri) %}
     <h4>Headers</h4>
     <table>
         <tr>
@@ -16,7 +16,11 @@
                         {% endfor %}
                     </ul>
                     {% else %}
-                        {{ values.0 }}
+                        {% if header == 'X-Debug-Token-Link' %}
+                            <a href="{{ uri|csa_guzzle_short_uri }}{{ values.0}}" target="_blank">{{ values.0 }}</a>
+                        {% else %}
+                            {{ values.0 }}
+                        {% endif %}
                     {% endif %}
                 </td>
             </tr>
