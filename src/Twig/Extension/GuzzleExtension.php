@@ -101,7 +101,12 @@ class GuzzleExtension extends \Twig_Extension
     {
         $parts = parse_url($uri);
 
-        return $parts['scheme'] . '://' . $parts['host'];
+        return sprintf(
+            '%s://%s%s',
+            isset($parts['scheme']) ? $parts['scheme'] : 'http',
+            $parts['host'],
+            isset($parts['port']) ? (':'.$parts['port']) : ''
+        );
     }
 
     public function getName()
