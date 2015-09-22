@@ -24,6 +24,7 @@ class GuzzleExtension extends \Twig_Extension
             new \Twig_SimpleFilter('csa_guzzle_pretty_print', [$this, 'prettyPrint']),
             new \Twig_SimpleFilter('csa_guzzle_status_code_class', [$this, 'statusCodeClass']),
             new \Twig_SimpleFilter('csa_guzzle_format_duration', [$this, 'formatDuration']),
+            new \Twig_SimpleFilter('csa_guzzle_short_uri', [$this, 'shortenUri']),
         ];
     }
 
@@ -94,6 +95,13 @@ class GuzzleExtension extends \Twig_Extension
         }
 
         return sprintf($format, $seconds);
+    }
+
+    public function shortenUri($uri)
+    {
+        $parts = parse_url($uri);
+
+        return $parts['scheme'] . '://' . $parts['host'];
     }
 
     public function getName()

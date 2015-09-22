@@ -47,3 +47,8 @@ webhooks:
   on_success: change
   on_failure: always
   on_start: false
+
+branches:
+  except:
+    - /^feat.*/
+    - /^bug.*/
