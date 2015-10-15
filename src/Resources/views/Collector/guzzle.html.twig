@@ -1,6 +1,7 @@
-{% extends 'WebProfilerBundle:Profiler:layout.html.twig' %}
+{% extends '@WebProfiler/Profiler/layout.html.twig' %}
 
 {% block toolbar %}
+    {% set profiler_markup_version = profiler_markup_version|default(1) %}
 
     {% set callCount = collector.calls|length %}
     {% set errorCount = collector.errors|length %}
@@ -11,16 +12,21 @@
     {% endfor %}
 
     {% if callCount == 0 %}
-        {% set color = 'grey' %}
+        {% set color_code = '' %}
     {% elseif errorCount > 0 %}
-        {% set color = 'red' %}
+        {% set color_code = 'red' %}
     {% else %}
-        {% set color = 'green' %}
+        {% set color_code = 'green' %}
     {% endif %}
 
     {% set icon %}
-        {% include '@CsaGuzzle/Collector/icon.html.twig' with { alt: collector.name } only %}
-        <span class="sf-toolbar-status sf-toolbar-status-{{ color }}">{{ callCount }}</span>
+        {% if profiler_markup_version == 1 %}
+            {{ include('@CsaGuzzle/Collector/icon.svg') }}
+            <span class="sf-toolbar-status sf-toolbar-status-{{ color_code }}">{{ callCount }}</span>
+        {% else %}
+            {{ include('@CsaGuzzle/Collector/icon.svg') }}
+            <span class="sf-toolbar-value">{{ callCount }}</span>
+        {% endif %}
     {% endset %}
 
     {% set text %}
@@ -40,7 +46,7 @@
         </div>
     {% endset %}
 
-    {% include 'WebProfilerBundle:Profiler:toolbar_item.html.twig' with { 'link': 'guzzle' } %}
+    {{ include('WebProfilerBundle:Profiler:toolbar_item.html.twig', { link: 'guzzle', status: color_code }) }}
 {% endblock %}
 
 {% block head %}
@@ -50,9 +56,9 @@
 {% endblock %}
 
 {% block menu %}
-    <span class="label">
+    <span class="label {% if collector.errors|length > 0 %}label-status-error{% endif %}">
         <span class="icon">
-            {% include '@CsaGuzzle/Collector/icon.html.twig' with { alt: collector.name } only %}
+            {{ include('@CsaGuzzle/Collector/icon.svg') }}
         </span>
         <strong>{{ collector.name|capitalize|default('HTTP calls') }}</strong>
         <span class="count">
@@ -65,5 +71,5 @@
 
 {% block panel %}
     <h2>{{ (collector.name|capitalize)|default('HTTP calls') }}</h2>
-    {% include '@CsaGuzzle/Calls/list.html.twig' with { calls: collector.calls } only %}
+    {{  include('@CsaGuzzle/Calls/list.html.twig', { calls: collector.calls }) }}
 {% endblock %}
