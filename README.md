@@ -46,9 +46,12 @@ composer require csa/guzzle-bundle:@dev
 Add the bundle to your AppKernel.
 
 ```php
-<?php
 // in %kernel.root_dir%/AppKernel.php
-$bundles[] = new Csa\Bundle\GuzzleBundle\CsaGuzzleBundle();
+$bundles = array(
+    // ...
+    new Csa\Bundle\GuzzleBundle\CsaGuzzleBundle(),
+    // ...
+);
 ```
 
 To enable the data collector (only in the `dev` environment, you may simply
