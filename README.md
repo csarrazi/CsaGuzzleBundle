@@ -50,6 +50,7 @@ Documentation
 * [Available middleware](src/Resources/doc/available_middleware.md)
 * [Streaming a guzzle response](src/Resources/doc/response_streaming.md)
 * [Configuration reference](src/Resources/doc/configuration_reference.md)
+* [Using specific serializer](src/Resources/doc/specific_serializer.md)
 
 ### Documentation for legacy (1.3)
 

@@ -74,6 +74,7 @@ class Configuration implements ConfigurationInterface
                         ->end()
                     ->end()
                 ->end()
+                ->append($this->createSerializerNode())
                 ->append($this->createCacheNode())
                 ->append($this->createClientsNode())
                 ->append($this->createMockNode())
@@ -120,6 +121,7 @@ class Configuration implements ConfigurationInterface
                         ->prototype('scalar')->end()
                     ->end()
                     ->scalarNode('alias')->defaultNull()->end()
+                    ->append($this->createSerializerNode())
                 ->end()
             ->end()
         ;
@@ -143,6 +145,27 @@ class Configuration implements ConfigurationInterface
                 ->arrayNode('response_headers_blacklist')
                     ->prototype('scalar')->end()
                 ->end()
+            ->end()
+        ;
+
+        return $node;
+    }
+
+    private function createSerializerNode()
+    {
+        $treeBuilder = new TreeBuilder();
+        $node = $treeBuilder->root('serializer');
+
+        $node
+            ->canBeEnabled()
+            ->validate()
+            ->ifTrue(function ($v) {
+                return $v['enabled'] && null === $v['adapter'];
+            })
+            ->thenInvalid('The \'csa_guzzle.serializer.adapter\' key is mandatory if you enable the serializer')
+            ->end()
+            ->children()
+            ->scalarNode('adapter')->defaultNull()->end()
             ->end()
         ;
 
