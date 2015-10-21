@@ -4,9 +4,9 @@
     <header data-toggle="collapse" data-target="#collapse-call-{{ loop.index }}">
         <span class="method">{{ call.request.method }}</span>
         {% if call.request.method == 'GET' %}
-            <h3><a href="{{ call.url }}" target="_blank" class="path">{{ call.url }}</a></h3>
+            <h3><a href="{{ call.uri }}" target="_blank" class="path">{{ call.uri }}</a></h3>
         {% else %}
-            <span class="path">{{ call.url }}</span>
+            <span class="path">{{ call.uri }}</span>
         {% endif %}
         {% set statusCode = call.httpCode %}
         <span class="status-code badge {{ statusCode|csa_guzzle_status_code_class }}">
@@ -24,12 +24,12 @@
         <div class="tab-content">
             <div class="tab-pane active" id="request-{{ loop.index }}">
                 {{ macros.render_infos(call.info) }}
-                {{ macros.render_headers(call.request.headers, call.url) }}
+                {{ macros.render_headers(call.request.headers, call.uri) }}
                 {{ macros.render_body(call.request.body) }}
             </div>
             {% if call.response is defined %}
             <div class="tab-pane" id="response-{{ loop.index }}">
-                {{ macros.render_headers(call.response.headers, call.url) }}
+                {{ macros.render_headers(call.response.headers, call.uri) }}
                 {{ macros.render_body(call.response.body) }}
             </div>
             {% endif %}

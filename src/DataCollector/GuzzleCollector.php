@@ -62,7 +62,7 @@ class GuzzleCollector extends DataCollector
                     'body'    => $this->cropContent($request->getBody()),
                 ],
                 'info' => $info,
-                'url'     => $request->getUrl(),
+                'uri'     => $request->getUrl(),
             ];
 
             if ($response) {
