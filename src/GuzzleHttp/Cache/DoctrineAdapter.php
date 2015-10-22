@@ -30,6 +30,7 @@ class DoctrineAdapter implements StorageAdapterInterface
 
     public function fetch(RequestInterface $request)
     {
+
         $key = $this->getKey($request);
 
         if ($this->cache->contains($key)) {
