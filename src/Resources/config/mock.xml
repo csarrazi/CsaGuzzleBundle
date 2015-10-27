@@ -1,0 +1,22 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+
+        <service id="csa_guzzle.mock.storage" class="Csa\Bundle\GuzzleBundle\GuzzleHttp\Cache\MockStorageAdapter" public="false">
+            <argument /> <!-- storagePath -->
+        </service>
+
+        <service id="csa_guzzle.middleware.mock" class="Closure">
+            <factory class="Csa\Bundle\GuzzleBundle\GuzzleHttp\Middleware" method="mock" />
+            <argument type="service" id="csa_guzzle.mock.storage" />
+            <argument /> <!-- mode -->
+            <tag name="csa_guzzle.middleware" alias="mock" />
+        </service>
+
+    </services>
+
+</container>

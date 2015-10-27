@@ -13,6 +13,7 @@ namespace Csa\Bundle\GuzzleBundle\DependencyInjection;
 
 use Csa\Bundle\GuzzleBundle\DependencyInjection\CompilerPass\MiddlewarePass;
 use Symfony\Component\Config\FileLocator;
+use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
@@ -49,6 +50,8 @@ class CsaGuzzleExtension extends Extension
 
         $this->processLoggerConfiguration($config['logger'], $container);
 
+        $this->processMockConfiguration($config['mock'], $container, $loader);
+
         $this->processCacheConfiguration($config['cache'], $container, $config['profiler']['enabled']);
 
         $this->processClientsConfiguration($config, $container, $config['profiler']['enabled']);
@@ -75,6 +78,21 @@ class CsaGuzzleExtension extends Extension
             $container->removeDefinition('csa_guzzle.middleware.logger');
             $container->removeDefinition('csa_guzzle.logger.message_formatter');
         }
+    }
+
+    private function processMockConfiguration(array $config, ContainerBuilder $container, LoaderInterface $loader)
+    {
+        if (!$config['enabled']) {
+            return;
+        }
+
+        $loader->load('mock.xml');
+
+        $storage = $container->getDefinition('csa_guzzle.mock.storage');
+        $storage->replaceArgument(0, $config['storage_path']);
+
+        $middleware = $container->getDefinition('csa_guzzle.middleware.mock');
+        $middleware->replaceArgument(1, $config['mode']);
     }
 
     private function processCacheConfiguration(array $config, ContainerBuilder $container, $debug)

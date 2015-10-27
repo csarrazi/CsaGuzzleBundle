@@ -198,6 +198,28 @@ YAML;
         $this->assertSame('my.adapter.id', (string)$alias);
     }
 
+    public function testMockConfiguration()
+    {
+        $yaml = <<<YAML
+mock:
+    enabled:      false
+    storage_path: ~ # Required
+    mode:         replay
+YAML;
+
+        $container = $this->createContainer($yaml);
+        $this->assertFalse($container->hasDefinition('csa_guzzle.middleware.mock'));
+
+        $yaml = <<<YAML
+mock:
+    storage_path: 'test'
+    mode:          replay
+YAML;
+
+        $container = $this->createContainer($yaml);
+        $this->assertTrue($container->hasDefinition('csa_guzzle.middleware.mock'));
+    }
+
     private function createContainer($yaml)
     {
         $parser = new Parser();
