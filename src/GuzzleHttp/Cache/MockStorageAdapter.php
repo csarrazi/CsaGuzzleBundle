@@ -12,7 +12,6 @@
 namespace Csa\Bundle\GuzzleBundle\GuzzleHttp\Cache;
 
 use GuzzleHttp\Psr7;
-use GuzzleHttp\Psr7\Response;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
