@@ -104,4 +104,29 @@ class Middleware
             };
         };
     }
+
+    public static function mock(StorageAdapterInterface $storage, $mode)
+    {
+        return function (callable $handler) use ($mode, $storage) {
+            return function (RequestInterface $request, array $options) use ($handler, $mode, $storage) {
+                if ('record' === $mode) {
+                    return $handler($request, $options)->then(
+                        function (ResponseInterface $response) use ($request, $storage) {
+                            $storage->save($request, $response);
+
+                            return $response;
+                        }
+                    );
+                }
+
+                try {
+                    $response = $storage->fetch($request);
+                } catch (\RuntimeException $e) {
+                    return new RejectedPromise($e);
+                }
+
+                return new FulfilledPromise($response);
+            };
+        };
+    }
 }

@@ -76,6 +76,7 @@ class Configuration implements ConfigurationInterface
                 ->end()
                 ->append($this->createCacheNode())
                 ->append($this->createClientsNode())
+                ->append($this->createMockNode())
             ->end()
         ;
 
@@ -121,6 +122,21 @@ class Configuration implements ConfigurationInterface
             ->end()
         ;
 
+        return $node;
+    }
+
+    private function createMockNode()
+    {
+        $treeBuilder = new TreeBuilder();
+        $node = $treeBuilder->root('mock');
+
+        $node
+            ->canBeEnabled()
+            ->children()
+                ->scalarNode('storage_path')->isRequired()->end()
+                ->scalarNode('mode')->defaultValue('replay')->end()
+            ->end()
+        ;
         return $node;
     }
 }
