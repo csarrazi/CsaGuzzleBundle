@@ -96,6 +96,7 @@ Documentation
 * [Available middleware](src/Resources/doc/available_middleware.md)
 * [Configuration reference](src/Resources/doc/configuration_reference.md)
 * [Streaming a guzzle response](src/Resources/doc/response_streaming.md)
+* [Mock HTTP requests in tests](src/Resources/doc/tests_mock_http_requests.md)
 
 Contributing
 ------------
