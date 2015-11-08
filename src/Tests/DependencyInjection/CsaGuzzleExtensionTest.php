@@ -49,6 +49,22 @@ YAML;
         );
     }
 
+    public function testClientAliasing()
+    {
+        $yaml = <<<YAML
+profiler:
+    enabled: false
+clients:
+    foo:
+        alias: bar
+YAML;
+
+        $container = $this->createContainer($yaml);
+
+        $this->assertTrue($container->hasDefinition('csa_guzzle.client.foo'), 'Client must be created.');
+        $this->assertSame($container->findDefinition('bar'), $container->getDefinition('csa_guzzle.client.foo'));
+    }
+
     public function testClientClassOverride()
     {
         $yaml = <<<YAML

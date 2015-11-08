@@ -108,6 +108,7 @@ class Configuration implements ConfigurationInterface
                             ->thenInvalid('Class %s is missing. Did you forget to add guzzlehttp/services to your project\'s composer.json?')
                         ->end()
                     ->end()
+                    ->scalarNode('alias')->defaultNull()->end()
                 ->end()
             ->end()
         ;
