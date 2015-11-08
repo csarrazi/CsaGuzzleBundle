@@ -101,7 +101,7 @@ class MockStorageAdapter implements StorageAdapterInterface
         $path = sprintf(
             '%s_%s____%s',
             str_pad($request->getMethod(), 6, '_'),
-            urldecode(ltrim($request->getUri()->getPath(), '/').'?'.$request->getUri()->getQuery()),
+            urldecode(ltrim($request->getUri()->getPath(), '/').'-'.$request->getUri()->getQuery()),
             $fingerprint
         );
 
