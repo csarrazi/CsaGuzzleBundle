@@ -118,6 +118,7 @@ class Configuration implements ConfigurationInterface
                     ->arrayNode('middleware')
                         ->prototype('scalar')->end()
                     ->end()
+                    ->scalarNode('alias')->defaultNull()->end()
                 ->end()
             ->end()
         ;

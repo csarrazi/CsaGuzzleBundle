@@ -140,6 +140,10 @@ class CsaGuzzleExtension extends Extension
 
             $clientServiceId = sprintf('csa_guzzle.client.%s', $name);
             $container->setDefinition($clientServiceId, $client);
+
+            if (isset($options['alias'])) {
+                $container->setAlias($options['alias'], $clientServiceId);
+            }
         }
     }
 
