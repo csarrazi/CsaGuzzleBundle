@@ -41,3 +41,6 @@
 
     .status-code.#{$status}
         background-color: $color
+
+=make-stripes($color, $angle: 120deg, $width: 10px, $darken: 10%)
+    background: repeating-linear-gradient($angle, $color, $color 10px, darken($color, $darken) $width, darken($color, $darken) 2 * $width)

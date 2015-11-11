@@ -1,0 +1,5 @@
+<ul class="container-fluid calls">
+    {% for call in calls %}
+        {% include '@CsaGuzzle/Calls/v2/call.html.twig' with { call: call, loop: loop } only %}
+    {% endfor %}
+</ul>

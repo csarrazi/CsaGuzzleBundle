@@ -1,0 +1,15 @@
+.progress
+    background-color: #888
+    padding: 1px
+    height: 20px
+
+    .progress-bar
+        height: 20px
+        float: left
+        text-align: center
+        color: white
+
+    .progress-bar-warning
+        @include make-stripes($warning)
+    .progress-bar-success
+        @include make-stripes($success)

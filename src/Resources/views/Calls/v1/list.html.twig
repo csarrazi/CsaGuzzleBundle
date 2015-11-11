@@ -1,0 +1,5 @@
+<ul class="calls">
+    {% for call in calls %}
+        {% include '@CsaGuzzle/Calls/v1/call.html.twig' with { call: call, loop: loop } only %}
+    {% endfor %}
+</ul>
