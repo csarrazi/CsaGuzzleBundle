@@ -1,0 +1,20 @@
+.badge
+    padding: 2px 9px
+    font-size: 0.75rem
+    font-weight: bold
+    white-space: nowrap
+    color: #ffffff
+    background-color: #999999
+    -webkit-border-radius: 9px
+    -moz-border-radius: 9px
+    border-radius: 9px
+
+    &.cache
+        &.hit
+            background-color: map-get($status-colors, success)
+        &.miss
+            background-color: map-get($status-colors, informational)
+
+    @each $status in server-error, client-error, redirection, success, informational, unknown
+        &.status-code.#{$status}
+            background-color: map-get($status-colors, $status)
