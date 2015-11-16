@@ -9,8 +9,9 @@
         text-align: center
         color: white
 
-    .progress-bar-warning
-        @include make-stripes($warning)
-    .progress-bar-success
-        @include make-stripes($success)
+    @each $level, $color in (warning: $warning, success: $success)
+        .progress-bar-#{$level}
+            background: $color
 
+            &.progress-bar-striped
+                @include make-stripes($color)

@@ -79,10 +79,10 @@
         </table>
 
         <div class="progress">
-            <div class="progress-bar progress-bar-warning progress-bar-striped" role="progressbar" style="width: {{ wait_time/info.total_time * 100 }}%">
+            <div class="progress-bar progress-bar-warning" style="width: {{ wait_time/info.total_time * 100 }}%">
                 <span class="sr-only">Wait</span>
             </div>
-            <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" style="width: {{ process_time/info.total_time * 100 }}%">
+            <div class="progress-bar progress-bar-success" style="width: {{ process_time/info.total_time * 100 }}%">
                 <span class="sr-only">Process</span>
             </div>
         </div>

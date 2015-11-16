@@ -46,7 +46,7 @@
     {% if profiler_markup_version == 1 %}
         <link rel="stylesheet" href="{{ asset('bundles/csaguzzle/css/legacy.min.css') }}">
         <script src="{{ asset('bundles/csaguzzle/js/legacy.min.js') }}"></script>
-        <script type="javascript">window.addEventListener('load', Guzzle.createTabs, false);</script>
+        <script type="text/javascript">window.addEventListener('load', Guzzle.createTabs, false);</script>
     {% endif %}
 {% endblock %}
 
@@ -72,10 +72,5 @@
 
 {% block panel %}
     <h2>{{ (collector.name|capitalize)|default('HTTP calls') }}</h2>
-    {% set profiler_markup_version = profiler_markup_version|default(1) %}
-    {% if profiler_markup_version == 1 %}
-        {{  include('@CsaGuzzle/Calls/v1/list.html.twig', { calls: collector.calls }) }}
-    {% else %}
-        {{  include('@CsaGuzzle/Calls/v2/list.html.twig', { calls: collector.calls }) }}
-    {% endif %}
+    {{  include('@CsaGuzzle/Calls/list.html.twig', { calls: collector.calls }) }}
 {% endblock %}
