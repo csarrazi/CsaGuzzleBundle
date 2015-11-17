@@ -1,5 +1,43 @@
-<ul class="container-fluid calls">
+{% import '@CsaGuzzle/Calls/macros.html.twig' as macros %}
+
+<div class="accordion">
     {% for call in calls %}
-        {% include '@CsaGuzzle/Calls/call.html.twig' with { call: call, loop: loop } only %}
+        <section class="call">
+            <header class="accordion-header {{ call.request.method|lower }}">
+                <span class="method-name">{{ call.request.method }}</span>
+                {% if call.request.method == 'GET' %}
+                    <a href="{{ call.uri }}" target="_blank" class="path">{{ call.uri }}</a>
+                {% else %}
+                    <span class="path">{{ call.uri }}</span>
+                {% endif %}
+                {% set statusCode = call.httpCode %}
+                <span class="badge status-code {{ statusCode|csa_guzzle_status_code_class }}">
+                    {{ statusCode }} - {{ call.response is defined ? call.response.reasonPhrase : 'Unknown error' }}
+                </span>
+                {% if call.cache is defined %}<span class="badge cache {{ call.cache|lower }}">Cache {{ call.cache }}</span>{% endif %}
+            </header>
+
+            <div class="accordion-content{{ loop.first ? ' expanded': '' }}">
+                <div class="sf-tabs">
+                    <div class="tab">
+                        <h3 class="tab-title">Request</h3>
+                        <div class="tab-content">
+                            {{ macros.render_infos(call.info) }}
+                            {{ macros.render_headers(call.request.headers, call.uri) }}
+                            {{ macros.render_body(call.request.body) }}
+                        </div>
+                    </div>
+                    {% if call.response is defined %}
+                        <div class="tab">
+                            <h3 class="tab-title">Response</h3>
+                            <div class="tab-content">
+                                {{ macros.render_headers(call.response.headers, call.uri) }}
+                                {{ macros.render_body(call.response.body) }}
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </section>
     {% endfor %}
-</ul>
+</div>

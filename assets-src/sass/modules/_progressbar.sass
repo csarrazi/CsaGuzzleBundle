@@ -1,0 +1,17 @@
+.progress
+    background-color: $border-color
+    padding: 1px
+    height: 20px
+
+    .progress-bar
+        height: 20px
+        float: left
+        text-align: center
+        color: white
+
+    @each $level, $color in (warning: $warning, success: $success)
+        .progress-bar-#{$level}
+            background: $color
+
+            &.progress-bar-striped
+                @include make-stripes($color)
