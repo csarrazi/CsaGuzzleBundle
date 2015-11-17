@@ -81,16 +81,7 @@ See [Upgrade.md](UPGRADE.md).
 Documentation
 -------------
 
-### Documentation for stable (1.3)
-
-* [Creating clients](../1.3/src/Resources/doc/clients.md)
-* [Registering new event subscribers](../1.3/src/Resources/doc/event_subscribers.md)
-* [Available event subscribers](../1.3/src/Resources/doc/available_subscribers.md)
-* [Configuration reference](../1.3/src/Resources/doc/configuration_reference.md)
-* [Streaming a guzzle response](../1.3/src/Resources/doc/response_streaming.md)
-* [Service descriptions](../1.3/src/Resources/doc/service_descriptions.md)
-
-### Documentation for unstable (2.0@dev/dev-master)
+### Documentation for stable (2.0@dev/dev-master)
 
 * [Creating clients](src/Resources/doc/clients.md)
 * [Registering new middleware](src/Resources/doc/middleware.md)
@@ -98,6 +89,15 @@ Documentation
 * [Configuration reference](src/Resources/doc/configuration_reference.md)
 * [Streaming a guzzle response](src/Resources/doc/response_streaming.md)
 * [Mock HTTP requests in tests](src/Resources/doc/tests_mock_http_requests.md)
+
+### Documentation for legacy (1.3)
+
+* [Creating clients](../1.3/src/Resources/doc/clients.md)
+* [Registering new event subscribers](../1.3/src/Resources/doc/event_subscribers.md)
+* [Available event subscribers](../1.3/src/Resources/doc/available_subscribers.md)
+* [Configuration reference](../1.3/src/Resources/doc/configuration_reference.md)
+* [Streaming a guzzle response](../1.3/src/Resources/doc/response_streaming.md)
+* [Service descriptions](../1.3/src/Resources/doc/service_descriptions.md)
 
 Contributing
 ------------
