@@ -39,9 +39,15 @@
 {% endblock %}
 
 {% block head %}
-{{ parent() }}
-<link rel="stylesheet" href="{{ asset('bundles/csaguzzle/css/screen.min.css') }}">
-<script src="{{ asset('bundles/csaguzzle/js/profile.min.js') }}"></script>
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('bundles/csaguzzle/css/screen.min.css') }}">
+    <script src="{{ asset('bundles/csaguzzle/js/guzzle.min.js') }}"></script>
+    {% set profiler_markup_version = profiler_markup_version|default(1) %}
+    {% if profiler_markup_version == 1 %}
+        <link rel="stylesheet" href="{{ asset('bundles/csaguzzle/css/legacy.min.css') }}">
+        <script src="{{ asset('bundles/csaguzzle/js/legacy.min.js') }}"></script>
+        <script type="text/javascript">window.addEventListener('load', Guzzle.createTabs, false);</script>
+    {% endif %}
 {% endblock %}
 
 {% block menu %}

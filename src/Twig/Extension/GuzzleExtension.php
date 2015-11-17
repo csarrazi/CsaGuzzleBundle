@@ -41,6 +41,7 @@ class GuzzleExtension extends \Twig_Extension
             case 0 === strpos($body, '<?xml'):
                 return 'xml';
             case 0 === strpos($body, '{'):
+            case 0 === strpos($body, '['):
                 return 'json';
             default:
                 return 'markup';

@@ -1,0 +1,18 @@
+.call
+    border-style: solid
+    border-color: $border-color
+    border-width: 1px 1px 1px 1px
+    margin: 5px
+
+    @each $i, $color in $method-colors
+        .#{$i}
+            background-color: $color
+            color: #fff
+
+            a
+                color: #fff
+            &:hover
+                background: lighten($color, 10%)
+
+    &>*
+        padding: 5px

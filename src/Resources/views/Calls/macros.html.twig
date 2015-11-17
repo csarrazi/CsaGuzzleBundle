@@ -1,10 +1,12 @@
 {% macro render_headers(headers, uri) %}
     <h4>Headers</h4>
     <table>
-        <tr>
-            <th>Header</th>
-            <th>Value</th>
-        </tr>
+        <thead>
+            <tr>
+                <th scope="col" class="key">Header</th>
+                <th scope="col">Value</th>
+            </tr>
+        </thead>
         {% for header, values in headers %}
             <tr>
                 <td>{{ header }}</td>
@@ -46,10 +48,12 @@
         {% set process_time = info.total_time - wait_time %}
 
         <table>
-            <tr>
-                <th>Measure</th>
-                <th>Duration</th>
-            </tr>
+            <thead>
+                <tr>
+                    <th>Measure</th>
+                    <th>Duration</th>
+                </tr>
+            </thead>
             <tr>
                 <td>Total</td>
                 <td>{{ info.total_time|csa_guzzle_format_duration }}</td>
@@ -75,10 +79,10 @@
         </table>
 
         <div class="progress">
-            <div class="progress-bar progress-bar-warning progress-bar-striped" role="progressbar" style="width: {{ wait_time/info.total_time * 100 }}%">
+            <div class="progress-bar progress-bar-warning" style="width: {{ wait_time/info.total_time * 100 }}%">
                 <span class="sr-only">Wait</span>
             </div>
-            <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" style="width: {{ process_time/info.total_time * 100 }}%">
+            <div class="progress-bar progress-bar-success" style="width: {{ process_time/info.total_time * 100 }}%">
                 <span class="sr-only">Process</span>
             </div>
         </div>

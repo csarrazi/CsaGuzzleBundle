@@ -1,7 +1,6 @@
 {
   "name": "guzzle-bundle",
   "dependencies": {
-    "bootstrap-sass-official": "~3.3.0",
     "prism": "gh-pages"
   }
 }

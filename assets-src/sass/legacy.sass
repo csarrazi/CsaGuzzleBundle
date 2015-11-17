@@ -1,0 +1,36 @@
+.tab-navigation
+    margin: 0 0 1em 0
+    padding: 0
+
+    li
+        background: #FFF
+        border: 1px solid #DDD
+        color: #444
+        cursor: pointer
+        display: inline-block
+        font-size: 16px
+        margin: 0 0 0 -1px
+        padding: .5em .75em
+        z-index: 1
+
+        &:hover
+            background: #EEE
+
+        &.disabled
+            background: #F5F5F5
+            color: #999
+
+        &.active
+            background: #666
+            border-color: #666
+            color: #FAFAFA
+            z-index: 1100
+
+    & > *:first-child
+        margin-top: 0
+
+.block
+    display: block
+
+.hidden
+    display: none
