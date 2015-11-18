@@ -11,8 +11,8 @@
 
 namespace Csa\Bundle\GuzzleBundle\Tests\DependencyInjection\Configurator;
 
-use GuzzleHttp\ClientInterface;
 use Csa\Bundle\GuzzleBundle\DependencyInjection\Configurator\ClientConfigurator;
+use GuzzleHttp\ClientInterface;
 
 class ClientConfiguratorTest extends \PHPUnit_Framework_TestCase
 {

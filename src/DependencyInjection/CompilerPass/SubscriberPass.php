@@ -17,7 +17,7 @@ use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
 /**
- * Csa Guzzle subscriber compiler pass
+ * Csa Guzzle subscriber compiler pass.
  *
  * @author Charles Sarrazin <charles@sarraz.in>
  */
@@ -49,7 +49,7 @@ class SubscriberPass implements CompilerPassInterface
 
     /**
      * Creates configurator service for each client to add registered subscribers
-     * to each client's emitter. Essentially it's converting the following XML
+     * to each client's emitter. Essentially it's converting the following XML.
      *
      *     <service id="foo" class="GuzzleHttp\Client">
      *         <tag name="csa_guzzle.client" subscribers="foo, bar" />

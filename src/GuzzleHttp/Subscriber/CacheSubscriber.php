@@ -18,7 +18,7 @@ use GuzzleHttp\Event\RequestEvents;
 use GuzzleHttp\Event\SubscriberInterface;
 
 /**
- * Csa Guzzle Cache integration
+ * Csa Guzzle Cache integration.
  *
  * @author Charles Sarrazin <charles@sarraz.in>
  */
@@ -34,7 +34,7 @@ class CacheSubscriber implements SubscriberInterface
     public function getEvents()
     {
         return [
-            'before'   => ['onBefore', RequestEvents::LATE],
+            'before' => ['onBefore', RequestEvents::LATE],
             'complete' => ['onComplete', RequestEvents::EARLY],
         ];
     }

@@ -58,7 +58,7 @@ class DoctrineAdapterTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($data['code'], $response->getStatusCode());
         $this->assertSame($data['body'], (string) $response->getBody());
 
-        foreach ( $response->getHeaders() as $header => $value) {
+        foreach ($response->getHeaders() as $header => $value) {
             $this->assertSame($value[0], $data['headers'][$header]);
         }
     }
@@ -75,13 +75,12 @@ class DoctrineAdapterTest extends \PHPUnit_Framework_TestCase
                 $this->isType('string'),
                 10
             );
-        ;
         $adapter = new DoctrineAdapter($cache, 10);
         $this->assertNull($adapter->save($this->getRequestMock(), $this->getMock('GuzzleHttp\Message\ResponseInterface')));
     }
 
     private function getRequestMock()
     {
-        return new Request('GET', 'http://google.com/', array('Accept' => 'text/html'), $this->getMock('GuzzleHttp\Stream\StreamInterface'));
+        return new Request('GET', 'http://google.com/', ['Accept' => 'text/html'], $this->getMock('GuzzleHttp\Stream\StreamInterface'));
     }
 }

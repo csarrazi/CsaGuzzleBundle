@@ -20,7 +20,7 @@ use GuzzleHttp\Message\RequestInterface;
 use GuzzleHttp\Message\ResponseInterface;
 
 /**
- * Csa Guzzle Profiler integration
+ * Csa Guzzle Profiler integration.
  *
  * @author Charles Sarrazin <charles@sarraz.in>
  */
@@ -35,7 +35,7 @@ class DebugSubscriber implements SubscriberInterface, \IteratorAggregate
     {
         return [
             'complete' => ['onComplete', RequestEvents::LATE],
-            'error'    => ['onError', RequestEvents::EARLY],
+            'error' => ['onError', RequestEvents::EARLY],
         ];
     }
 
@@ -61,7 +61,7 @@ class DebugSubscriber implements SubscriberInterface, \IteratorAggregate
     }
 
     /**
-     * Add a request to the history
+     * Add a request to the history.
      *
      * @param RequestInterface  $request   Request to add.
      * @param array             $info      Transfer info.
@@ -74,7 +74,7 @@ class DebugSubscriber implements SubscriberInterface, \IteratorAggregate
         ResponseInterface $response = null,
         RequestException $exception = null
     ) {
-        if (isset($this->transactions[$hash = spl_object_hash($request) . spl_object_hash($response ?: $exception)])) {
+        if (isset($this->transactions[$hash = spl_object_hash($request).spl_object_hash($response ?: $exception)])) {
             return;
         }
 

@@ -17,7 +17,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 /**
- * Csa Guzzle Bundle
+ * Csa Guzzle Bundle.
  *
  * @author Charles Sarrazin <charles@sarraz.in>
  */

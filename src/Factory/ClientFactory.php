@@ -16,7 +16,7 @@ use GuzzleHttp\Event\HasEmitterInterface;
 use GuzzleHttp\Event\SubscriberInterface;
 
 /**
- * Csa Guzzle client compiler pass
+ * Csa Guzzle client compiler pass.
  *
  * @author Charles Sarrazin <charles@sarraz.in>
  *
@@ -37,7 +37,7 @@ class ClientFactory
     }
 
     /**
-     * Creates a Guzzle client
+     * Creates a Guzzle client.
      *
      * @param array $options
      * @param array $subscribers

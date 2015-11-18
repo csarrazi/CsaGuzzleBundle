@@ -29,7 +29,7 @@ class DescriptionCacheWarmer extends CacheWarmer
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function warmUp($cacheDir)
     {
@@ -37,7 +37,7 @@ class DescriptionCacheWarmer extends CacheWarmer
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function isOptional()
     {

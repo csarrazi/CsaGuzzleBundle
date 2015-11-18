@@ -21,7 +21,7 @@ use Symfony\Component\Config\Loader\Loader;
 class JsonLoader extends Loader
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function load($resource, $type = null)
     {
@@ -29,7 +29,7 @@ class JsonLoader extends Loader
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function supports($resource, $type = null)
     {
