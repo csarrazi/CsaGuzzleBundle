@@ -16,7 +16,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Message\Response;
 use GuzzleHttp\Subscriber\Mock;
 
-class DoctrineAdapterTest extends \PHPUnit_Framework_TestCase
+class CacheSubscriberTest extends \PHPUnit_Framework_TestCase
 {
     public function testFetch()
     {

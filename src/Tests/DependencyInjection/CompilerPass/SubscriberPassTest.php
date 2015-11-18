@@ -55,7 +55,7 @@ class SubscriberPassTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('configure', $callback[1]);
         $configurator = $container->findDefinition($callback[0]);
 
-        $this->assertEquals(array(new Reference('sub')), $configurator->getArgument(0));
+        $this->assertEquals([new Reference('sub')], $configurator->getArgument(0));
     }
 
     public function testSpecificSubscribersAddedToClient()
@@ -66,7 +66,7 @@ class SubscriberPassTest extends \PHPUnit_Framework_TestCase
         $container->setDefinition('client', $client);
 
         foreach (['foo', 'bar', 'qux'] as $alias) {
-            $container ->setDefinition($alias, $this->createSubscriber($alias));
+            $container->setDefinition($alias, $this->createSubscriber($alias));
         }
 
         $pass = new SubscriberPass();
