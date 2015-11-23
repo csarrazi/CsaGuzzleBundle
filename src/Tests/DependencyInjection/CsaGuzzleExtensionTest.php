@@ -97,7 +97,7 @@ YAML;
         );
         $this->assertSame(
             'my.handler.id',
-            (string)$config['handler']
+            (string) $config['handler']
         );
     }
 

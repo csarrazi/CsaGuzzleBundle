@@ -75,7 +75,6 @@ class DoctrineAdapterTest extends \PHPUnit_Framework_TestCase
                 ],
                 10
             );
-        ;
         $adapter = new DoctrineAdapter($cache, 10);
         $adapter->save($this->getRequestMock(), new Response(200, [], 'Hello World'));
     }

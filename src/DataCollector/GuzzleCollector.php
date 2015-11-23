@@ -20,7 +20,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\DataCollector\DataCollector;
 
 /**
- * Csa Guzzle Collector
+ * Csa Guzzle Collector.
  *
  * @author Charles Sarrazin <charles@sarraz.in>
  */
@@ -32,7 +32,7 @@ class GuzzleCollector extends DataCollector
     private $history;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param int $maxBodySize The max body size to store in the profiler storage
      */
@@ -52,7 +52,7 @@ class GuzzleCollector extends DataCollector
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function collect(Request $request, Response $response, \Exception $exception = null)
     {
@@ -68,20 +68,20 @@ class GuzzleCollector extends DataCollector
 
             $req = [
                 'request' => [
-                    'method'  => $request->getMethod(),
+                    'method' => $request->getMethod(),
                     'version' => $request->getProtocolVersion(),
                     'headers' => $request->getHeaders(),
-                    'body'    => $this->cropContent($request->getBody()),
+                    'body' => $this->cropContent($request->getBody()),
                 ],
                 'info' => $info,
-                'uri'     => urldecode($request->getUri()),
+                'uri' => urldecode($request->getUri()),
             ];
 
             if ($response) {
                 $req['response'] = [
                     'reasonPhrase' => $response->getReasonPhrase(),
-                    'headers'      => $response->getHeaders(),
-                    'body'         => $this->cropContent($response->getBody()),
+                    'headers' => $response->getHeaders(),
+                    'body' => $this->cropContent($response->getBody()),
                 ];
             }
 
@@ -90,10 +90,10 @@ class GuzzleCollector extends DataCollector
             if ($error) {
                 $req['error'] = [
                     'message' => $error->getMessage(),
-                    'line'    => $error->getLine(),
-                    'file'    => $error->getFile(),
-                    'code'    => $error->getCode(),
-                    'trace'   => $error->getTraceAsString(),
+                    'line' => $error->getLine(),
+                    'file' => $error->getFile(),
+                    'code' => $error->getCode(),
+                    'trace' => $error->getTraceAsString(),
                 ];
             }
 
@@ -119,7 +119,7 @@ class GuzzleCollector extends DataCollector
 
         $stream->seek(0);
 
-        return '(partial content)' . $stream->read($this->maxBodySize) . '(...)';
+        return '(partial content)'.$stream->read($this->maxBodySize).'(...)';
     }
 
     public function getErrors()
@@ -140,7 +140,7 @@ class GuzzleCollector extends DataCollector
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getName()
     {

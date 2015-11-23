@@ -22,7 +22,7 @@ use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 /**
- * Csa Guzzle Extension
+ * Csa Guzzle Extension.
  *
  * @author Charles Sarrazin <charles@sarraz.in>
  */

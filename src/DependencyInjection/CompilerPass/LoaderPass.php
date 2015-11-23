@@ -16,7 +16,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
 /**
- * Csa Guzzle definition loaders compiler pass
+ * Csa Guzzle definition loaders compiler pass.
  *
  * @author Charles Sarrazin <charles@sarraz.in>
  */
