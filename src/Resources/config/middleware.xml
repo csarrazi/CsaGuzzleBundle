@@ -19,7 +19,7 @@
         <service id="csa_guzzle.middleware.history" class="Closure">
             <factory class="Csa\Bundle\GuzzleBundle\GuzzleHttp\Middleware" method="history" />
             <argument type="expression">service('csa_guzzle.data_collector.guzzle').getHistory()</argument>
-            <tag name="csa_guzzle.middleware" alias="history" />
+            <tag name="csa_guzzle.middleware" alias="history" priority="-1000" />
         </service>
 
         <service id="csa_guzzle.middleware.logger" class="Closure">

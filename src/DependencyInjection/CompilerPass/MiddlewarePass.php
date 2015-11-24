@@ -54,10 +54,21 @@ class MiddlewarePass implements CompilerPassInterface
                 throw new \LogicException('The \'alias\' attribute is mandatory for the \'csa_guzzle.middleware\' tag');
             }
 
-            $middleware[$tags[0]['alias']] = new Reference($id);
+            if (!isset($tags[0]['priority'])) {
+                $services[$id][0]['priority'] = 0;
+            }
+
+            $priority = (string) $services[$id][0]['priority'];
+
+            $middleware[$priority][] = [
+                'alias' => $tags[0]['alias'],
+                'id' => $id,
+            ];
         }
 
-        return $middleware;
+        krsort($middleware);
+
+        return call_user_func_array('array_merge', $middleware);
     }
 
     /**
@@ -79,14 +90,16 @@ class MiddlewarePass implements CompilerPassInterface
 
             if (isset($tags[0]['middleware'])) {
                 $whitelist = explode(' ', $tags[0]['middleware']);
-                $clientMiddleware = array_intersect_key($clientMiddleware, array_flip($whitelist));
+                $clientMiddleware = array_filter($clientMiddleware, function ($value) use ($whitelist) {
+                    return in_array($value['alias'], $whitelist, true);
+                });
             }
 
             $handlerStack = new DefinitionDecorator('csa_guzzle.handler_stack');
             $handlerStack->setPublic(false);
 
-            foreach ($clientMiddleware as $alias => $middleware) {
-                $handlerStack->addMethodCall('push', [$middleware, $alias]);
+            foreach ($clientMiddleware as $middleware) {
+                $handlerStack->addMethodCall('push', [new Reference($middleware['id']), $middleware['alias']]);
             }
 
             $clientHandlerStackId = sprintf('csa_guzzle.handler_stack.%s', $clientId);
