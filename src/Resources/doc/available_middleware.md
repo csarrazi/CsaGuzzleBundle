@@ -7,6 +7,7 @@ Currently, four middleware are available:
 * the `stopwatch` middleware
 * the `logger` middleware
 * the `cache` middleware
+* the `mock` middleware
 
 
 The `debug` and `stopwatch` middleware
@@ -107,3 +108,39 @@ class, in which you should inject your doctrine cache service. For example, usin
     <argument>%kernel.cache_dir%/my_cache_folder</argument>
 </service>
 ```
+
+The `mock` middleware
+---------------------
+
+When running tests, you often want to disable real HTTP requests to your (or an external) API.
+The `mock` middleware can record those requests to replay them in tests.
+
+The `mock` middleware can work in two modes:
+
+* record, which saves your HTTP requests inside a directory in your filesystem
+* replay, which uses your saved HTTP requests from the same directory
+
+Of course, this middleware should only be used in the `test` environment (or `dev`, if you don't have
+access to the remote server):
+
+```yml
+# config_test.yml
+csa_guzzle:
+    mock:
+        storage_path: "%kernel.root_dir%/../features/fixtures/guzzle"
+        mode: record
+```
+
+The generated files can then be committed in the VCS.
+
+To use them, simply change the mode to `replay`:
+
+```yml
+# config_test.yml
+csa_guzzle:
+    mock:
+        storage_path: "%kernel.root_dir%/../features/fixtures/guzzle"
+        mode: replay
+```
+
+Next Section: [Streaming a guzzle response](response_streaming.md)

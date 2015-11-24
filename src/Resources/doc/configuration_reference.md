@@ -11,15 +11,23 @@ csa_guzzle:
     logger:
         enabled:              false
         service:              ~
-        format:               clf
+        format:               '{hostname} {req_header_User-Agent} - [{date_common_log}] "{method} {target} HTTP/{version}" {code} {res_header_Content-Length}'
+        level:                debug
     cache:
-        enabled: false
-        adapter: ~
+        enabled:              false
+        adapter:              ~
     clients:
 
         # Prototype
         name:
+            class:            GuzzleHttp\Client
             config:           ~
             middleware:       []
-            class:            GuzzleHttp\Client
+            alias:            ~
+    mock:
+        enabled:              false
+        storage_path:         ~ # Required
+        mode:                 replay
 ```
+
+[Back to index](../../../README.md)

@@ -2,14 +2,15 @@ Creating new middleware
 =======================
 
 Creating a new Guzzle [middleware](http://guzzle.readthedocs.org/en/latest/handlers-and-middleware.html#middleware)
-is as easy as creating a symfony service and using the `csa_guzzle.middleware` tag, giving it an alias:
+is as easy as creating a symfony service and using the `csa_guzzle.middleware` tag, giving it an alias and
+(optionally) a priority:
 
 ```xml
 <service
         id="acme.middleware"
         class="Closure">
     <factory class="My\Middleware" method="my_middleware" />
-    <tag name="csa_guzzle.middleware" alias="my_middleware" />
+    <tag name="csa_guzzle.middleware" alias="my_middleware" priority="100" />
 </service>
 ```
 
@@ -24,10 +25,9 @@ csa_guzzle:
         # Prototype
         github_api:
             config:
-                base_url: https://api.github.com
-                defaults:
-                    headers:
-                        Accept: application/vnd.github.v3+json
+                base_uri: https://api.github.com
+                headers:
+                    Accept: application/vnd.github.v3+json
             middleware: [debug, my_middleware] # Note the use of the alias defined earlier in the service definition.
 ```
 
@@ -41,3 +41,5 @@ for that client:
     <tag name="csa_guzzle.client" middleware="my_middleware another_middleware" />
 </service>
 ```
+
+Next section: [Available middleware](available_middleware.md)
