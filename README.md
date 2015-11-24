@@ -13,10 +13,13 @@ CsaGuzzleBundle
 Description
 -----------
 
-This bundle integrates Guzzle >=4.0 in Symfony. Currently, it supports the following features:
+This bundle integrates Guzzle >=4.0 in Symfony. The `1.x` branch supports Guzzle 4 and 5, and the `master` branch supports Guzzle 6.
+
+Currently, it supports the following features:
 
 * Integration with Symfony's debug tools (web debug toolbar, profiler, logger, timeline, ...)
 * Configuring a Guzzle client simply using configuration
+* Multiple middleware / subscribers (logger, profiler, timeline, cache, mock, and more to come)
 * Service descriptions to describe your services is json format (only in the 1.3 branch, though)
 
 ![Web debug Toolbar](https://cloud.githubusercontent.com/assets/465798/7407652/dda8bda4-ef14-11e4-9e9e-1db2fa6a346d.png)
@@ -26,49 +29,7 @@ This bundle integrates Guzzle >=4.0 in Symfony. Currently, it supports the follo
 Installation
 ------------
 
-### Stable version
-
-Add the required package using composer.
-
-```bash
-composer require csa/guzzle-bundle:@stable
-```
-
-### Bleeding-edge version
-
-Add the required package using composer.
-
-```bash
-composer require csa/guzzle-bundle:@dev
-```
-
-### Enabling the bundle
-
-Add the bundle to your AppKernel.
-
-```php
-// in %kernel.root_dir%/AppKernel.php
-$bundles = array(
-    // ...
-    new Csa\Bundle\GuzzleBundle\CsaGuzzleBundle(),
-    // ...
-);
-```
-
-To enable the data collector (only in the `dev` environment, you may simply
-configure the CsaGuzzleBundle as follows:
-
-```yml
-csa_guzzle:
-    profiler: %kernel.debug%
-```
-
-You may also enable the included logger, in order log outcoming requests:
-
-```yml
-csa_guzzle:
-    logger: true
-```
+All the installation instructions are located in the documentation
 
 Upgrade
 -------
@@ -83,21 +44,21 @@ Documentation
 
 ### Documentation for stable (2.0@dev/dev-master)
 
+* [Installation](src/Resources/doc/install.md)
 * [Creating clients](src/Resources/doc/clients.md)
 * [Registering new middleware](src/Resources/doc/middleware.md)
 * [Available middleware](src/Resources/doc/available_middleware.md)
-* [Configuration reference](src/Resources/doc/configuration_reference.md)
 * [Streaming a guzzle response](src/Resources/doc/response_streaming.md)
-* [Mock HTTP requests in tests](src/Resources/doc/tests_mock_http_requests.md)
+* [Configuration reference](src/Resources/doc/configuration_reference.md)
 
 ### Documentation for legacy (1.3)
 
 * [Creating clients](../1.3/src/Resources/doc/clients.md)
 * [Registering new event subscribers](../1.3/src/Resources/doc/event_subscribers.md)
 * [Available event subscribers](../1.3/src/Resources/doc/available_subscribers.md)
-* [Configuration reference](../1.3/src/Resources/doc/configuration_reference.md)
 * [Streaming a guzzle response](../1.3/src/Resources/doc/response_streaming.md)
 * [Service descriptions](../1.3/src/Resources/doc/service_descriptions.md)
+* [Configuration reference](../1.3/src/Resources/doc/configuration_reference.md)
 
 Contributing
 ------------

@@ -16,10 +16,9 @@ csa_guzzle:
     clients:
         github_api:
             config:
-                base_url: https://api.github.com
-                defaults:
-                    headers:
-                        Accept: application/vnd.github.v3+json
+                base_uri: https://api.github.com
+                headers:
+                    Accept: application/vnd.github.v3+json
 ```
 
 The previous code will create a new service, called `csa_guzzle.client.github_api`, that you can use in your controller, or that you can inject in another service:
@@ -63,3 +62,5 @@ To have a client supported by the bundle, simply tag it as such:
     <tag name="csa_guzzle.client" />
 </service>
 ```
+
+Next section: [Registering new middleware](middleware.md)
