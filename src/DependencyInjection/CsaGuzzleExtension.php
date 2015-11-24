@@ -16,13 +16,13 @@ use Symfony\Component\Config\FileLocator;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
+use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\DependencyInjection\Reference;
-use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 /**
- * Csa Guzzle Extension
+ * Csa Guzzle Extension.
  *
  * @author Charles Sarrazin <charles@sarraz.in>
  */

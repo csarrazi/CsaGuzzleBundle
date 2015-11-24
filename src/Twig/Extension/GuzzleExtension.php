@@ -12,7 +12,7 @@
 namespace Csa\Bundle\GuzzleBundle\Twig\Extension;
 
 /**
- * Csa Guzzle Collector
+ * Csa Guzzle Collector.
  *
  * @author Charles Sarrazin <charles@sarraz.in>
  */

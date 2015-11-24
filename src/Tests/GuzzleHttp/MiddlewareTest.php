@@ -11,8 +11,8 @@
 
 namespace Csa\Bundle\GuzzleBundle\Tests\GuzzleHttp;
 
-use Csa\Bundle\GuzzleBundle\GuzzleHttp\Middleware;
 use Csa\Bundle\GuzzleBundle\GuzzleHttp\Cache\StorageAdapterInterface;
+use Csa\Bundle\GuzzleBundle\GuzzleHttp\Middleware;
 use GuzzleHttp\Client;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;

@@ -43,7 +43,7 @@ class DoctrineAdapter implements StorageAdapterInterface
         $data = [
             'status' => $response->getStatusCode(),
             'headers' => $response->getHeaders(),
-            'body' => (string)$response->getBody(),
+            'body' => (string) $response->getBody(),
             'version' => $response->getProtocolVersion(),
             'reason' => $response->getReasonPhrase(),
         ];
@@ -54,8 +54,8 @@ class DoctrineAdapter implements StorageAdapterInterface
     private function getKey(RequestInterface $request)
     {
         return md5(serialize([
-            'method'  => $request->getMethod(),
-            'uri'     => $request->getUri(),
+            'method' => $request->getMethod(),
+            'uri' => $request->getUri(),
             'headers' => $request->getHeaders(),
         ]));
     }

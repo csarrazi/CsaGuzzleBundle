@@ -1,12 +1,21 @@
 <?php
 
+/*
+ * This file is part of the CsaGuzzleBundle package
+ *
+ * (c) Charles Sarrazin <charles@sarraz.in>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code
+ */
+
 namespace Csa\Bundle\GuzzleBundle\Tests\DataCollector;
 
 use Csa\Bundle\GuzzleBundle\DataCollector\GuzzleCollector;
+use Csa\Bundle\GuzzleBundle\GuzzleHttp\Middleware;
 use GuzzleHttp\Client;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
-use Csa\Bundle\GuzzleBundle\GuzzleHttp\Middleware;
 use GuzzleHttp\Psr7\Response;
 use Symfony\Component\HttpFoundation\Request;
 

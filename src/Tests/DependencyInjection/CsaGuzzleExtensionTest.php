@@ -97,7 +97,7 @@ YAML;
         );
         $this->assertSame(
             'my.handler.id',
-            (string)$config['handler']
+            (string) $config['handler']
         );
     }
 
@@ -182,7 +182,7 @@ YAML;
             $container = $this->createContainer(sprintf($yaml, $alias));
 
             $this->assertSame($format, $container->getDefinition('csa_guzzle.logger.message_formatter')->getArgument(0));
-            $this->assertSame('monolog.logger', (string)$container->getDefinition('csa_guzzle.middleware.logger')->getArgument(0));
+            $this->assertSame('monolog.logger', (string) $container->getDefinition('csa_guzzle.middleware.logger')->getArgument(0));
         }
 
         $yaml = <<<YAML
@@ -211,7 +211,7 @@ YAML;
         $container = $this->createContainer($yaml);
         $container->setDefinition('my.adapter.id', new Definition());
         $alias = $container->getAlias('csa_guzzle.cache_adapter');
-        $this->assertSame('my.adapter.id', (string)$alias);
+        $this->assertSame('my.adapter.id', (string) $alias);
     }
 
     public function testMockConfiguration()

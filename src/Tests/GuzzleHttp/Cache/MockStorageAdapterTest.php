@@ -65,6 +65,6 @@ class MockStorageAdapterTest extends \PHPUnit_Framework_TestCase
 
     private function getRequestMock()
     {
-        return new Request('GET', 'http://google.com/', array('Accept' => 'text/html'));
+        return new Request('GET', 'http://google.com/', ['Accept' => 'text/html']);
     }
 }
