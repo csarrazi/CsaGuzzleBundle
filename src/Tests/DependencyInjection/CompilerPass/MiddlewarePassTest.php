@@ -56,10 +56,32 @@ class MiddlewarePassTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(['push', [new Reference('bar'), 'bar']], $calls[1]);
     }
 
-    private function createMiddleware(ContainerBuilder $container, $alias)
+    public function testMiddlewareWithPriority()
+    {
+        $client = $this->createClient();
+
+        $container = $this->createContainer();
+        $container->setDefinition('client', $client);
+
+        foreach (['foo' => 0, 'bar' => 10, 'qux' => -1000] as $alias => $priority) {
+            $this->createMiddleware($container, $alias, $priority);
+        }
+
+        $pass = new MiddlewarePass();
+        $pass->process($container);
+
+        $handler = $client->getArgument(0)['handler'];
+        $handlerDefinition = $container->getDefinition((string) $handler);
+        $this->assertCount(3, $calls = $handlerDefinition->getMethodCalls());
+        $this->assertEquals(['push', [new Reference('bar'), 'bar']], $calls[0]);
+        $this->assertEquals(['push', [new Reference('foo'), 'foo']], $calls[1]);
+        $this->assertEquals(['push', [new Reference('qux'), 'qux']], $calls[2]);
+    }
+
+    private function createMiddleware(ContainerBuilder $container, $alias, $priority = null)
     {
         $middleware = new Definition();
-        $middleware->addTag(MiddlewarePass::MIDDLEWARE_TAG, ['alias' => $alias]);
+        $middleware->addTag(MiddlewarePass::MIDDLEWARE_TAG, ['alias' => $alias, 'priority' => $priority]);
         $container->setDefinition($alias, $middleware);
     }
 
