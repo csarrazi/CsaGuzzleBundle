@@ -19,7 +19,7 @@ use Psr\Http\Message\ResponseInterface;
 use Symfony\Component\Stopwatch\Stopwatch;
 
 /**
- * Csa Guzzle Middleware
+ * Csa Guzzle Middleware.
  *
  * @author Charles Sarrazin <charles@sarraz.in>
  */
@@ -29,7 +29,7 @@ class Middleware
     {
         return function (callable $handler) use ($stopwatch) {
             return function (RequestInterface $request, array $options) use ($handler, $stopwatch) {
-                $uri = (string)$request->getUri();
+                $uri = (string) $request->getUri();
 
                 if (!$stopwatch->isStarted($uri)) {
                     $stopwatch->start($uri);

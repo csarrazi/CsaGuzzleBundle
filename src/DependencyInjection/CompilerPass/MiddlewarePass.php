@@ -17,7 +17,7 @@ use Symfony\Component\DependencyInjection\DefinitionDecorator;
 use Symfony\Component\DependencyInjection\Reference;
 
 /**
- * Csa Guzzle middleware compiler pass
+ * Csa Guzzle middleware compiler pass.
  *
  * @author Charles Sarrazin <charles@sarraz.in>
  */
@@ -61,7 +61,7 @@ class MiddlewarePass implements CompilerPassInterface
     }
 
     /**
-     * Sets up handlers and registers middleware for each tagged client
+     * Sets up handlers and registers middleware for each tagged client.
      *
      * @param ContainerBuilder $container
      * @param array            $middlewareBag

@@ -138,6 +138,7 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('mode')->defaultValue('replay')->end()
             ->end()
         ;
+
         return $node;
     }
 }

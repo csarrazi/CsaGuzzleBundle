@@ -29,7 +29,6 @@ class MockStorageAdapter implements StorageAdapterInterface
 
     /**
      * @param $storagePath
-     *
      * @param null|array $headersBlacklist
      */
     public function __construct($storagePath, $headersBlacklist = null)
@@ -47,7 +46,7 @@ class MockStorageAdapter implements StorageAdapterInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function fetch(RequestInterface $request)
     {
@@ -61,7 +60,7 @@ class MockStorageAdapter implements StorageAdapterInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function save(RequestInterface $request, ResponseInterface $response)
     {

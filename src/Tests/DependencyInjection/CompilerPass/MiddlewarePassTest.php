@@ -29,7 +29,7 @@ class MiddlewarePassTest extends \PHPUnit_Framework_TestCase
         $pass->process($container);
 
         $handler = $client->getArgument(0)['handler'];
-        $handlerDefinition = $container->getDefinition((string)$handler);
+        $handlerDefinition = $container->getDefinition((string) $handler);
         $this->assertCount(2, $calls = $handlerDefinition->getMethodCalls());
         $this->assertEquals(['push', [new Reference('my_mid'), 'my_mid']], $calls[0]);
         $this->assertEquals(['push', [new Reference('my_mid2'), 'my_mid2']], $calls[1]);
@@ -50,7 +50,7 @@ class MiddlewarePassTest extends \PHPUnit_Framework_TestCase
         $pass->process($container);
 
         $handler = $client->getArgument(0)['handler'];
-        $handlerDefinition = $container->getDefinition((string)$handler);
+        $handlerDefinition = $container->getDefinition((string) $handler);
         $this->assertCount(2, $calls = $handlerDefinition->getMethodCalls());
         $this->assertEquals(['push', [new Reference('foo'), 'foo']], $calls[0]);
         $this->assertEquals(['push', [new Reference('bar'), 'bar']], $calls[1]);
