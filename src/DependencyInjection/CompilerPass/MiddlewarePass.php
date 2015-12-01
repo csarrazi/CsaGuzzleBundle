@@ -54,16 +54,16 @@ class MiddlewarePass implements CompilerPassInterface
                 throw new \LogicException('The \'alias\' attribute is mandatory for the \'csa_guzzle.middleware\' tag');
             }
 
-            if (!isset($tags[0]['priority'])) {
-                $services[$id][0]['priority'] = 0;
-            }
-
-            $priority = (string) $services[$id][0]['priority'];
+            $priority = isset($tags[0]['priority']) ? $tags[0]['priority'] : 0;
 
             $middleware[$priority][] = [
                 'alias' => $tags[0]['alias'],
                 'id' => $id,
             ];
+        }
+
+        if (empty($middleware)) {
+            return [];
         }
 
         krsort($middleware);
