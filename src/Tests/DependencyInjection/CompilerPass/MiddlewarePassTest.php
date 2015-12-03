@@ -78,6 +78,21 @@ class MiddlewarePassTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(['push', [new Reference('qux'), 'qux']], $calls[2]);
     }
 
+    public function testNoMiddleware()
+    {
+        $client = $this->createClient();
+
+        $container = $this->createContainer();
+        $container->setDefinition('client', $client);
+
+        $pass = new MiddlewarePass();
+        $pass->process($container);
+
+        $handler = $client->getArgument(0)['handler'];
+        $handlerDefinition = $container->getDefinition((string) $handler);
+        $this->assertCount(0, $calls = $handlerDefinition->getMethodCalls());
+    }
+
     private function createMiddleware(ContainerBuilder $container, $alias, $priority = null)
     {
         $middleware = new Definition();
