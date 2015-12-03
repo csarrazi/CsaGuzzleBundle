@@ -100,13 +100,15 @@ To use the doctrine cache adapter, you need to use the `Csa\Bundle\GuzzleBundle\
 class, in which you should inject your doctrine cache service. For example, using doctrine/cache's `FilesystemCache`:
 
 ```xml
-<service id="my_storage_adapter" class="Csa\Bundle\GuzzleBundle\GuzzleHttp\Cache\DoctrineAdapter">
-    <argument type="service" id="my_cache_service" />
-</service>
+<services>
+    <service id="my_storage_adapter" class="Csa\Bundle\GuzzleBundle\GuzzleHttp\Cache\DoctrineAdapter">
+        <argument type="service" id="my_cache_service" />
+    </service>
 
-<service id="my_cache_service" class="Doctrine\Common\Cache\FilesystemCache">
-    <argument>%kernel.cache_dir%/my_cache_folder</argument>
-</service>
+    <service id="my_cache_service" class="Doctrine\Common\Cache\FilesystemCache">
+        <argument>%kernel.cache_dir%/my_cache_folder</argument>
+    </service>
+</services>
 ```
 
 The `mock` middleware
