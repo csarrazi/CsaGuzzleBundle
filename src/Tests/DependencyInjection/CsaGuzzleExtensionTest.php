@@ -47,6 +47,41 @@ YAML;
             $client->getArgument(0),
             'Config must be passed to client constructor.'
         );
+
+        $this->assertFalse($client->isLazy());
+    }
+
+    public function testDefaultClientNotLazy()
+    {
+        $yaml = <<<YAML
+profiler:
+    enabled: false
+clients:
+    foo:
+        config: { base_url: example.com }
+YAML;
+
+        $container = $this->createContainer($yaml);
+        $client = $container->getDefinition('csa_guzzle.client.foo');
+
+        $this->assertFalse($client->isLazy());
+    }
+
+    public function testClientLazyService()
+    {
+        $yaml = <<<YAML
+profiler:
+    enabled: false
+clients:
+    foo:
+        lazy: true
+        config: { base_url: example.com }
+YAML;
+
+        $container = $this->createContainer($yaml);
+        $client = $container->getDefinition('csa_guzzle.client.foo');
+
+        $this->assertTrue($client->isLazy());
     }
 
     public function testClientAliasing()

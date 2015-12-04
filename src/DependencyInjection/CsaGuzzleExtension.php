@@ -114,6 +114,7 @@ class CsaGuzzleExtension extends Extension
     {
         foreach ($config['clients'] as $name => $options) {
             $client = new Definition($options['class']);
+            $client->setLazy($options['lazy']);
 
             if (isset($options['config'])) {
                 if (!is_array($options['config'])) {
