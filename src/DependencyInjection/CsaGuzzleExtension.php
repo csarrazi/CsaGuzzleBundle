@@ -59,6 +59,13 @@ class CsaGuzzleExtension extends Extension
 
     private function processLoggerConfiguration(array $config, ContainerBuilder $container)
     {
+        if (!$config['enabled']) {
+            $container->removeDefinition('csa_guzzle.middleware.logger');
+            $container->removeDefinition('csa_guzzle.logger.message_formatter');
+
+            return;
+        }
+
         $loggerDefinition = $container->getDefinition('csa_guzzle.middleware.logger');
 
         if ($config['service']) {
@@ -72,11 +79,6 @@ class CsaGuzzleExtension extends Extension
 
         if ($config['level']) {
             $loggerDefinition->replaceArgument(2, $config['level']);
-        }
-
-        if (!$config['enabled']) {
-            $container->removeDefinition('csa_guzzle.middleware.logger');
-            $container->removeDefinition('csa_guzzle.logger.message_formatter');
         }
     }
 
