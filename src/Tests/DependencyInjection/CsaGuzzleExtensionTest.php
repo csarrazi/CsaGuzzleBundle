@@ -67,7 +67,7 @@ YAML;
         $this->assertFalse($client->isLazy());
     }
 
-    public function testClientLazyService()
+    public function testLazyClient()
     {
         $yaml = <<<YAML
 profiler:
