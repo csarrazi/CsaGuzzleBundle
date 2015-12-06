@@ -114,6 +114,7 @@ class Configuration implements ConfigurationInterface
             ->prototype('array')
                 ->children()
                     ->scalarNode('class')->defaultValue('GuzzleHttp\Client')->end()
+                    ->booleanNode('lazy')->defaultFalse()->end()
                     ->variableNode('config')->end()
                     ->arrayNode('middleware')
                         ->prototype('scalar')->end()
