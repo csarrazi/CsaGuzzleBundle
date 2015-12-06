@@ -38,6 +38,17 @@ class MyController extends Controller
 }
 ```
 
+You may want to mark the service as [lazy](http://symfony.com/doc/current/components/dependency_injection/lazy_services.html).
+
+```yml
+csa_guzzle:
+    clients:
+        my_client:
+            class: AppBundle\Client
+            lazy: true
+            # ...
+```
+
 If you override your client's class, you can also set the class for your client:
 
 ```yml
