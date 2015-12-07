@@ -95,17 +95,6 @@ class MiddlewarePass implements CompilerPassInterface
                 });
             }
 
-            $handlerStack = new DefinitionDecorator('csa_guzzle.handler_stack');
-            $handlerStack->setPublic(false);
-
-            foreach ($clientMiddleware as $middleware) {
-                $handlerStack->addMethodCall('push', [new Reference($middleware['id']), $middleware['alias']]);
-            }
-
-            $clientHandlerStackId = sprintf('csa_guzzle.handler_stack.%s', $clientId);
-
-            $container->setDefinition($clientHandlerStackId, $handlerStack);
-
             $clientDefinition = $container->findDefinition($clientId);
 
             $arguments = $clientDefinition->getArguments();
@@ -116,7 +105,21 @@ class MiddlewarePass implements CompilerPassInterface
                 $options = array_shift($arguments);
             }
 
-            $options['handler'] = new Reference($clientHandlerStackId);
+            if (!isset($options['handler'])) {
+                $handlerStack = new DefinitionDecorator('csa_guzzle.handler_stack');
+                $handlerStack->setPublic(false);
+
+                $clientHandlerStackId = sprintf('csa_guzzle.handler_stack.%s', $clientId);
+
+                $container->setDefinition($clientHandlerStackId, $handlerStack);
+                $options['handler'] = $handlerStack;
+            }
+
+            $handlerStack = $options['handler'];
+
+            foreach ($clientMiddleware as $middleware) {
+                $handlerStack->addMethodCall('push', [new Reference($middleware['id']), $middleware['alias']]);
+            }
 
             array_unshift($arguments, $options);
             $clientDefinition->setArguments($arguments);

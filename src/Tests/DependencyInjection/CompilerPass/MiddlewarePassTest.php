@@ -28,8 +28,7 @@ class MiddlewarePassTest extends \PHPUnit_Framework_TestCase
         $pass = new MiddlewarePass();
         $pass->process($container);
 
-        $handler = $client->getArgument(0)['handler'];
-        $handlerDefinition = $container->getDefinition((string) $handler);
+        $handlerDefinition = $client->getArgument(0)['handler'];
         $this->assertCount(2, $calls = $handlerDefinition->getMethodCalls());
         $this->assertEquals(['push', [new Reference('my_mid'), 'my_mid']], $calls[0]);
         $this->assertEquals(['push', [new Reference('my_mid2'), 'my_mid2']], $calls[1]);
@@ -49,8 +48,7 @@ class MiddlewarePassTest extends \PHPUnit_Framework_TestCase
         $pass = new MiddlewarePass();
         $pass->process($container);
 
-        $handler = $client->getArgument(0)['handler'];
-        $handlerDefinition = $container->getDefinition((string) $handler);
+        $handlerDefinition = $client->getArgument(0)['handler'];
         $this->assertCount(2, $calls = $handlerDefinition->getMethodCalls());
         $this->assertEquals(['push', [new Reference('foo'), 'foo']], $calls[0]);
         $this->assertEquals(['push', [new Reference('bar'), 'bar']], $calls[1]);
@@ -70,8 +68,7 @@ class MiddlewarePassTest extends \PHPUnit_Framework_TestCase
         $pass = new MiddlewarePass();
         $pass->process($container);
 
-        $handler = $client->getArgument(0)['handler'];
-        $handlerDefinition = $container->getDefinition((string) $handler);
+        $handlerDefinition = $client->getArgument(0)['handler'];
         $this->assertCount(3, $calls = $handlerDefinition->getMethodCalls());
         $this->assertEquals(['push', [new Reference('bar'), 'bar']], $calls[0]);
         $this->assertEquals(['push', [new Reference('foo'), 'foo']], $calls[1]);
@@ -88,9 +85,25 @@ class MiddlewarePassTest extends \PHPUnit_Framework_TestCase
         $pass = new MiddlewarePass();
         $pass->process($container);
 
-        $handler = $client->getArgument(0)['handler'];
-        $handlerDefinition = $container->getDefinition((string) $handler);
-        $this->assertCount(0, $calls = $handlerDefinition->getMethodCalls());
+        $handlerDefinition = $client->getArgument(0)['handler'];
+        $this->assertCount(0, $handlerDefinition->getMethodCalls());
+    }
+
+    public function testHandlerIsKeptByCompilerPass()
+    {
+        $handlerDefinition = new Definition();
+        $client = $this->createClient([], $handlerDefinition);
+        $container = $this->createContainer();
+        $container->setDefinition('client', $client);
+
+        foreach (['foo' => 0, 'bar' => 10, 'qux' => -1000] as $alias => $priority) {
+            $this->createMiddleware($container, $alias, $priority);
+        }
+
+        $pass = new MiddlewarePass();
+        $pass->process($container);
+
+        $this->assertSame($handlerDefinition, $client->getArgument(0)['handler']);
     }
 
     private function createMiddleware(ContainerBuilder $container, $alias, $priority = null)
@@ -100,13 +113,17 @@ class MiddlewarePassTest extends \PHPUnit_Framework_TestCase
         $container->setDefinition($alias, $middleware);
     }
 
-    private function createClient(array $middleware = null)
+    private function createClient(array $middleware = null, $handler = null)
     {
         $client = new Definition();
         $client->addTag(
             MiddlewarePass::CLIENT_TAG,
             $middleware ? ['middleware' => implode(' ', $middleware)] : []
         );
+
+        if ($handler) {
+            $client->addArgument(['handler' => $handler]);
+        }
 
         return $client;
     }
