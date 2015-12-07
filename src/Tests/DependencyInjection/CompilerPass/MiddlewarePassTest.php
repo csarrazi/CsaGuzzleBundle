@@ -85,8 +85,7 @@ class MiddlewarePassTest extends \PHPUnit_Framework_TestCase
         $pass = new MiddlewarePass();
         $pass->process($container);
 
-        $handlerDefinition = $client->getArgument(0)['handler'];
-        $this->assertCount(0, $handlerDefinition->getMethodCalls());
+        $this->assertCount(0, $client->getArguments());
     }
 
     public function testHandlerIsKeptByCompilerPass()
