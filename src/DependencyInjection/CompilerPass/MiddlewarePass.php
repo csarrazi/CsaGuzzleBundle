@@ -79,6 +79,10 @@ class MiddlewarePass implements CompilerPassInterface
      */
     private function registerMiddleware(ContainerBuilder $container, array $middlewareBag)
     {
+        if (empty($middlewareBag)) {
+            return;
+        }
+
         $clients = $container->findTaggedServiceIds(self::CLIENT_TAG);
 
         foreach ($clients as $clientId => $tags) {
@@ -93,6 +97,10 @@ class MiddlewarePass implements CompilerPassInterface
                 $clientMiddleware = array_filter($clientMiddleware, function ($value) use ($whitelist) {
                     return in_array($value['alias'], $whitelist, true);
                 });
+            }
+
+            if (empty($clientMiddleware)) {
+                continue;
             }
 
             $clientDefinition = $container->findDefinition($clientId);
