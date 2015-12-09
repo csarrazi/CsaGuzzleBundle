@@ -73,11 +73,11 @@
 
         </span>
         <strong>{{ collector.name|capitalize|default('HTTP calls') }}</strong>
-        <span class="count">
-            {% if collector.calls is not empty %}
+        {% if collector.calls is not empty %}
+            <span class="count">
                 <span>{{ collector.calls|length }}</span>
-            {% endif %}
-        </span>
+            </span>
+        {% endif %}    
     </span>
 {% endblock %}
 
