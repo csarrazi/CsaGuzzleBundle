@@ -65,6 +65,8 @@ class MockStorageAdapter implements StorageAdapterInterface
     public function save(RequestInterface $request, ResponseInterface $response)
     {
         file_put_contents($this->getPath($request), Psr7\str($response));
+
+        $response->getBody()->seek(0);
     }
 
     /**

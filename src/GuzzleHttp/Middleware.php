@@ -55,8 +55,6 @@ class Middleware
                         function (ResponseInterface $response) use ($adapter, $request, $debug) {
                             $adapter->save($request, $response);
 
-                            $response->getBody()->seek(0);
-
                             if ($debug) {
                                 $response = $response->withHeader('X-Guzzle-Cache', 'MISS');
                             }
