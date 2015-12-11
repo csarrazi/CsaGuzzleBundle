@@ -26,7 +26,7 @@ env:
     - deps=no
 
 script:
-  phpunit
+  ./vendor/bin/phpunit
 
 sudo: false
 

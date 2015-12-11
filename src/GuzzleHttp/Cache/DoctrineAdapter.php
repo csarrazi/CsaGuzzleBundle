@@ -49,6 +49,8 @@ class DoctrineAdapter implements StorageAdapterInterface
         ];
 
         $this->cache->save($this->getKey($request), $data, $this->ttl);
+
+        $response->getBody()->seek(0);
     }
 
     private function getKey(RequestInterface $request)
