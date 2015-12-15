@@ -44,11 +44,21 @@ class MockStorageAdapterTest extends \PHPUnit_Framework_TestCase
 
     public function testFetch()
     {
+        /* Mock with host in the file name look for the file with hostname first */
+
         $mockStorage = new MockStorageAdapter(__DIR__.'/../../Fixtures/mocks');
         $response = $mockStorage->fetch($this->getRequestMock());
 
         $this->assertInstanceOf(ResponseInterface::class, $response);
         $this->assertEquals(302, $response->getStatusCode());
+
+        /* Mock with no host in the file name gets the right return code */
+
+        $mockStorage = new MockStorageAdapter(__DIR__.'/../../Fixtures/mocks');
+        $response = $mockStorage->fetch($this->getRequestMockForMockWithNoHost());
+
+        $this->assertInstanceOf(ResponseInterface::class, $response);
+        $this->assertEquals(301, $response->getStatusCode());
     }
 
     public function testSave()
@@ -66,5 +76,10 @@ class MockStorageAdapterTest extends \PHPUnit_Framework_TestCase
     private function getRequestMock()
     {
         return new Request('GET', 'http://google.com/', ['Accept' => 'text/html']);
+    }
+
+    private function getRequestMockForMockWithNoHost()
+    {
+        return new Request('GET', 'http://yahoo.com/', ['Accept' => 'text/html']);
     }
 }

@@ -53,7 +53,12 @@ class MockStorageAdapter implements StorageAdapterInterface
         $path = $this->getPath($request);
 
         if (!file_exists($path)) {
-            throw new \RuntimeException('Record not found.');
+            // Try to find file without host (for BC)
+            $path = $this->getPath($request, false);
+
+            if (!file_exists($path)) {
+                throw new \RuntimeException('Record not found.');
+            }
         }
 
         return Psr7\parse_response(file_get_contents($path));
@@ -77,10 +82,11 @@ class MockStorageAdapter implements StorageAdapterInterface
      * when updating PHP or Guzzle.
      *
      * @param RequestInterface $request
+     * @param boolean $withHost
      *
      * @return string The path to the mock file
      */
-    public function getPath(RequestInterface $request)
+    public function getPath(RequestInterface $request, $withHost = true)
     {
         $headers = $request->getHeaders();
         foreach ($headers as $name => $values) {
@@ -99,13 +105,22 @@ class MockStorageAdapter implements StorageAdapterInterface
             'headers' => $headers,
         ]));
 
-        $path = sprintf(
-            '%s_%s_%s____%s',
-            str_pad($request->getMethod(), 6, '_'),
-            $request->getUri()->getHost(),
-            urldecode(ltrim($request->getUri()->getPath(), '/').'-'.$request->getUri()->getQuery()),
-            $fingerprint
-        );
+        if (true === $withHost) {
+            $path = sprintf(
+                '%s_%s_%s____%s',
+                str_pad($request->getMethod(), 6, '_'),
+                $request->getUri()->getHost(),
+                urldecode(ltrim($request->getUri()->getPath(), '/') . '-' . $request->getUri()->getQuery()),
+                $fingerprint
+            );
+        } else {
+            $path = sprintf(
+                '%s_%s____%s',
+                str_pad($request->getMethod(), 6, '_'),
+                urldecode(ltrim($request->getUri()->getPath(), '/') . '-' . $request->getUri()->getQuery()),
+                $fingerprint
+            );
+        }
 
         return $this->storagePath.'/'.preg_replace('/[^a-zA-Z0-9_+=@\-\?\.]/', '-', $path).'.txt';
     }
