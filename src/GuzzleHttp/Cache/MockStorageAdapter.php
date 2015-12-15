@@ -82,7 +82,7 @@ class MockStorageAdapter implements StorageAdapterInterface
      * when updating PHP or Guzzle.
      *
      * @param RequestInterface $request
-     * @param boolean $withHost
+     * @param bool             $withHost
      *
      * @return string The path to the mock file
      */
@@ -110,14 +110,14 @@ class MockStorageAdapter implements StorageAdapterInterface
                 '%s_%s_%s____%s',
                 str_pad($request->getMethod(), 6, '_'),
                 $request->getUri()->getHost(),
-                urldecode(ltrim($request->getUri()->getPath(), '/') . '-' . $request->getUri()->getQuery()),
+                urldecode(ltrim($request->getUri()->getPath(), '/').'-'.$request->getUri()->getQuery()),
                 $fingerprint
             );
         } else {
             $path = sprintf(
                 '%s_%s____%s',
                 str_pad($request->getMethod(), 6, '_'),
-                urldecode(ltrim($request->getUri()->getPath(), '/') . '-' . $request->getUri()->getQuery()),
+                urldecode(ltrim($request->getUri()->getPath(), '/').'-'.$request->getUri()->getQuery()),
                 $fingerprint
             );
         }
