@@ -15,6 +15,7 @@
                     {{ statusCode }} - {{ call.response is defined ? call.response.reasonPhrase : 'Unknown error' }}
                 </span>
                 {% if call.cache is defined %}<span class="badge cache {{ call.cache|lower }}">Cache {{ call.cache }}</span>{% endif %}
+                {% if call.mock is defined %}<span class="badge mock {{ call.mock|lower }}">Mock {{ call.mock }}</span>{% endif %}
             </header>
 
             <div class="accordion-content{{ loop.first ? ' expanded': '' }}">

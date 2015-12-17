@@ -7,8 +7,25 @@
     {% set errorCount = collector.errors|length %}
 
     {% set cacheHitCount = 0 %}
+    {% set cacheMissCount = 0 %}
+
     {% for call in collector.calls if call.cache is defined and call.cache == 'HIT' %}
-        {% set cacheHitCount = cacheHitCount + 1 %}
+        {% if call.cache == 'HIT' %}
+            {% set cacheHitCount = cacheHitCount + 1 %}
+        {% else %}
+            {% set cacheMissCount = cacheMissCount + 1 %}
+        {% endif %}
+    {% endfor %}
+
+    {% set mockReplayCount = 0 %}
+    {% set mockRecordCount = 0 %}
+
+    {% for call in collector.calls if call.mock is defined %}
+        {% if call.mock == 'REPLAY' %}
+            {% set mockReplayCount = mockReplayCount + 1 %}
+        {% else %}
+            {% set mockRecordCount = mockRecordCount + 1 %}
+        {% endif %}
     {% endfor %}
 
     {% if callCount == 0 %}
@@ -41,14 +58,34 @@
         </div>
         {% if cacheHitCount %}
             <div class="sf-toolbar-info-piece">
-                <b>Cached</b>
-                <span class="sf-toolbar-status sf-toolbar-status-yellow">{{ cacheHitCount }}</span>
+                <b>Cache HIT</b>
+                <span class="sf-toolbar-status sf-toolbar-status-green">{{ cacheHitCount }}</span>
             </div>
         {% endif %}
-        <div class="sf-toolbar-info-piece">
-            <b>Errors</b>
-            <span class="sf-toolbar-status sf-toolbar-status-red">{{ errorCount }}</span>
-        </div>
+        {% if cacheMissCount %}
+            <div class="sf-toolbar-info-piece">
+                <b>Cache MISS</b>
+                <span class="sf-toolbar-status sf-toolbar-status-yellow">{{ cacheMissCount }}</span>
+            </div>
+        {% endif %}
+        {% if mockReplayCount %}
+            <div class="sf-toolbar-info-piece">
+                <b>Mocks (replayed)</b>
+                <span class="sf-toolbar-status sf-toolbar-status-green">{{ mockReplayCount }}</span>
+            </div>
+        {% endif %}
+        {% if mockRecordCount %}
+            <div class="sf-toolbar-info-piece">
+                <b>Mocks (recorded)</b>
+                <span class="sf-toolbar-status sf-toolbar-status-green">{{ mockRecordCount }}</span>
+            </div>
+        {% endif %}
+        {% if errorCount %}
+            <div class="sf-toolbar-info-piece">
+                <b>Errors</b>
+                <span class="sf-toolbar-status sf-toolbar-status-red">{{ errorCount }}</span>
+            </div>
+        {% endif %}
     {% endset %}
 
     {{ include('@WebProfiler/Profiler/toolbar_item.html.twig', { link: 'guzzle', status: color_code }) }}
