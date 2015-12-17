@@ -37,7 +37,7 @@
         <service id="csa_guzzle.middleware.cache" class="Closure">
             <factory class="Csa\Bundle\GuzzleBundle\GuzzleHttp\Middleware" method="cache" />
             <argument type="service" id="csa_guzzle.cache_adapter" />
-            <tag name="csa_guzzle.middleware" alias="cache" />
+            <tag name="csa_guzzle.middleware" alias="cache" priority="-1500" />
         </service>
 
     </services>

@@ -27,6 +27,11 @@
             {{ include('@CsaGuzzle/Icon/guzzle.svg') }}
             <span class="sf-toolbar-value">{{ callCount }}</span>
         {% endif %}
+        {% if collector.totalTime > 0 %}
+            <span class="sf-toolbar-label">
+                in <span class="sf-toolbar-value">{{ collector.totalTime|csa_guzzle_format_duration }}</span>
+            </span>
+        {% endif %}
     {% endset %}
 
     {% set text %}
@@ -76,8 +81,11 @@
         {% if collector.calls is not empty %}
             <span class="count">
                 <span>{{ collector.calls|length }}</span>
+                {% if collector.totalTime > 0 %}
+                    <span>{{ collector.totalTime|csa_guzzle_format_duration }}</span>
+                {% endif %}
             </span>
-        {% endif %}    
+        {% endif %}
     </span>
 {% endblock %}
 
