@@ -35,3 +35,8 @@ install:
 test_script:
     - cd c:\projects\guzzle-bundle
     - vendor\bin\phpunit.bat
+
+branches:
+    only:
+        - master
+        - 1.3
