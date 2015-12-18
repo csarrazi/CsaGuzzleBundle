@@ -11,6 +11,7 @@
 
 namespace Csa\Bundle\GuzzleBundle\DependencyInjection;
 
+use Csa\Bundle\GuzzleBundle\DependencyInjection\CompilerPass\InheritancePass;
 use Csa\Bundle\GuzzleBundle\DependencyInjection\CompilerPass\MiddlewarePass;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\Config\Loader\LoaderInterface;
@@ -114,15 +115,22 @@ class CsaGuzzleExtension extends Extension
     {
         foreach ($config['clients'] as $name => $options) {
             $client = new Definition($options['class']);
+
+            if ($parent = $options['extends']) {
+                $client->addTag(InheritancePass::TAG, ['extends' => $this->getClientServiceId($parent)]);
+            }
+
             $client->setLazy($options['lazy']);
 
             if (isset($options['config'])) {
                 if (!is_array($options['config'])) {
-                    throw new InvalidArgumentException(sprintf(
-                        'Config for "csa_guzzle.client.%s" should be an array, but got %s',
-                        $name,
-                        gettype($options['config'])
-                    ));
+                    throw new InvalidArgumentException(
+                        sprintf(
+                            'Config for "csa_guzzle.client.%s" should be an array, but got %s',
+                            $name,
+                            gettype($options['config'])
+                        )
+                    );
                 }
                 $client->addArgument($this->buildGuzzleConfig($options['config'], $debug));
             }
@@ -141,7 +149,7 @@ class CsaGuzzleExtension extends Extension
 
             $client->addTag(MiddlewarePass::CLIENT_TAG, $attributes);
 
-            $clientServiceId = sprintf('csa_guzzle.client.%s', $name);
+            $clientServiceId = $this->getClientServiceId($name);
             $container->setDefinition($clientServiceId, $client);
 
             if (isset($options['alias'])) {
@@ -161,5 +169,10 @@ class CsaGuzzleExtension extends Extension
         }
 
         return $config;
+    }
+
+    private function getClientServiceId($name)
+    {
+        return sprintf('csa_guzzle.client.%s', $name);
     }
 }
