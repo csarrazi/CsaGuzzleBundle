@@ -101,6 +101,10 @@ class GuzzleCollector extends DataCollector
                 $req['cache'] = $response->getHeaderLine('X-Guzzle-Cache');
             }
 
+            if ($response && $response->hasHeader('X-Guzzle-Mock')) {
+                $req['mock'] = $response->getHeaderLine('X-Guzzle-Mock');
+            }
+
             $data[] = $req;
         }
 

@@ -50,7 +50,7 @@ class CsaGuzzleExtension extends Extension
 
         $this->processLoggerConfiguration($config['logger'], $container);
 
-        $this->processMockConfiguration($config['mock'], $container, $loader);
+        $this->processMockConfiguration($config['mock'], $container, $loader, $config['profiler']['enabled']);
 
         $this->processCacheConfiguration($config['cache'], $container, $config['profiler']['enabled']);
 
@@ -82,7 +82,7 @@ class CsaGuzzleExtension extends Extension
         }
     }
 
-    private function processMockConfiguration(array $config, ContainerBuilder $container, LoaderInterface $loader)
+    private function processMockConfiguration(array $config, ContainerBuilder $container, LoaderInterface $loader, $debug)
     {
         if (!$config['enabled']) {
             return;
@@ -95,6 +95,8 @@ class CsaGuzzleExtension extends Extension
 
         $middleware = $container->getDefinition('csa_guzzle.middleware.mock');
         $middleware->replaceArgument(1, $config['mode']);
+
+        $middleware->replaceArgument(2, $debug);
     }
 
     private function processCacheConfiguration(array $config, ContainerBuilder $container, $debug)

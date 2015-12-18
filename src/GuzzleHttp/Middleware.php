@@ -105,14 +105,18 @@ class Middleware
         };
     }
 
-    public static function mock(StorageAdapterInterface $storage, $mode)
+    public static function mock(StorageAdapterInterface $storage, $mode, $debug = false)
     {
-        return function (callable $handler) use ($mode, $storage) {
-            return function (RequestInterface $request, array $options) use ($handler, $mode, $storage) {
+        return function (callable $handler) use ($mode, $storage, $debug) {
+            return function (RequestInterface $request, array $options) use ($handler, $mode, $storage, $debug) {
                 if ('record' === $mode) {
                     return $handler($request, $options)->then(
-                        function (ResponseInterface $response) use ($request, $storage) {
+                        function (ResponseInterface $response) use ($request, $storage, $debug) {
                             $storage->save($request, $response);
+
+                            if ($debug) {
+                                $response = $response->withHeader('X-Guzzle-Mock', 'RECORD');
+                            }
 
                             return $response;
                         }
@@ -121,6 +125,10 @@ class Middleware
 
                 try {
                     $response = $storage->fetch($request);
+
+                    if ($debug) {
+                        $response = $response->withHeader('X-Guzzle-Mock', 'REPLAY');
+                    }
                 } catch (\RuntimeException $e) {
                     return new RejectedPromise($e);
                 }

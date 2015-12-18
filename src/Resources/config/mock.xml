@@ -14,7 +14,8 @@
             <factory class="Csa\Bundle\GuzzleBundle\GuzzleHttp\Middleware" method="mock" />
             <argument type="service" id="csa_guzzle.mock.storage" />
             <argument /> <!-- mode -->
-            <tag name="csa_guzzle.middleware" alias="mock" />
+            <argument /> <!-- debug -->
+            <tag name="csa_guzzle.middleware" alias="mock" priority="-1250" />
         </service>
 
     </services>
