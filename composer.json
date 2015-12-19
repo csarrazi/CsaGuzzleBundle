@@ -12,7 +12,7 @@
         "symfony/framework-bundle": "^2.6|^3.0",
         "symfony/expression-language": "^2.6|^3.0",
         "symfony/dependency-injection": "^2.6|^3.0",
-        "twig/twig": "^1.12"
+        "twig/twig": "^1.12|^2.0"
     },
     "conflict": {
         "guzzlehttp/guzzle-services": "*",
