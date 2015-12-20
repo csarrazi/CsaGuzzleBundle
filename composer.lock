@@ -1138,16 +1138,16 @@
         },
         {
             "name": "symfony/http-kernel",
-            "version": "dev-master",
+            "version": "3.0.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/http-kernel.git",
-                "reference": "e5b4bf1c4f94af01a3b70beb6ca87170118addc4"
+                "reference": "90a46805ab8cafc9e22327a54a9a8126ef71dc57"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/http-kernel/zipball/e5b4bf1c4f94af01a3b70beb6ca87170118addc4",
-                "reference": "e5b4bf1c4f94af01a3b70beb6ca87170118addc4",
+                "url": "https://api.github.com/repos/symfony/http-kernel/zipball/90a46805ab8cafc9e22327a54a9a8126ef71dc57",
+                "reference": "90a46805ab8cafc9e22327a54a9a8126ef71dc57",
                 "shasum": ""
             },
             "require": {
@@ -1189,7 +1189,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.1-dev"
+                    "dev-master": "3.0-dev"
                 }
             },
             "autoload": {
@@ -1216,7 +1216,7 @@
             ],
             "description": "Symfony HttpKernel Component",
             "homepage": "https://symfony.com",
-            "time": "2015-12-18 16:57:06"
+            "time": "2015-12-18 16:22:11"
         },
         {
             "name": "symfony/polyfill-mbstring",
@@ -1446,16 +1446,16 @@
         },
         {
             "name": "symfony/routing",
-            "version": "dev-master",
+            "version": "3.0.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/routing.git",
-                "reference": "beaf5789305898e82980b46e2da33c6e5cd2d9b0"
+                "reference": "1ff4926b6ffd9bc66b6dcd13bff5025950826176"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/routing/zipball/beaf5789305898e82980b46e2da33c6e5cd2d9b0",
-                "reference": "beaf5789305898e82980b46e2da33c6e5cd2d9b0",
+                "url": "https://api.github.com/repos/symfony/routing/zipball/1ff4926b6ffd9bc66b6dcd13bff5025950826176",
+                "reference": "1ff4926b6ffd9bc66b6dcd13bff5025950826176",
                 "shasum": ""
             },
             "require": {
@@ -1483,7 +1483,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.1-dev"
+                    "dev-master": "3.0-dev"
                 }
             },
             "autoload": {
@@ -1516,7 +1516,7 @@
                 "uri",
                 "url"
             ],
-            "time": "2015-12-05 17:45:25"
+            "time": "2015-12-05 17:45:07"
         },
         {
             "name": "symfony/security-core",
