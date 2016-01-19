@@ -15,8 +15,9 @@ Simply write the following code:
 csa_guzzle:
     clients:
         github_api:
-            config:
+            config: # you can specify the options as in http://docs.guzzlephp.org/en/latest/quickstart.html#creating-a-client
                 base_uri: https://api.github.com
+                timeout: 2.0
                 headers:
                     Accept: application/vnd.github.v3+json
 ```
