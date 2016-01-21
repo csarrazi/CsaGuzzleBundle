@@ -115,6 +115,7 @@ class MiddlewarePass implements CompilerPassInterface
 
             if (!isset($options['handler'])) {
                 $handlerStack = new DefinitionDecorator('csa_guzzle.handler_stack');
+                $handlerStack->setClass('GuzzleHttp\HandlerStack');
                 $handlerStack->setPublic(false);
 
                 $clientHandlerStackId = sprintf('csa_guzzle.handler_stack.%s', $clientId);
