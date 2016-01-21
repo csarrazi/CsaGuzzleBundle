@@ -17,8 +17,10 @@ matrix:
   fast_finish: true
 
 install:
-  - if [ "$deps" = "no" ]; then composer --prefer-stable --no-interaction update; fi;
-  - if [ "$deps" = "low" ]; then composer --prefer-lowest --no-interaction --prefer-stable update; fi;
+  - composer self-update -q
+  - if [ -n "$GH_TOKEN" ]; then composer config github-oauth.github.com ${GH_TOKEN}; fi;
+  - if [ "$deps" = "no" ]; then composer --prefer-stable -n update; fi;
+  - if [ "$deps" = "low" ]; then composer --prefer-lowest -n --prefer-stable update; fi;
 
 env:
   global:
