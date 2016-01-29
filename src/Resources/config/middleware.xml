@@ -6,10 +6,6 @@
 
     <services>
 
-        <service id="csa_guzzle.handler_stack" class="GuzzleHttp\HandlerStack" abstract="true">
-            <factory class="GuzzleHttp\HandlerStack" method="create" />
-        </service>
-
         <service id="csa_guzzle.middleware.stopwatch" class="Closure">
             <factory class="Csa\Bundle\GuzzleBundle\GuzzleHttp\Middleware" method="stopwatch" />
             <argument type="service" id="debug.stopwatch" />

@@ -13,7 +13,7 @@ namespace Csa\Bundle\GuzzleBundle\DependencyInjection\CompilerPass;
 
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\DefinitionDecorator;
+use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
 /**
@@ -114,7 +114,7 @@ class MiddlewarePass implements CompilerPassInterface
             }
 
             if (!isset($options['handler'])) {
-                $handlerStack = new DefinitionDecorator('csa_guzzle.handler_stack');
+                $handlerStack = new Definition('csa_guzzle.handler_stack');
                 $handlerStack->setFactory(['GuzzleHttp\HandlerStack', 'create']);
                 $handlerStack->setPublic(false);
 
