@@ -22,7 +22,7 @@ class CsaGuzzleExtensionTest extends \PHPUnit_Framework_TestCase
 {
     public function testClientCreated()
     {
-        $yaml = <<<YAML
+        $yaml = <<<'YAML'
 profiler:
     enabled: false
 clients:
@@ -53,7 +53,7 @@ YAML;
 
     public function testDefaultClientNotLazy()
     {
-        $yaml = <<<YAML
+        $yaml = <<<'YAML'
 profiler:
     enabled: false
 clients:
@@ -69,7 +69,7 @@ YAML;
 
     public function testLazyClient()
     {
-        $yaml = <<<YAML
+        $yaml = <<<'YAML'
 profiler:
     enabled: false
 clients:
@@ -86,7 +86,7 @@ YAML;
 
     public function testClientAliasing()
     {
-        $yaml = <<<YAML
+        $yaml = <<<'YAML'
 profiler:
     enabled: false
 clients:
@@ -117,7 +117,7 @@ YAML;
 
     public function testClientConfigInstanceOverride()
     {
-        $yaml = <<<YAML
+        $yaml = <<<'YAML'
 clients:
     foo:
         config:
@@ -142,7 +142,7 @@ YAML;
      */
     public function testInvalidClientConfig()
     {
-        $yaml = <<<YAML
+        $yaml = <<<'YAML'
 clients:
     foo:
         config: ~       # legacy mode
@@ -155,7 +155,7 @@ YAML;
 
     public function testMiddlewareAddedToClient()
     {
-        $yaml = <<<YAML
+        $yaml = <<<'YAML'
 logger: true
 profiler: true
 clients:
@@ -178,7 +178,7 @@ YAML;
 
     public function testCustomMiddlewareAddedToClient()
     {
-        $yaml = <<<YAML
+        $yaml = <<<'YAML'
 logger: true
 profiler: true
 clients:
@@ -205,7 +205,7 @@ YAML;
 
     public function testLoggerConfiguration()
     {
-        $yaml = <<<YAML
+        $yaml = <<<'YAML'
 logger:
     enabled: true
     service: monolog.logger
@@ -220,7 +220,7 @@ YAML;
             $this->assertSame('monolog.logger', (string) $container->getDefinition('csa_guzzle.middleware.logger')->getArgument(0));
         }
 
-        $yaml = <<<YAML
+        $yaml = <<<'YAML'
 logger: false
 YAML;
 
@@ -230,14 +230,14 @@ YAML;
 
     public function testCacheConfiguration()
     {
-        $yaml = <<<YAML
+        $yaml = <<<'YAML'
 cache: false
 YAML;
 
         $container = $this->createContainer($yaml);
         $this->assertFalse($container->hasDefinition('csa_guzzle.middleware.cache'));
 
-        $yaml = <<<YAML
+        $yaml = <<<'YAML'
 cache:
     enabled: true
     adapter: my.adapter.id
@@ -251,7 +251,7 @@ YAML;
 
     public function testMockConfiguration()
     {
-        $yaml = <<<YAML
+        $yaml = <<<'YAML'
 mock:
     enabled:      false
     storage_path: ~ # Required
@@ -261,7 +261,7 @@ YAML;
         $container = $this->createContainer($yaml);
         $this->assertFalse($container->hasDefinition('csa_guzzle.middleware.mock'));
 
-        $yaml = <<<YAML
+        $yaml = <<<'YAML'
 mock:
     storage_path: 'test'
     mode:          replay
