@@ -22,9 +22,9 @@ Currently, it supports the following features:
 * Multiple middleware / subscribers (logger, profiler, timeline, cache, mock, and more to come)
 * Service descriptions to describe your services is json format (only in the 1.3 branch, though)
 
-![Web debug Toolbar](https://cloud.githubusercontent.com/assets/465798/7407652/dda8bda4-ef14-11e4-9e9e-1db2fa6a346d.png)
-![Profiler panel integration](https://cloud.githubusercontent.com/assets/465798/7407654/e4432b2c-ef14-11e4-8f84-b11b32dcce86.png)
-![Profiler timeline integration](https://cloud.githubusercontent.com/assets/465798/7407656/e7241e14-ef14-11e4-875c-d36ef726679e.png)
+![Web debug Toolbar](https://cloud.githubusercontent.com/assets/4208880/12815019/c49faeec-cb43-11e5-9de9-dc3423ea6c35.jpg)
+![Profiler panel integration](https://cloud.githubusercontent.com/assets/4208880/12815021/c4a16746-cb43-11e5-9061-f1ea15b04e62.jpg)
+![Profiler timeline integration](https://cloud.githubusercontent.com/assets/4208880/12815020/c49fc7ec-cb43-11e5-89c3-93ee82711dc2.jpg)
 
 Installation
 ------------
