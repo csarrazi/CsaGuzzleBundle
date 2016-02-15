@@ -265,10 +265,14 @@ YAML;
 mock:
     storage_path: 'test'
     mode:          replay
+    headers_blacklist: ['X-Guzzle-Cache']
 YAML;
 
         $container = $this->createContainer($yaml);
         $this->assertTrue($container->hasDefinition('csa_guzzle.middleware.mock'));
+        $storage = $container->getDefinition('csa_guzzle.mock.storage');
+
+        $this->assertContains('X-Guzzle-Cache', $storage->getArgument(1));
     }
 
     private function createContainer($yaml)
