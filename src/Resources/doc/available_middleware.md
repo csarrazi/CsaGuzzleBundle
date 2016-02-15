@@ -145,4 +145,20 @@ csa_guzzle:
         mode: replay
 ```
 
+A few customizations can be done with the `mock` middleware. You can indeed blacklist:
+
+* Request headers, so they are not used for generating the mock's filename.
+* Response headers, so they are not saved in the mock file.
+
+For this, you can simply configure your client as follows:
+
+```yml
+# config_test.yml
+csa_guzzle:
+    mock:
+        # ...
+        request_headers_blacklist: ['User-Agent', 'Host', 'X-Guzzle-Cache', 'X-Foo']
+        response_headers_blacklist: ['X-Guzzle-Cache', 'X-Bar']
+```
+
 Next Section: [Streaming a guzzle response](response_streaming.md)
