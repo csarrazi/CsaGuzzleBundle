@@ -203,6 +203,33 @@ YAML;
         );
     }
 
+    public function testDisableMiddleware()
+    {
+        $yaml = <<<'YAML'
+logger: true
+profiler: true
+clients:
+    foo:
+        middleware: ['!stopwatch', '!debug', '!foo']
+YAML;
+
+        $container = $this->createContainer($yaml);
+
+        $definition = new Definition();
+        $definition->addTag('csa_guzzle.subscriber', ['alias' => 'foo']);
+        $container->setDefinition('my.service.foo', $definition);
+
+        $this->assertTrue($container->hasDefinition('csa_guzzle.client.foo'), 'Client must be created.');
+
+        $client = $container->getDefinition('csa_guzzle.client.foo');
+
+        $this->assertEquals(
+            [MiddlewarePass::CLIENT_TAG => [['middleware' => '!stopwatch !debug !foo stopwatch history logger']]],
+            $client->getTags(),
+            'Only explicitly disabled middleware shouldn\'t be added.'
+        );
+    }
+
     public function testLoggerConfiguration()
     {
         $yaml = <<<'YAML'

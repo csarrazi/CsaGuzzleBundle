@@ -54,6 +54,25 @@ class MiddlewarePassTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(['push', [new Reference('bar'), 'bar']], $calls[1]);
     }
 
+    public function testDisableSpecificMiddlewareForClient()
+    {
+        $client = $this->createClient(['!foo', 'foo', 'bar']);
+
+        $container = $this->createContainer();
+        $container->setDefinition('client', $client);
+
+        foreach (['foo', 'bar', 'qux'] as $alias) {
+            $this->createMiddleware($container, $alias);
+        }
+
+        $pass = new MiddlewarePass();
+        $pass->process($container);
+
+        $handlerDefinition = $client->getArgument(0)['handler'];
+        $this->assertCount(1, $calls = $handlerDefinition->getMethodCalls());
+        $this->assertEquals(['push', [new Reference('bar'), 'bar']], $calls[0]);
+    }
+
     public function testMiddlewareWithPriority()
     {
         $client = $this->createClient();
