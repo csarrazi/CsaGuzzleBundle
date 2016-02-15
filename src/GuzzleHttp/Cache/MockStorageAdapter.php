@@ -25,23 +25,33 @@ class MockStorageAdapter implements StorageAdapterInterface
     /**
      * @var array
      */
-    private $headersBlacklist;
+    private $requestHeadersBlacklist = [
+        'User-Agent',
+        'Host',
+        'X-Guzzle-Cache',
+    ];
+
+    /**
+     * @var array
+     */
+    private $responseHeadersBlacklist = [
+        'X-Guzzle-Cache',
+    ];
 
     /**
      * @param $storagePath
      * @param null|array $headersBlacklist
      */
-    public function __construct($storagePath, array $headersBlacklist = [])
+    public function __construct($storagePath, array $requestHeadersBlacklist = [], array $responseHeadersBlacklist = [])
     {
         $this->storagePath = $storagePath;
 
-        if (empty($headersBlacklist)) {
-            $this->headersBlacklist = [
-                'User-Agent',
-                'Host',
-            ];
-        } else {
-            $this->headersBlacklist = $headersBlacklist;
+        if (!empty($requestHeadersBlacklist)) {
+            $this->requestHeadersBlacklist = $requestHeadersBlacklist;
+        }
+
+        if (!empty($responseHeadersBlacklist)) {
+            $this->responseHeadersBlacklist = $responseHeadersBlacklist;
         }
     }
 
@@ -69,6 +79,10 @@ class MockStorageAdapter implements StorageAdapterInterface
      */
     public function save(RequestInterface $request, ResponseInterface $response)
     {
+        foreach ($this->responseHeadersBlacklist as $header) {
+            $response = $response->withoutHeader($header);
+        }
+
         file_put_contents($this->getPath($request), Psr7\str($response));
 
         $response->getBody()->seek(0);
@@ -90,7 +104,7 @@ class MockStorageAdapter implements StorageAdapterInterface
     {
         $headers = $request->getHeaders();
         foreach ($headers as $name => $values) {
-            if (in_array($name, $this->headersBlacklist)) {
+            if (in_array($name, $this->requestHeadersBlacklist)) {
                 unset($headers[$name]);
             }
         }

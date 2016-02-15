@@ -265,7 +265,8 @@ YAML;
 mock:
     storage_path: 'test'
     mode:          replay
-    headers_blacklist: ['X-Guzzle-Cache']
+    request_headers_blacklist: ['X-Guzzle-Cache']
+    response_headers_blacklist: ['X-Guzzle-Cache']
 YAML;
 
         $container = $this->createContainer($yaml);
