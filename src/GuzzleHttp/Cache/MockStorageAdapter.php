@@ -31,17 +31,17 @@ class MockStorageAdapter implements StorageAdapterInterface
      * @param $storagePath
      * @param null|array $headersBlacklist
      */
-    public function __construct($storagePath, $headersBlacklist = null)
+    public function __construct($storagePath, array $headersBlacklist = [])
     {
         $this->storagePath = $storagePath;
 
-        if (is_array($headersBlacklist)) {
-            $this->headersBlacklist = $headersBlacklist;
-        } else {
+        if (empty($headersBlacklist)) {
             $this->headersBlacklist = [
                 'User-Agent',
                 'Host',
             ];
+        } else {
+            $this->headersBlacklist = $headersBlacklist;
         }
     }
 

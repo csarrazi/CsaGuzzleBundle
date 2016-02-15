@@ -137,6 +137,9 @@ class Configuration implements ConfigurationInterface
             ->children()
                 ->scalarNode('storage_path')->isRequired()->end()
                 ->scalarNode('mode')->defaultValue('replay')->end()
+                ->arrayNode('headers_blacklist')
+                    ->prototype('scalar')->end()
+                ->end()
             ->end()
         ;
 

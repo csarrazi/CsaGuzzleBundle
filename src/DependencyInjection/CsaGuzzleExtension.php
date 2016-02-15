@@ -91,7 +91,7 @@ class CsaGuzzleExtension extends Extension
         $loader->load('mock.xml');
 
         $storage = $container->getDefinition('csa_guzzle.mock.storage');
-        $storage->replaceArgument(0, $config['storage_path']);
+        $storage->setArguments([$config['storage_path'], $config['headers_blacklist']]);
 
         $middleware = $container->getDefinition('csa_guzzle.middleware.mock');
         $middleware->replaceArgument(1, $config['mode']);
