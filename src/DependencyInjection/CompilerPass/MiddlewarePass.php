@@ -90,14 +90,7 @@ class MiddlewarePass implements CompilerPassInterface
                 throw new \LogicException('Clients should use a single \'csa_guzzle.client\' tag');
             }
 
-            $clientMiddleware = $middlewareBag;
-
-            if (isset($tags[0]['middleware'])) {
-                $whitelist = explode(' ', $tags[0]['middleware']);
-                $clientMiddleware = array_filter($clientMiddleware, function ($value) use ($whitelist) {
-                    return in_array($value['alias'], $whitelist, true);
-                });
-            }
+            $clientMiddleware = $this->filterClientMiddleware($middlewareBag, $tags);
 
             if (empty($clientMiddleware)) {
                 continue;
@@ -133,5 +126,28 @@ class MiddlewarePass implements CompilerPassInterface
             array_unshift($arguments, $options);
             $clientDefinition->setArguments($arguments);
         }
+    }
+
+    private function filterClientMiddleware(array $middlewareBag, array $tags)
+    {
+        if (!isset($tags[0]['middleware'])) {
+            return $middlewareBag;
+        }
+
+        $clientMiddlewareList = explode(' ', $tags[0]['middleware']);
+
+        $whiteList = [];
+        $blackList = [];
+        foreach ($clientMiddlewareList as $middleware) {
+            if ('!' === $middleware[0]) {
+                $blackList[] = substr($middleware, 1);
+            } else {
+                $whiteList[] = $middleware;
+            }
+        }
+
+        return array_filter($middlewareBag, function ($value) use ($whiteList, $blackList) {
+            return in_array($value['alias'], $whiteList, true) && !in_array($value['alias'], $blackList, true);
+        });
     }
 }
