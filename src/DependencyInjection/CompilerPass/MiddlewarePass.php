@@ -116,7 +116,7 @@ class MiddlewarePass implements CompilerPassInterface
                 $handlerStack = $this->wrapHandlerInHandlerStack($options['handler'], $container);
             }
 
-            $this->addMiddlewaresToHandlerStack($handlerStack, $clientMiddleware);
+            $this->addMiddlewareToHandlerStack($handlerStack, $clientMiddleware);
             $options['handler'] = $handlerStack;
 
             array_unshift($arguments, $options);
@@ -148,7 +148,7 @@ class MiddlewarePass implements CompilerPassInterface
         return $handlerDefinition;
     }
 
-    private function addMiddlewaresToHandlerStack(Definition $handlerStack, array $middlewareBag)
+    private function addMiddlewareToHandlerStack(Definition $handlerStack, array $middlewareBag)
     {
         foreach ($middlewareBag as $middleware) {
             $handlerStack->addMethodCall('push', [new Reference($middleware['id']), $middleware['alias']]);
