@@ -11,6 +11,7 @@
 
 namespace Csa\Bundle\GuzzleBundle\DependencyInjection\CompilerPass;
 
+use GuzzleHttp\HandlerStack;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
@@ -20,6 +21,7 @@ use Symfony\Component\DependencyInjection\Reference;
  * Csa Guzzle middleware compiler pass.
  *
  * @author Charles Sarrazin <charles@sarraz.in>
+ * @author Tobias Schultze <http://tobion.de>
  */
 class MiddlewarePass implements CompilerPassInterface
 {
@@ -47,11 +49,11 @@ class MiddlewarePass implements CompilerPassInterface
 
         foreach ($services as $id => $tags) {
             if (count($tags) > 1) {
-                throw new \LogicException('Middleware should only use a single \'csa_guzzle.middleware\' tag');
+                throw new \LogicException(sprintf('Middleware should only use a single \'%s\' tag', self::MIDDLEWARE_TAG));
             }
 
             if (!isset($tags[0]['alias'])) {
-                throw new \LogicException('The \'alias\' attribute is mandatory for the \'csa_guzzle.middleware\' tag');
+                throw new \LogicException(sprintf('The \'alias\' attribute is mandatory for the \'%s\' tag', self::MIDDLEWARE_TAG));
             }
 
             $priority = isset($tags[0]['priority']) ? $tags[0]['priority'] : 0;
@@ -87,7 +89,7 @@ class MiddlewarePass implements CompilerPassInterface
 
         foreach ($clients as $clientId => $tags) {
             if (count($tags) > 1) {
-                throw new \LogicException('Clients should use a single \'csa_guzzle.client\' tag');
+                throw new \LogicException(sprintf('Clients should use a single \'%s\' tag', self::CLIENT_TAG));
             }
 
             $clientMiddleware = $this->filterClientMiddleware($middlewareBag, $tags);
@@ -100,31 +102,56 @@ class MiddlewarePass implements CompilerPassInterface
 
             $arguments = $clientDefinition->getArguments();
 
-            $options = [];
-
             if (!empty($arguments)) {
                 $options = array_shift($arguments);
+            } else {
+                $options = [];
             }
 
             if (!isset($options['handler'])) {
-                $handlerStack = new Definition('csa_guzzle.handler_stack');
-                $handlerStack->setFactory(['GuzzleHttp\HandlerStack', 'create']);
+                $handlerStack = new Definition(HandlerStack::class);
+                $handlerStack->setFactory([HandlerStack::class, 'create']);
                 $handlerStack->setPublic(false);
-
-                $clientHandlerStackId = sprintf('csa_guzzle.handler_stack.%s', $clientId);
-
-                $container->setDefinition($clientHandlerStackId, $handlerStack);
-                $options['handler'] = $handlerStack;
+            } else {
+                $handlerStack = $this->wrapHandlerInHandlerStack($options['handler'], $container);
             }
 
-            $handlerStack = $options['handler'];
-
-            foreach ($clientMiddleware as $middleware) {
-                $handlerStack->addMethodCall('push', [new Reference($middleware['id']), $middleware['alias']]);
-            }
+            $this->addMiddlewaresToHandlerStack($handlerStack, $clientMiddleware);
+            $options['handler'] = $handlerStack;
 
             array_unshift($arguments, $options);
             $clientDefinition->setArguments($arguments);
+        }
+    }
+
+    /**
+     * @param Reference|Definition|callable $handler   The configured Guzzle handler
+     * @param ContainerBuilder              $container The container builder
+     *
+     * @return Definition
+     */
+    private function wrapHandlerInHandlerStack($handler, ContainerBuilder $container)
+    {
+        if ($handler instanceof Reference) {
+            $handler = $container->getDefinition((string) $handler);
+        }
+
+        if ($handler instanceof Definition && HandlerStack::class === $handler->getClass()) {
+            // no need to wrap the Guzzle handler if it already resolves to a HandlerStack
+            return $handler;
+        }
+
+        $handlerDefinition = new Definition(HandlerStack::class);
+        $handlerDefinition->setArguments([$handler]);
+        $handlerDefinition->setPublic(false);
+
+        return $handlerDefinition;
+    }
+
+    private function addMiddlewaresToHandlerStack(Definition $handlerStack, array $middlewareBag)
+    {
+        foreach ($middlewareBag as $middleware) {
+            $handlerStack->addMethodCall('push', [new Reference($middleware['id']), $middleware['alias']]);
         }
     }
 
