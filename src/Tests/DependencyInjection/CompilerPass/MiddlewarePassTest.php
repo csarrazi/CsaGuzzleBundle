@@ -12,6 +12,7 @@
 namespace Csa\Bundle\GuzzleBundle\Tests\DependencyInjection\CompilerPass;
 
 use Csa\Bundle\GuzzleBundle\DependencyInjection\CompilerPass\MiddlewarePass;
+use GuzzleHttp\HandlerStack;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
@@ -107,10 +108,10 @@ class MiddlewarePassTest extends \PHPUnit_Framework_TestCase
         $this->assertCount(0, $client->getArguments());
     }
 
-    public function testHandlerIsKeptByCompilerPass()
+    public function testCustomHandlerStackIsKeptAndMiddlewareAdded()
     {
-        $handlerDefinition = new Definition();
-        $client = $this->createClient([], $handlerDefinition);
+        $handler = new Definition(HandlerStack::class);
+        $client = $this->createClient([], $handler);
         $container = $this->createContainer();
         $container->setDefinition('client', $client);
 
@@ -121,7 +122,31 @@ class MiddlewarePassTest extends \PHPUnit_Framework_TestCase
         $pass = new MiddlewarePass();
         $pass->process($container);
 
-        $this->assertSame($handlerDefinition, $client->getArgument(0)['handler']);
+        $clientHandler = $client->getArgument(0)['handler'];
+        $this->assertSame($handler, $clientHandler);
+        $this->assertSame(HandlerStack::class, $clientHandler->getClass());
+        $this->assertTrue($clientHandler->hasMethodCall('push'));
+    }
+
+    public function testCustomHandlerCallableIsWrappedAndMiddlewareAdded()
+    {
+        $handler = function () {};
+        $client = $this->createClient([], $handler);
+        $container = $this->createContainer();
+        $container->setDefinition('client', $client);
+
+        foreach (['foo' => 0, 'bar' => 10, 'qux' => -1000] as $alias => $priority) {
+            $this->createMiddleware($container, $alias, $priority);
+        }
+
+        $pass = new MiddlewarePass();
+        $pass->process($container);
+
+        $clientHandler = $client->getArgument(0)['handler'];
+        $this->assertInstanceOf(Definition::class, $clientHandler);
+        $this->assertSame(HandlerStack::class, $clientHandler->getClass());
+        $this->assertSame($handler, $clientHandler->getArgument(0));
+        $this->assertTrue($clientHandler->hasMethodCall('push'));
     }
 
     private function createMiddleware(ContainerBuilder $container, $alias, $priority = null)
