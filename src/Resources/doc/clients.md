@@ -45,7 +45,6 @@ You may want to mark the service as [lazy](http://symfony.com/doc/current/compon
 csa_guzzle:
     clients:
         my_client:
-            class: AppBundle\Client
             lazy: true
             # ...
 ```
@@ -60,9 +59,7 @@ csa_guzzle:
             # ...
 ```
 
-Of course, you need to make sure that your client class has no constructor arguments.
-
-If you need to pass constructor arguments to your class, then you should use the tag syntax (see below).
+Of course, you need to make sure that your client class' constructor has exactly the same signature as Guzzle's Client class.
 
 Registering your own service
 ----------------------------
