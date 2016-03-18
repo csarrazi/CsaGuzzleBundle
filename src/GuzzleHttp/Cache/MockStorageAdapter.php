@@ -61,14 +61,8 @@ class MockStorageAdapter implements StorageAdapterInterface
     public function fetch(RequestInterface $request)
     {
         $path = $this->getPath($request);
-
         if (!file_exists($path)) {
-            // Try to find file without host (for BC)
-            $path = $this->getPath($request, false);
-
-            if (!file_exists($path)) {
-                throw new \RuntimeException('Record not found.');
-            }
+            throw new \RuntimeException('Record not found.');
         }
 
         return Psr7\parse_response(file_get_contents($path));
@@ -120,22 +114,17 @@ class MockStorageAdapter implements StorageAdapterInterface
         ]));
 
         if (true === $withHost) {
-            $path = sprintf(
-                '%s_%s_%s____%s',
-                str_pad($request->getMethod(), 6, '_'),
-                $request->getUri()->getHost(),
-                urldecode(ltrim($request->getUri()->getPath(), '/').'-'.$request->getUri()->getQuery()),
-                $fingerprint
+            $checksum = md5(
+                $request->getUri()->getHost().ltrim($request->getUri()->getPath(), '/').'?'.$request->getUri()->getQuery()
             );
         } else {
-            $path = sprintf(
-                '%s_%s____%s',
-                str_pad($request->getMethod(), 6, '_'),
-                urldecode(ltrim($request->getUri()->getPath(), '/').'-'.$request->getUri()->getQuery()),
-                $fingerprint
+            $checksum = md5(
+                ltrim($request->getUri()->getPath(), '/').'?'.$request->getUri()->getQuery()
             );
         }
 
-        return $this->storagePath.'/'.preg_replace('/[^a-zA-Z0-9_+=@\-\?\.]/', '-', $path).'.txt';
+        $filename = sprintf('%s-%s.txt', substr($checksum, 0, 7), substr($fingerprint, 0, 7));
+
+        return $this->storagePath.'/'.$filename;
     }
 }

@@ -51,14 +51,6 @@ class MockStorageAdapterTest extends \PHPUnit_Framework_TestCase
 
         $this->assertInstanceOf(ResponseInterface::class, $response);
         $this->assertEquals(302, $response->getStatusCode());
-
-        /* Mock with no host in the file name gets the right return code */
-
-        $mockStorage = new MockStorageAdapter(__DIR__.'/../../Fixtures/mocks');
-        $response = $mockStorage->fetch($this->getRequestMockForMockWithNoHost());
-
-        $this->assertInstanceOf(ResponseInterface::class, $response);
-        $this->assertEquals(301, $response->getStatusCode());
     }
 
     public function testSave()
@@ -68,7 +60,7 @@ class MockStorageAdapterTest extends \PHPUnit_Framework_TestCase
         $mockStorage->save($request, new Response(404, ['X-Foo' => 'bar'], 'Not found'));
         $response = $mockStorage->fetch($request);
 
-        $this->assertCount(1, glob($this->tmpDir.'/GET____*'));
+        $this->assertCount(1, glob($this->tmpDir.'/*'));
         $this->assertInstanceOf(ResponseInterface::class, $response);
         $this->assertEquals(404, $response->getStatusCode());
 
@@ -78,10 +70,5 @@ class MockStorageAdapterTest extends \PHPUnit_Framework_TestCase
     private function getRequestMock()
     {
         return new Request('GET', 'http://google.com/', ['Accept' => 'text/html']);
-    }
-
-    private function getRequestMockForMockWithNoHost()
-    {
-        return new Request('GET', 'http://yahoo.com/', ['Accept' => 'text/html']);
     }
 }
