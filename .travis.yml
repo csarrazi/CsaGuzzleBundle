@@ -18,9 +18,8 @@ matrix:
 
 install:
   - composer self-update -q
-  - if [ -n "$GH_TOKEN" ]; then composer config github-oauth.github.com ${GH_TOKEN}; fi;
-  - if [ "$deps" = "no" ]; then composer --prefer-stable -n update; fi;
-  - if [ "$deps" = "low" ]; then composer --prefer-lowest -n --prefer-stable update; fi;
+  - if [ "$deps" = "no" ]; then composer --prefer-stable --prefer-dist -n update; fi;
+  - if [ "$deps" = "low" ]; then composer --prefer-lowest -n --prefer-stable --prefer-dist update; fi;
 
 env:
   global:

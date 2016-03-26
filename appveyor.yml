@@ -30,7 +30,7 @@ install:
     - IF %PHP%==1 echo extension=php_curl.dll >> php.ini
     - appveyor DownloadFile https://getcomposer.org/composer.phar
     - cd c:\projects\guzzle-bundle
-    - composer install
+    - composer install --prefer-dist
 
 test_script:
     - cd c:\projects\guzzle-bundle

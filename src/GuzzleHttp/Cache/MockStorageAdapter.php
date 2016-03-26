@@ -11,47 +11,38 @@
 
 namespace Csa\Bundle\GuzzleBundle\GuzzleHttp\Cache;
 
+use Csa\Bundle\GuzzleBundle\GuzzleHttp\Cache\NamingStrategy\LegacyNamingStrategy;
+use Csa\Bundle\GuzzleBundle\GuzzleHttp\Cache\NamingStrategy\NamingStrategyInterface;
+use Csa\Bundle\GuzzleBundle\GuzzleHttp\Cache\NamingStrategy\SubfolderNamingStrategy;
 use GuzzleHttp\Psr7;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use Symfony\Component\Filesystem\Filesystem;
 
 class MockStorageAdapter implements StorageAdapterInterface
 {
-    /**
-     * @var string
-     */
     private $storagePath;
-
-    /**
-     * @var array
-     */
-    private $requestHeadersBlacklist = [
-        'User-Agent',
-        'Host',
-        'X-Guzzle-Cache',
-    ];
-
-    /**
-     * @var array
-     */
+    /** @var NamingStrategyInterface[] */
+    private $namingStrategies = [];
     private $responseHeadersBlacklist = [
         'X-Guzzle-Cache',
     ];
 
     /**
-     * @param $storagePath
-     * @param null|array $headersBlacklist
+     * @param string $storagePath
+     * @param array  $requestHeadersBlacklist
+     * @param array  $responseHeadersBlacklist
      */
     public function __construct($storagePath, array $requestHeadersBlacklist = [], array $responseHeadersBlacklist = [])
     {
         $this->storagePath = $storagePath;
 
-        if (!empty($requestHeadersBlacklist)) {
-            $this->requestHeadersBlacklist = $requestHeadersBlacklist;
-        }
+        $this->namingStrategies[] = new SubfolderNamingStrategy($requestHeadersBlacklist);
+        $this->namingStrategies[] = new LegacyNamingStrategy(true, $requestHeadersBlacklist);
+        $this->namingStrategies[] = new LegacyNamingStrategy(false, $requestHeadersBlacklist);
 
         if (!empty($responseHeadersBlacklist)) {
-            $this->responseHeadersBlacklist = $responseHeadersBlacklist;
+            $this->responseHeadersBlacklist  = $responseHeadersBlacklist;
         }
     }
 
@@ -60,18 +51,13 @@ class MockStorageAdapter implements StorageAdapterInterface
      */
     public function fetch(RequestInterface $request)
     {
-        $path = $this->getPath($request);
-
-        if (!file_exists($path)) {
-            // Try to find file without host (for BC)
-            $path = $this->getPath($request, false);
-
-            if (!file_exists($path)) {
-                throw new \RuntimeException('Record not found.');
+        foreach ($this->namingStrategies as $strategy) {
+            if (file_exists($filename = $this->getFilename($strategy->filename($request)))) {
+                return Psr7\parse_response(file_get_contents($filename));
             }
         }
 
-        return Psr7\parse_response(file_get_contents($path));
+        throw new \RuntimeException('Record not found.');
     }
 
     /**
@@ -83,59 +69,26 @@ class MockStorageAdapter implements StorageAdapterInterface
             $response = $response->withoutHeader($header);
         }
 
-        file_put_contents($this->getPath($request), Psr7\str($response));
+        list($strategy) = $this->namingStrategies;
 
-        $response->getBody()->seek(0);
+        $filename = $this->getFilename($strategy->filename($request));
+
+        $fs = new Filesystem();
+        $fs->mkdir(dirname($filename));
+
+        file_put_contents($filename, Psr7\str($response));
+        $response->getBody()->rewind();
     }
 
     /**
-     * Create a fingerprint for each request.
+     * Prefixes the generated file path with the adapter's storage path.
      *
-     * As it is for mocking (and not for real caching), ignore some
-     * characteristics like the 'User-Agent' to avoid stale cache
-     * when updating PHP or Guzzle.
-     *
-     * @param RequestInterface $request
-     * @param bool             $withHost
+     * @param string $name
      *
      * @return string The path to the mock file
      */
-    public function getPath(RequestInterface $request, $withHost = true)
+    private function getFilename($name)
     {
-        $headers = $request->getHeaders();
-        foreach ($headers as $name => $values) {
-            if (in_array($name, $this->requestHeadersBlacklist)) {
-                unset($headers[$name]);
-            }
-        }
-
-        $fingerprint = md5(serialize([
-            'method' => $request->getMethod(),
-            'path' => $request->getUri()->getPath(),
-            'query' => $request->getUri()->getQuery(),
-            'user_info' => $request->getUri()->getUserInfo(),
-            'port' => $request->getUri()->getPort(),
-            'scheme' => $request->getUri()->getScheme(),
-            'headers' => $headers,
-        ]));
-
-        if (true === $withHost) {
-            $path = sprintf(
-                '%s_%s_%s____%s',
-                str_pad($request->getMethod(), 6, '_'),
-                $request->getUri()->getHost(),
-                urldecode(ltrim($request->getUri()->getPath(), '/').'-'.$request->getUri()->getQuery()),
-                $fingerprint
-            );
-        } else {
-            $path = sprintf(
-                '%s_%s____%s',
-                str_pad($request->getMethod(), 6, '_'),
-                urldecode(ltrim($request->getUri()->getPath(), '/').'-'.$request->getUri()->getQuery()),
-                $fingerprint
-            );
-        }
-
-        return $this->storagePath.'/'.preg_replace('/[^a-zA-Z0-9_+=@\-\?\.]/', '-', $path).'.txt';
+        return $this->storagePath.'/'.$name.'.txt';
     }
 }
