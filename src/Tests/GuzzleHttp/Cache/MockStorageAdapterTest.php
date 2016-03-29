@@ -68,7 +68,26 @@ class MockStorageAdapterTest extends \PHPUnit_Framework_TestCase
         $mockStorage->save($request, new Response(404, ['X-Foo' => 'bar'], 'Not found'));
         $response = $mockStorage->fetch($request);
 
-        $this->assertCount(1, glob($this->tmpDir.'/GET____*'));
+        $this->assertCount(1, glob($this->tmpDir.'/google.com/GET_*'));
+        $this->assertInstanceOf(ResponseInterface::class, $response);
+        $this->assertEquals(404, $response->getStatusCode());
+
+        $this->assertFalse($response->hasHeader('X-Foo'));
+    }
+
+    public function testSaveWithSubResource()
+    {
+        $request = new Request(
+            'POST',
+            'http://api.github.com/user/repos',
+            ['Accept' => 'application/vnd.github+json']
+        );
+
+        $mockStorage = new MockStorageAdapter($this->tmpDir, [], ['X-Foo']);
+        $mockStorage->save($request, new Response(404, ['X-Foo' => 'bar'], 'Not found'));
+        $response = $mockStorage->fetch($request);
+
+        $this->assertCount(1, glob($this->tmpDir.'/api.github.com/user/repos/POST_*'));
         $this->assertInstanceOf(ResponseInterface::class, $response);
         $this->assertEquals(404, $response->getStatusCode());
 

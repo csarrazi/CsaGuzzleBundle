@@ -11,6 +11,7 @@
 
 namespace Csa\Bundle\GuzzleBundle\GuzzleHttp\Cache;
 
+use Csa\Bundle\GuzzleBundle\GuzzleHttp\Cache\NamingStrategy\HashNamingStrategy;
 use Doctrine\Common\Cache\Cache;
 use GuzzleHttp\Psr7\Response;
 use Psr\Http\Message\RequestInterface;
@@ -19,17 +20,19 @@ use Psr\Http\Message\ResponseInterface;
 class DoctrineAdapter implements StorageAdapterInterface
 {
     private $cache;
+    private $namingStrategy;
     private $ttl;
 
     public function __construct(Cache $cache, $ttl = 0)
     {
         $this->cache = $cache;
+        $this->namingStrategy = new HashNamingStrategy();
         $this->ttl = $ttl;
     }
 
     public function fetch(RequestInterface $request)
     {
-        $key = $this->getKey($request);
+        $key = $this->namingStrategy->filename($request);
 
         if ($this->cache->contains($key)) {
             $data = $this->cache->fetch($key);
@@ -48,17 +51,8 @@ class DoctrineAdapter implements StorageAdapterInterface
             'reason' => $response->getReasonPhrase(),
         ];
 
-        $this->cache->save($this->getKey($request), $data, $this->ttl);
+        $this->cache->save($this->namingStrategy->filename($request), $data, $this->ttl);
 
         $response->getBody()->seek(0);
-    }
-
-    private function getKey(RequestInterface $request)
-    {
-        return md5(serialize([
-            'method' => $request->getMethod(),
-            'uri' => $request->getUri(),
-            'headers' => $request->getHeaders(),
-        ]));
     }
 }
