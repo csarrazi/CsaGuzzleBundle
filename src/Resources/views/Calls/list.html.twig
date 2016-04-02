@@ -16,6 +16,14 @@
                 </span>
                 {% if call.cache is defined %}<span class="badge cache {{ call.cache|lower }}">Cache {{ call.cache }}</span>{% endif %}
                 {% if call.mock is defined %}<span class="badge mock {{ call.mock|lower }}">Mock {{ call.mock }}</span>{% endif %}
+                {% if call.info.total_time > 1 %}
+                    {% set duration_color = 'error' %}
+                {% elseif call.info.total_time < 0.2 %}
+                    {% set duration_color = 'success' %}
+                {% else %}
+                    {% set duration_color = 'warning' %}
+                {% endif %}
+                <span class="badge duration {{ duration_color }}">{{ call.info.total_time|csa_guzzle_format_duration }}</span>
             </header>
 
             <div class="accordion-content{{ loop.first ? ' expanded': '' }}">
