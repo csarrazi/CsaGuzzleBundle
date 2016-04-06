@@ -29,15 +29,17 @@ class Middleware
     {
         return function (callable $handler) use ($stopwatch) {
             return function (RequestInterface $request, array $options) use ($handler, $stopwatch) {
-                $uri = (string) $request->getUri();
+                $key = (string) $request->getUri();
 
-                if (!$stopwatch->isStarted($uri)) {
-                    $stopwatch->start($uri);
+                // There is already a request watched this url
+                if ($stopwatch->isStarted($key)) {
+                    $key = $key.'[dupplicate]';
                 }
+                $stopwatch->start($key);
 
                 return $handler($request, $options)->then(
-                    function (ResponseInterface $response) use ($stopwatch, $uri) {
-                        $stopwatch->stop($uri);
+                    function (ResponseInterface $response) use ($stopwatch, $key) {
+                        $stopwatch->stop($key);
 
                         return $response;
                     }
