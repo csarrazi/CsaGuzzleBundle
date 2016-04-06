@@ -30,6 +30,9 @@ class DoctrineAdapter implements StorageAdapterInterface
         $this->ttl = $ttl;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function fetch(RequestInterface $request)
     {
         $key = $this->namingStrategy->filename($request);
@@ -41,6 +44,9 @@ class DoctrineAdapter implements StorageAdapterInterface
         }
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function save(RequestInterface $request, ResponseInterface $response)
     {
         $data = [

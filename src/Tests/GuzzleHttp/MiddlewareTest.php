@@ -13,49 +13,30 @@ namespace Csa\Bundle\GuzzleBundle\Tests\GuzzleHttp;
 
 use Csa\Bundle\GuzzleBundle\GuzzleHttp\Cache\StorageAdapterInterface;
 use Csa\Bundle\GuzzleBundle\GuzzleHttp\Middleware;
-use GuzzleHttp\Client;
-use GuzzleHttp\Handler\MockHandler;
-use GuzzleHttp\HandlerStack;
-use GuzzleHttp\Psr7\Response;
-use Psr\Http\Message\RequestInterface;
+use Symfony\Component\Stopwatch\Stopwatch;
 
 class MiddlewareTest extends \PHPUnit_Framework_TestCase
 {
     public function testCacheMiddleware()
     {
-        $response = new Response(204);
-        $mocks = array_fill(0, 2, $response);
-        $mock = new MockHandler($mocks);
-        $handler = HandlerStack::create($mock);
-
         $adapter = $this->getMock(StorageAdapterInterface::class);
-        $adapter
-            ->expects($this->at(0))
-            ->method('fetch')
-            ->with($this->isInstanceOf(RequestInterface::class))
-            ->willReturn(false)
-        ;
-        $adapter
-            ->expects($this->at(1))
-            ->method('save')
-            ->with(
-                $this->isInstanceOf(RequestInterface::class),
-                $this->equalTo($response)
-            )
-        ;
-        $adapter
-            ->expects($this->at(2))
-            ->method('fetch')
-            ->with($this->isInstanceOf(RequestInterface::class))
-            ->willReturn($response)
-        ;
+        $this->assertInstanceOf(Middleware\CacheMiddleware::class, Middleware::cache($adapter));
+    }
 
-        $handler->push(Middleware::cache($adapter));
+    public function testHistoryMiddleware()
+    {
+        $this->assertInstanceOf(Middleware\HistoryMiddleware::class, Middleware::history(new \SplObjectStorage()));
+    }
 
-        $client = new Client(['handler' => $handler]);
+    public function testStopwatchMiddleware()
+    {
+        $stopwatch = new Stopwatch();
+        $this->assertInstanceOf(Middleware\StopwatchMiddleware::class, Middleware::stopwatch($stopwatch));
+    }
 
-        $client->get('http://foo.bar');
-
-        $client->get('http://foo.bar');
+    public function testMockMiddleware()
+    {
+        $adapter = $this->getMock(StorageAdapterInterface::class);
+        $this->assertInstanceOf(Middleware\MockMiddleware::class, Middleware::mock($adapter, 'foo'));
     }
 }
