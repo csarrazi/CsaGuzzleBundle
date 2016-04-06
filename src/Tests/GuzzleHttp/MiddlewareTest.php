@@ -18,6 +18,8 @@ use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
 use Psr\Http\Message\RequestInterface;
+use Symfony\Component\Stopwatch\Stopwatch;
+use Symfony\Component\Stopwatch\StopwatchEvent;
 
 class MiddlewareTest extends \PHPUnit_Framework_TestCase
 {
@@ -57,5 +59,26 @@ class MiddlewareTest extends \PHPUnit_Framework_TestCase
         $client->get('http://foo.bar');
 
         $client->get('http://foo.bar');
+    }
+
+    public function testStopwatchMiddleware()
+    {
+        $response = new Response(204);
+        $mocks = array_fill(0, 2, $response);
+        $mock = new MockHandler($mocks);
+        $handler = HandlerStack::create($mock);
+
+        $stopWatch = new Stopwatch();
+        $handler->push(Middleware::stopwatch($stopWatch));
+
+        $client = new Client(['handler' => $handler]);
+
+        \GuzzleHttp\Promise\unwrap([
+            'foo1' => $client->getAsync('http://foo.bar'),
+            'foo2' => $client->getAsync('http://foo.bar')
+        ]);
+        
+        $this->assertInstanceOf(StopwatchEvent::class, $stopWatch->getEvent('http://foo.bar'));
+        $this->assertInstanceOf(StopwatchEvent::class, $stopWatch->getEvent('http://foo.bar[dupplicate]'));
     }
 }
