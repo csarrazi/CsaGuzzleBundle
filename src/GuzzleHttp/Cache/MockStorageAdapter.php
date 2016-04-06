@@ -56,8 +56,6 @@ class MockStorageAdapter implements StorageAdapterInterface
                 return Psr7\parse_response(file_get_contents($filename));
             }
         }
-
-        throw new \RuntimeException('Record not found.');
     }
 
     /**

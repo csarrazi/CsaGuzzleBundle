@@ -19,7 +19,7 @@ interface StorageAdapterInterface
     /**
      * @param RequestInterface $request
      *
-     * @return ResponseInterface
+     * @return null|ResponseInterface
      */
     public function fetch(RequestInterface $request);
 
