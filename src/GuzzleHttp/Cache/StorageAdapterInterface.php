@@ -11,21 +11,13 @@
 
 namespace Csa\Bundle\GuzzleBundle\GuzzleHttp\Cache;
 
-use Psr\Http\Message\RequestInterface;
-use Psr\Http\Message\ResponseInterface;
+use Csa\Bundle\GuzzleBundle\Cache\StorageAdapterInterface as BaseAdapterInterface;
 
-interface StorageAdapterInterface
+/**
+ * Legacy doctrine adapter.
+ *
+ * @deprecated This interface is deprecated since version 2.1. It will be removed in version 3.0.
+ */
+interface StorageAdapterInterface extends BaseAdapterInterface
 {
-    /**
-     * @param RequestInterface $request
-     *
-     * @return null|ResponseInterface
-     */
-    public function fetch(RequestInterface $request);
-
-    /**
-     * @param RequestInterface  $request
-     * @param ResponseInterface $response
-     */
-    public function save(RequestInterface $request, ResponseInterface $response);
 }

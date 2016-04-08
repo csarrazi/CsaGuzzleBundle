@@ -11,54 +11,13 @@
 
 namespace Csa\Bundle\GuzzleBundle\GuzzleHttp\Cache;
 
-use Csa\Bundle\GuzzleBundle\GuzzleHttp\Cache\NamingStrategy\HashNamingStrategy;
-use Doctrine\Common\Cache\Cache;
-use GuzzleHttp\Psr7\Response;
-use Psr\Http\Message\RequestInterface;
-use Psr\Http\Message\ResponseInterface;
+use Csa\Bundle\GuzzleBundle\Cache\DoctrineAdapter as BaseAdapter;
 
-class DoctrineAdapter implements StorageAdapterInterface
+/**
+ * Legacy doctrine adapter.
+ *
+ * @deprecated This class is deprecated since version 2.1. It will be removed in version 3.0.
+ */
+class DoctrineAdapter extends BaseAdapter implements StorageAdapterInterface
 {
-    private $cache;
-    private $namingStrategy;
-    private $ttl;
-
-    public function __construct(Cache $cache, $ttl = 0)
-    {
-        $this->cache = $cache;
-        $this->namingStrategy = new HashNamingStrategy();
-        $this->ttl = $ttl;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function fetch(RequestInterface $request)
-    {
-        $key = $this->namingStrategy->filename($request);
-
-        if ($this->cache->contains($key)) {
-            $data = $this->cache->fetch($key);
-
-            return new Response($data['status'], $data['headers'], $data['body'], $data['version'], $data['reason']);
-        }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function save(RequestInterface $request, ResponseInterface $response)
-    {
-        $data = [
-            'status' => $response->getStatusCode(),
-            'headers' => $response->getHeaders(),
-            'body' => (string) $response->getBody(),
-            'version' => $response->getProtocolVersion(),
-            'reason' => $response->getReasonPhrase(),
-        ];
-
-        $this->cache->save($this->namingStrategy->filename($request), $data, $this->ttl);
-
-        $response->getBody()->seek(0);
-    }
 }

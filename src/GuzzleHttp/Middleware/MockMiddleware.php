@@ -11,7 +11,7 @@
 
 namespace Csa\Bundle\GuzzleBundle\GuzzleHttp\Middleware;
 
-use Csa\Bundle\GuzzleBundle\GuzzleHttp\Cache\StorageAdapterInterface;
+use Csa\Bundle\GuzzleBundle\Cache\StorageAdapterInterface;
 use GuzzleHttp\Promise\FulfilledPromise;
 use GuzzleHttp\Promise\RejectedPromise;
 use Psr\Http\Message\RequestInterface;
