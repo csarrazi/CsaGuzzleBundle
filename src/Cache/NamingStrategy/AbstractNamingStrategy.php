@@ -9,7 +9,7 @@
  * file that was distributed with this source code
  */
 
-namespace Csa\Bundle\GuzzleBundle\GuzzleHttp\Cache\NamingStrategy;
+namespace Csa\Bundle\GuzzleBundle\Cache\NamingStrategy;
 
 use Psr\Http\Message\RequestInterface;
 
