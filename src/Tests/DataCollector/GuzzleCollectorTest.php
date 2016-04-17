@@ -41,7 +41,13 @@ class GuzzleCollectorTest extends \PHPUnit_Framework_TestCase
 
         $client->get('http://foo.bar');
         $collector->collect($request, $response, new \Exception());
-        $this->assertCount(1, $collector->getCalls());
+        $calls = $collector->getCalls();
+        $this->assertCount(1, $calls);
+        $this->assertStringStartsWith(sprintf(
+            'curl %s -A',
+            escapeshellarg('http://foo.bar')
+            ), $calls[0]['curl']
+        );
 
         $client->get('http://foo.bar');
         $collector->collect($request, $response, new \Exception());

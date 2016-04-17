@@ -88,3 +88,9 @@
         </div>
     {% endif %}
 {% endmacro %}
+
+{% macro render_curl(curl) %}
+    <h4>cURL</h4>
+
+    <pre><code>{{ curl }}</code></pre>
+{% endmacro %}
