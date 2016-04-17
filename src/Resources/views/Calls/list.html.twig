@@ -36,6 +36,9 @@
                             {{ macros.render_infos(call.info) }}
                             {{ macros.render_headers(call.request.headers, call.uri) }}
                             {{ macros.render_body(call.request.body) }}
+                            {% if call.curl is defined %}
+                                {{ macros.render_curl(call.curl) }}
+                            {% endif %}
                         </div>
                     </div>
                     {% if call.response is defined %}

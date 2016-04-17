@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "f0d14c45660fa77dc93beb6a90e9450d",
-    "content-hash": "8e2fc4f5ec98c4ae3c5c5733a67bab4f",
+    "hash": "ec24438f5d63994e6fc5093c23002e1b",
+    "content-hash": "402616fc5bbfc256020b83f34d4421f6",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -368,6 +368,56 @@
                 "uri"
             ],
             "time": "2016-02-18 21:54:00"
+        },
+        {
+            "name": "namshi/cuzzle",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/namshi/cuzzle.git",
+                "reference": "51b264c758088175c72f0662292793917634633a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/namshi/cuzzle/zipball/51b264c758088175c72f0662292793917634633a",
+                "reference": "51b264c758088175c72f0662292793917634633a",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^6.0",
+                "php": ">=5.5.0",
+                "psr/log": "^1.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.2.2"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Namshi\\Cuzzle\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nikita Nefedov",
+                    "email": "inefedor@gmail.com"
+                },
+                {
+                    "name": "cirpo",
+                    "email": "alessandro.cinelli@gmail.com"
+                }
+            ],
+            "description": "Get the cURL shell command from a Guzzle request",
+            "time": "2016-04-10 06:02:14"
         },
         {
             "name": "paragonie/random_compat",
@@ -744,7 +794,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/dependency-injection/zipball/4d11d8088d395b7fa0762e474cdda2259efba9e5",
+                "url": "https://api.github.com/repos/symfony/dependency-injection/zipball/c05c38fe0afddfe90edc655b61d617b84ca38d9a",
                 "reference": "4d11d8088d395b7fa0762e474cdda2259efba9e5",
                 "shasum": ""
             },
@@ -912,7 +962,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/filesystem/zipball/3402bb927c2ae25caca38d6faf901f25fc42a926",
+                "url": "https://api.github.com/repos/symfony/filesystem/zipball/5751e80d6f94b7c018f338a4a7be0b700d6f3058",
                 "reference": "3402bb927c2ae25caca38d6faf901f25fc42a926",
                 "shasum": ""
             },
@@ -1010,7 +1060,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/framework-bundle/zipball/bddf1936ac20ecc7147929d803c1820d55d10b6d",
+                "url": "https://api.github.com/repos/symfony/framework-bundle/zipball/dc3301ff7d1022834c43fb118675cbffbc019e43",
                 "reference": "bddf1936ac20ecc7147929d803c1820d55d10b6d",
                 "shasum": ""
             },
@@ -1155,7 +1205,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/http-kernel/zipball/804b5f0a9fda136f24b56e2615b1520342626d28",
+                "url": "https://api.github.com/repos/symfony/http-kernel/zipball/7f662675772a7dfa0f423779744ef48a003e6f91",
                 "reference": "804b5f0a9fda136f24b56e2615b1520342626d28",
                 "shasum": ""
             },
@@ -2299,7 +2349,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/f9733ae34271bec6a6a6a1d4e9a8dd28f2ac1628",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/496745aeba741e63b7149da3e1f712d441751182",
                 "reference": "f9733ae34271bec6a6a6a1d4e9a8dd28f2ac1628",
                 "shasum": ""
             },
@@ -2799,7 +2849,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/phpunit-bridge/zipball/b9cda252bc7cd42469ddf8e32254cd1198772000",
+                "url": "https://api.github.com/repos/symfony/phpunit-bridge/zipball/f5e7cdc9b5cd3f7d9b0228692cd6ec5736c3b074",
                 "reference": "b9cda252bc7cd42469ddf8e32254cd1198772000",
                 "shasum": ""
             },
@@ -2935,7 +2985,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/web-profiler-bundle/zipball/20a3bd9796456143055a029bda5d6d6884771f62",
+                "url": "https://api.github.com/repos/symfony/web-profiler-bundle/zipball/87f80c5c75a7d8901037221e21f9b51595a1c060",
                 "reference": "20a3bd9796456143055a029bda5d6d6884771f62",
                 "shasum": ""
             },

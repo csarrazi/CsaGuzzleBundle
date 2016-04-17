@@ -12,6 +12,7 @@
 namespace Csa\Bundle\GuzzleBundle\DataCollector;
 
 use GuzzleHttp\TransferStats;
+use Namshi\Cuzzle\Formatter\CurlFormatter;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
@@ -30,6 +31,7 @@ class GuzzleCollector extends DataCollector
 
     private $maxBodySize;
     private $history;
+    private $curlFormatter;
 
     /**
      * Constructor.
@@ -40,6 +42,7 @@ class GuzzleCollector extends DataCollector
     {
         $this->maxBodySize = $maxBodySize;
         $this->history = new \SplObjectStorage();
+        $this->curlFormatter = new CurlFormatter();
         $this->data = [];
     }
 
@@ -75,6 +78,7 @@ class GuzzleCollector extends DataCollector
                 ],
                 'info' => $info,
                 'uri' => urldecode($request->getUri()),
+                'curl' => $this->curlFormatter->format($request),
             ];
 
             if ($response) {
