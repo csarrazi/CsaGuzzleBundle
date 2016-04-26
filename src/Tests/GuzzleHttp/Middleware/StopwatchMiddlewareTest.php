@@ -35,7 +35,7 @@ class StopwatchMiddlewareTest extends \PHPUnit_Framework_TestCase
         $client = new Client(['handler' => $handler]);
 
         $client->get('http://foo.bar');
-        $this->assertContains('GET http://foo.bar (1)', array_keys($stopwatch->getSectionEvents('__root__')));
+        $this->assertContains('GET http://foo.bar', array_keys($stopwatch->getSectionEvents('__root__')));
     }
 
     public function testSinglePromise()
@@ -52,7 +52,7 @@ class StopwatchMiddlewareTest extends \PHPUnit_Framework_TestCase
 
         $client->postAsync('http://foo.bar');
 
-        $this->assertContains('POST http://foo.bar (1)', array_keys($stopwatch->getSectionEvents('__root__')));
+        $this->assertContains('POST http://foo.bar', array_keys($stopwatch->getSectionEvents('__root__')));
     }
 
     public function testMultiplePromises()
@@ -77,7 +77,10 @@ class StopwatchMiddlewareTest extends \PHPUnit_Framework_TestCase
         Promise\unwrap($promises);
 
         for ($i = 1; $i <= 3; ++$i) {
-            $this->assertContains(sprintf('GET http://foo.bar (%s)', $i), array_keys($stopwatch->getSectionEvents('__root__')));
+            $this->assertContains(
+                $i > 1 ? sprintf('GET http://foo.bar (%s)', $i) : 'GET http://foo.bar',
+                array_keys($stopwatch->getSectionEvents('__root__'))
+            );
         }
     }
 }
