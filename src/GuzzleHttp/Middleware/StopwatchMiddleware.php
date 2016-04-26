@@ -36,16 +36,14 @@ class StopwatchMiddleware
             $key = sprintf('%s %s', $request->getMethod(), (string) $request->getUri());
 
             if (!isset($this->increments[$key])) {
-                $this->increments[$key] = 0;
+                $this->increments[$key] = 1;
+            } else {
+                ++$this->increments[$key];
+                
+                $key .= ' ('.$this->increments[$key].')';
             }
 
-            ++$this->increments[$key];
-
-            $key .= ' ('.$this->increments[$key].')';
-
-            if (!$this->stopwatch->isStarted($key)) {
-                $this->stopwatch->start($key);
-            }
+            $this->stopwatch->start($key);
 
             return $handler($request, $options)->then(
                 function (ResponseInterface $response) use ($key) {
