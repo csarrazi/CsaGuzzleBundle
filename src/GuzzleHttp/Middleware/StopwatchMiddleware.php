@@ -39,7 +39,7 @@ class StopwatchMiddleware
                 $this->increments[$key] = 1;
             } else {
                 ++$this->increments[$key];
-                
+
                 $key .= ' ('.$this->increments[$key].')';
             }
 
