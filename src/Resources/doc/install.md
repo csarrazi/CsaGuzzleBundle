@@ -45,7 +45,7 @@ configure the CsaGuzzleBundle as follows:
 
 ```yml
 csa_guzzle:
-    profiler: %kernel.debug%
+    profiler: '%kernel.debug%'
 ```
 
 You may also enable the included logger, in order log outcoming requests:
