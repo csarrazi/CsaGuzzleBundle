@@ -11,6 +11,7 @@
 
 namespace Csa\Bundle\GuzzleBundle\Tests\DependencyInjection;
 
+use Csa\Bundle\GuzzleBundle\DependencyInjection\CompilerPass\InheritancePass;
 use Csa\Bundle\GuzzleBundle\DependencyInjection\CompilerPass\MiddlewarePass;
 use Csa\Bundle\GuzzleBundle\DependencyInjection\CsaGuzzleExtension;
 use GuzzleHttp\MessageFormatter;
@@ -49,6 +50,32 @@ YAML;
         );
 
         $this->assertFalse($client->isLazy());
+    }
+
+    public function testClientExtensionConfigInheritanceSuccessfullyCreated()
+    {
+        $yaml = <<<YAML
+profiler:
+    enabled: false
+clients:
+    foo: []
+    bar:
+        extends: foo
+YAML;
+
+        $container = $this->createContainer($yaml);
+
+        $this->assertTrue($container->hasDefinition('csa_guzzle.client.foo'), 'Client must be created.');
+        $this->assertTrue($container->hasDefinition('csa_guzzle.client.bar'), 'Client must be created.');
+
+        $foo = $container->getDefinition('csa_guzzle.client.foo');
+        $bar = $container->getDefinition('csa_guzzle.client.bar');
+
+        $this->assertTrue($bar->hasTag(InheritancePass::TAG));
+        $this->assertFalse($foo->hasTag(InheritancePass::TAG));
+
+        $tag = $bar->getTag(InheritancePass::TAG);
+        $this->assertEquals('csa_guzzle.client.foo', $tag[0]['extends']);
     }
 
     public function testDefaultClientNotLazy()

@@ -11,6 +11,7 @@
 
 namespace Csa\Bundle\GuzzleBundle;
 
+use Csa\Bundle\GuzzleBundle\DependencyInjection\CompilerPass\InheritancePass;
 use Csa\Bundle\GuzzleBundle\DependencyInjection\CompilerPass\LoaderPass;
 use Csa\Bundle\GuzzleBundle\DependencyInjection\CompilerPass\MiddlewarePass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -29,5 +30,6 @@ class CsaGuzzleBundle extends Bundle
 
         $container->addCompilerPass(new MiddlewarePass());
         $container->addCompilerPass(new LoaderPass());
+        $container->addCompilerPass(new InheritancePass());
     }
 }

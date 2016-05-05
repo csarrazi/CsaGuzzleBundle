@@ -49,6 +49,20 @@ csa_guzzle:
             # ...
 ```
 
+You can also ```extend``` another client.
+
+```yml
+csa_guzzle:
+    clients:
+        parent_one:
+            config: 
+                 headers: 
+                     Accept: application/json
+        my_client:
+            extends: parent_one
+            # ...
+```
+
 If you override your client's class, you can also set the class for your client:
 
 ```yml
