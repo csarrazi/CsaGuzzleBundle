@@ -32,6 +32,9 @@
     "autoload": {
         "psr-4": { "Csa\\Bundle\\GuzzleBundle\\": "src" }
     },
+    "autoload-dev": {
+        "psr-4": { "Csa\\Bundle\\GuzzleBundle\\Tests\\": "tests" }
+    },
     "minimum-stability": "dev",
     "extra": {
         "branch-alias": {

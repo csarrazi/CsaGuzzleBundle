@@ -5,16 +5,13 @@
          bootstrap="vendor/autoload.php" colors="true">
     <testsuites>
         <testsuite name="CsaGuzzleBundle Test Suite">
-            <directory>src/Tests</directory>
+            <directory>tests</directory>
         </testsuite>
     </testsuites>
 
     <filter>
         <whitelist>
             <directory suffix=".php">src/</directory>
-            <exclude>
-                <directory>src/Tests</directory>
-            </exclude>
         </whitelist>
     </filter>
 </phpunit>
