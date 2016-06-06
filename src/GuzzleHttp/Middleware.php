@@ -11,7 +11,7 @@
 
 namespace Csa\Bundle\GuzzleBundle\GuzzleHttp;
 
-use Csa\Bundle\GuzzleBundle\GuzzleHttp\Cache\StorageAdapterInterface;
+use Csa\Bundle\GuzzleBundle\Cache\StorageAdapterInterface;
 use Csa\Bundle\GuzzleBundle\GuzzleHttp\Middleware\CacheMiddleware;
 use Csa\Bundle\GuzzleBundle\GuzzleHttp\Middleware\HistoryMiddleware;
 use Csa\Bundle\GuzzleBundle\GuzzleHttp\Middleware\MockMiddleware;
