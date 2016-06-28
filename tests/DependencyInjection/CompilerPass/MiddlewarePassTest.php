@@ -130,7 +130,8 @@ class MiddlewarePassTest extends \PHPUnit_Framework_TestCase
 
     public function testCustomHandlerCallableIsWrappedAndMiddlewareAdded()
     {
-        $handler = function () {};
+        $handler = function () {
+        };
         $client = $this->createClient([], $handler);
         $container = $this->createContainer();
         $container->setDefinition('client', $client);
