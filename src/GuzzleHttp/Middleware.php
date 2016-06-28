@@ -35,7 +35,7 @@ class Middleware
         return new CacheMiddleware($adapter, $debug);
     }
 
-    public static function history(\SplObjectStorage $container)
+    public static function history(\ArrayObject $container)
     {
         return new HistoryMiddleware($container);
     }

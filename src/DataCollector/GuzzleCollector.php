@@ -41,7 +41,7 @@ class GuzzleCollector extends DataCollector
     public function __construct($maxBodySize = self::MAX_BODY_SIZE)
     {
         $this->maxBodySize = $maxBodySize;
-        $this->history = new \SplObjectStorage();
+        $this->history = new \ArrayObject();
         $this->curlFormatter = new CurlFormatter();
         $this->data = [];
     }
@@ -49,9 +49,26 @@ class GuzzleCollector extends DataCollector
     public function addStats(TransferStats $stats)
     {
         $request = $stats->getRequest();
-        $data = isset($this->history[$request]) ? $this->history[$request] : [];
-        $data['info'] = $stats->getHandlerStats();
-        $this->history->attach($request, $data);
+        if (!$request->hasHeader('csa-guzzle-correlation-id')) {
+            $correlationId = uniqid();
+        } else {
+            $correlationId = $request->getHeader('csa-guzzle-correlation-id')[0];
+        }
+
+        if (!isset($this->history[$correlationId])) {
+            $this->history[$correlationId] = [
+                'request' => $request,
+                'response' => $stats->getResponse(),
+                'options' => null,
+                'error' => $stats->getHandlerErrorData(),
+                'info' => $stats->getHandlerStats(),
+            ];
+
+            return;
+        }
+
+        $this->history[$correlationId]['request'] = $request;
+        $this->history[$correlationId]['info'] = $stats->getHandlerStats();
     }
 
     /**
@@ -61,12 +78,14 @@ class GuzzleCollector extends DataCollector
     {
         $data = [];
 
-        /** @var RequestInterface $request */
-        foreach ($this->history as $request) {
-            $transaction = $this->history[$request];
-            /** @var ResponseInterface $response */
+        foreach ($this->history as $transaction) {
+            /* @var RequestInterface $request */
+            $request = $transaction['request'];
+            /* @var ResponseInterface $response */
             $response = $transaction['response'];
+            /* @var \Exception $error */
             $error = $transaction['error'];
+            /* @var array $info */
             $info = $transaction['info'];
 
             $req = [
