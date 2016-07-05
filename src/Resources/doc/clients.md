@@ -66,10 +66,24 @@ Registering your own service
 
 To have a client supported by the bundle, simply tag it as such:
 
+**XML:**
+
 ```xml
 <service id="acme.client" class="%acme.client.class%">
+    <argument type="collection">
+        <argument key="base_uri">http://acme.com</argument>
+        <argument key="timeout">2.0</argument>
+    </argument>
     <tag name="csa_guzzle.client" />
 </service>
+```
+
+**YAML:**
+
+```yml
+acme.client:
+    class: %acme.client.class%
+    arguments: [{ base_uri: http://acme.com, timeout: 2.0} ]
 ```
 
 Next section: [Registering new middleware](middleware.md)
