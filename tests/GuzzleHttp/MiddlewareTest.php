@@ -25,7 +25,7 @@ class MiddlewareTest extends \PHPUnit_Framework_TestCase
 
     public function testHistoryMiddleware()
     {
-        $this->assertInstanceOf(Middleware\HistoryMiddleware::class, Middleware::history(new \SplObjectStorage()));
+        $this->assertInstanceOf(Middleware\HistoryMiddleware::class, Middleware::history(new \ArrayObject()));
     }
 
     public function testStopwatchMiddleware()
