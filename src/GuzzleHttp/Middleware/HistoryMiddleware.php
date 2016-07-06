@@ -11,6 +11,7 @@
 
 namespace Csa\Bundle\GuzzleBundle\GuzzleHttp\Middleware;
 
+use Csa\Bundle\GuzzleBundle\DataCollector\GuzzleCollector;
 use GuzzleHttp\Promise\RejectedPromise;
 use Psr\Http\Message\RequestInterface;
 
@@ -21,6 +22,8 @@ use Psr\Http\Message\RequestInterface;
  */
 class HistoryMiddleware
 {
+    const CORRELATION_ID_HEADER = 'X-Guzzle-CorrelationId';
+
     private $container;
 
     public function __construct(\ArrayObject $container)
@@ -32,7 +35,7 @@ class HistoryMiddleware
     {
         return function (RequestInterface $request, array $options) use ($handler) {
             $correlationId = uniqid();
-            $request = $request->withAddedHeader('csa-guzzle-correlation-id', $correlationId);
+            $request = $request->withAddedHeader(self::CORRELATION_ID_HEADER, $correlationId);
             $this->container[$correlationId] = [
                 'request' => $request,
                 'response' => null,

@@ -56,34 +56,45 @@ class GuzzleCollectorTest extends \PHPUnit_Framework_TestCase
         $this->assertCount(2, $collector->getCalls());
     }
 
-    public function testAddStatsFromUncorrelatedRequest()
+    public function testAddStatsWithMiddleWare()
     {
-        $request = new Psr7Request('GET', '/');
-        $collector = new GuzzleCollector();
+        $mocks = array_fill(0, 3, new Response(204));
 
-        $response = new Response();
-        $info = [uniqid()];
-        $stats = new TransferStats($request, $response, null, null, $info);
-        $collector->addStats($stats);
+        $mock = new MockHandler($mocks);
+        $handler = HandlerStack::create($mock);
+        $collector = new GuzzleCollector();
+        $handler->push(Middleware::history($collector->getHistory()));
+        $client = new Client(['handler' => $handler, 'on_stats' => [$collector, 'addStats']]);
+
+        $client->get('http://foo.bar');
 
         $history = array_values((array) $collector->getHistory());
 
         $this->assertCount(1, $history);
-        $this->assertArraySubset(['info' => $info, 'response' => $response], $history[0]);
+        $this->assertArrayHasKey('request', $history[0]);
+        $this->assertArrayHasKey('response', $history[0]);
+        $this->assertArrayHasKey('options', $history[0]);
+        $this->assertArrayHasKey('info', $history[0]);
+        $this->assertArrayHasKey('error', $history[0]);
     }
 
-    public function testAddStatsFromKnownRequest()
+    public function testAddStatsWithoutMiddleWare()
     {
-        $request = new Psr7Request('GET', '/', ['csa-guzzle-correlation-id' => 'random_id']);
-        $collector = new GuzzleCollector();
-        $collector->getHistory()['random_id'] = ['info' => null];
+        $mocks = array_fill(0, 3, new Response(204));
 
-        $info = [uniqid()];
-        $collector->addStats(new TransferStats($request, null, null, null, $info));
+        $mock = new MockHandler($mocks);
+        $handler = HandlerStack::create($mock);
+        $collector = new GuzzleCollector();
+        $client = new Client(['handler' => $handler, 'on_stats' => [$collector, 'addStats']]);
+
+        $client->get('http://foo.bar');
 
         $history = array_values((array) $collector->getHistory());
 
         $this->assertCount(1, $history);
-        $this->assertArraySubset(['info' => $info], $history[0]);
-    }
+        $this->assertArrayHasKey('request', $history[0]);
+        $this->assertArrayHasKey('response', $history[0]);
+        $this->assertArrayHasKey('options', $history[0]);
+        $this->assertArrayHasKey('info', $history[0]);
+        $this->assertArrayHasKey('error', $history[0]);    }
 }

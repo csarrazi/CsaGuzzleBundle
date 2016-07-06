@@ -11,6 +11,7 @@
 
 namespace Csa\Bundle\GuzzleBundle\DataCollector;
 
+use Csa\Bundle\GuzzleBundle\GuzzleHttp\Middleware\HistoryMiddleware;
 use GuzzleHttp\TransferStats;
 use Namshi\Cuzzle\Formatter\CurlFormatter;
 use Psr\Http\Message\RequestInterface;
@@ -49,10 +50,10 @@ class GuzzleCollector extends DataCollector
     public function addStats(TransferStats $stats)
     {
         $request = $stats->getRequest();
-        if (!$request->hasHeader('csa-guzzle-correlation-id')) {
+        if (!$request->hasHeader(HistoryMiddleware::CORRELATION_ID_HEADER)) {
             $correlationId = uniqid();
         } else {
-            $correlationId = $request->getHeader('csa-guzzle-correlation-id')[0];
+            $correlationId = $request->getHeader(HistoryMiddleware::CORRELATION_ID_HEADER)[0];
         }
 
         if (!isset($this->history[$correlationId])) {
