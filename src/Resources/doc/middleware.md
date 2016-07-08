@@ -48,10 +48,22 @@ enabled middleware. The `middleware` attribute takes a space-delimited list of
 middleware names. In that case only the specified middleware will be registered
 for that client:
 
+**XML:**
+
 ```xml
 <service id="acme.client" class="%acme.client.class%">
     <tag name="csa_guzzle.client" middleware="my_middleware another_middleware !yet_another_middleware" />
 </service>
+```
+
+**YAML:**
+
+```yml
+acme.client:
+    class: %acme.client.class%
+
+    tags:
+      - { name: csa_guzzle.client, middleware: 'my_middleware another_middleware !yet_another_middleware'}
 ```
 
 Next section: [Available middleware](available_middleware.md)
