@@ -16,9 +16,7 @@ use Csa\Bundle\GuzzleBundle\GuzzleHttp\Middleware;
 use GuzzleHttp\Client;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
-use GuzzleHttp\Psr7\Request as Psr7Request;
 use GuzzleHttp\Psr7\Response;
-use GuzzleHttp\TransferStats;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -96,5 +94,6 @@ class GuzzleCollectorTest extends \PHPUnit_Framework_TestCase
         $this->assertArrayHasKey('response', $history[0]);
         $this->assertArrayHasKey('options', $history[0]);
         $this->assertArrayHasKey('info', $history[0]);
-        $this->assertArrayHasKey('error', $history[0]);    }
+        $this->assertArrayHasKey('error', $history[0]);
+    }
 }

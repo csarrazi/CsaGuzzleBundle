@@ -11,7 +11,6 @@
 
 namespace Csa\Bundle\GuzzleBundle\GuzzleHttp\Middleware;
 
-use Csa\Bundle\GuzzleBundle\DataCollector\GuzzleCollector;
 use GuzzleHttp\Promise\RejectedPromise;
 use Psr\Http\Message\RequestInterface;
 
