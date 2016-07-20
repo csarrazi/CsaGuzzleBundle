@@ -16,7 +16,7 @@ use Csa\Bundle\GuzzleBundle\Cache\StorageAdapterInterface as BaseAdapterInterfac
 /**
  * Legacy doctrine adapter.
  *
- * @deprecated This interface is deprecated since version 2.1. It will be removed in version 3.0.
+ * @deprecated This interface is deprecated since version 2.1. It will be removed in version 3.0
  */
 interface StorageAdapterInterface extends BaseAdapterInterface
 {
