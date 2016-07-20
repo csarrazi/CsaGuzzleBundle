@@ -21,9 +21,11 @@ use Psr\Http\Message\RequestInterface;
  */
 class HistoryMiddleware
 {
+    const CORRELATION_ID_HEADER = 'X-Guzzle-CorrelationId';
+
     private $container;
 
-    public function __construct(\SplObjectStorage $container)
+    public function __construct(\ArrayObject $container)
     {
         $this->container = $container;
     }
@@ -31,26 +33,24 @@ class HistoryMiddleware
     public function __invoke(callable $handler)
     {
         return function (RequestInterface $request, array $options) use ($handler) {
+            $correlationId = uniqid();
+            $request = $request->withAddedHeader(self::CORRELATION_ID_HEADER, $correlationId);
+            $this->container[$correlationId] = [
+                'request' => $request,
+                'response' => null,
+                'options' => $options,
+                'error' => null,
+                'info' => [],
+            ];
+
             return $handler($request, $options)->then(
-                function ($value) use ($request, $options) {
-                    $info = isset($this->container[$request]) ? $this->container[$request]['info'] : null;
-                    $this->container->attach($request, [
-                        'response' => $value,
-                        'error' => null,
-                        'options' => $options,
-                        'info' => $info,
-                    ]);
+                function ($value) use ($correlationId) {
+                    $this->container[$correlationId]['response'] = $value;
 
                     return $value;
                 },
-                function ($reason) use ($request, $options) {
-                    $info = isset($this->container[$request]) ? $this->container[$request]['info'] : null;
-                    $this->container->attach($request, [
-                        'response' => null,
-                        'error' => $reason,
-                        'options' => $options,
-                        'info' => $info,
-                    ]);
+                function ($reason) use ($correlationId) {
+                    $this->container[$correlationId]['response'] = $reason;
 
                     return new RejectedPromise($reason);
                 }

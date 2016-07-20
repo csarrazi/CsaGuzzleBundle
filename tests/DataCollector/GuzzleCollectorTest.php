@@ -53,4 +53,47 @@ class GuzzleCollectorTest extends \PHPUnit_Framework_TestCase
         $collector->collect($request, $response, new \Exception());
         $this->assertCount(2, $collector->getCalls());
     }
+
+    public function testAddStatsWithMiddleWare()
+    {
+        $mocks = array_fill(0, 3, new Response(204));
+
+        $mock = new MockHandler($mocks);
+        $handler = HandlerStack::create($mock);
+        $collector = new GuzzleCollector();
+        $handler->push(Middleware::history($collector->getHistory()));
+        $client = new Client(['handler' => $handler, 'on_stats' => [$collector, 'addStats']]);
+
+        $client->get('http://foo.bar');
+
+        $history = array_values((array) $collector->getHistory());
+
+        $this->assertCount(1, $history);
+        $this->assertArrayHasKey('request', $history[0]);
+        $this->assertArrayHasKey('response', $history[0]);
+        $this->assertArrayHasKey('options', $history[0]);
+        $this->assertArrayHasKey('info', $history[0]);
+        $this->assertArrayHasKey('error', $history[0]);
+    }
+
+    public function testAddStatsWithoutMiddleWare()
+    {
+        $mocks = array_fill(0, 3, new Response(204));
+
+        $mock = new MockHandler($mocks);
+        $handler = HandlerStack::create($mock);
+        $collector = new GuzzleCollector();
+        $client = new Client(['handler' => $handler, 'on_stats' => [$collector, 'addStats']]);
+
+        $client->get('http://foo.bar');
+
+        $history = array_values((array) $collector->getHistory());
+
+        $this->assertCount(1, $history);
+        $this->assertArrayHasKey('request', $history[0]);
+        $this->assertArrayHasKey('response', $history[0]);
+        $this->assertArrayHasKey('options', $history[0]);
+        $this->assertArrayHasKey('info', $history[0]);
+        $this->assertArrayHasKey('error', $history[0]);
+    }
 }

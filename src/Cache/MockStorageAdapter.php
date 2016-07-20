@@ -42,7 +42,7 @@ class MockStorageAdapter implements StorageAdapterInterface
         $this->namingStrategies[] = new LegacyNamingStrategy(false, $requestHeadersBlacklist);
 
         if (!empty($responseHeadersBlacklist)) {
-            $this->responseHeadersBlacklist  = $responseHeadersBlacklist;
+            $this->responseHeadersBlacklist = $responseHeadersBlacklist;
         }
     }
 
