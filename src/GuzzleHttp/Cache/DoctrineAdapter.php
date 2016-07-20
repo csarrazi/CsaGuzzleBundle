@@ -16,7 +16,7 @@ use Csa\Bundle\GuzzleBundle\Cache\DoctrineAdapter as BaseAdapter;
 /**
  * Legacy doctrine adapter.
  *
- * @deprecated This class is deprecated since version 2.1. It will be removed in version 3.0.
+ * @deprecated This class is deprecated since version 2.1. It will be removed in version 3.0
  */
 class DoctrineAdapter extends BaseAdapter implements StorageAdapterInterface
 {
