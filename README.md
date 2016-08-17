@@ -73,4 +73,3 @@ This library is under the MIT license. For the full copyright and license
 information, please view the [LICENSE](src/Resources/meta/LICENSE) file that was
 distributed with this source code.
 
-[![Built with Grunt](https://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/)
