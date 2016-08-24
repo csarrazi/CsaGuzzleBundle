@@ -99,6 +99,7 @@ class GuzzleCollector extends DataCollector
                 'info' => $info,
                 'uri' => urldecode($request->getUri()),
                 'curl' => $this->curlFormatter->format($request),
+                'httpCode' => 0,
             ];
 
             if ($response) {
@@ -107,9 +108,17 @@ class GuzzleCollector extends DataCollector
                     'headers' => $response->getHeaders(),
                     'body' => $this->cropContent($response->getBody()),
                 ];
-            }
 
-            $req['httpCode'] = $response ? $response->getStatusCode() : 0;
+                $req['httpCode'] = $response->getStatusCode();
+
+                if ($response->hasHeader('X-Guzzle-Cache')) {
+                    $req['cache'] = $response->getHeaderLine('X-Guzzle-Cache');
+                }
+
+                if ($response->hasHeader('X-Guzzle-Mock')) {
+                    $req['mock'] = $response->getHeaderLine('X-Guzzle-Mock');
+                }
+            }
 
             if ($error) {
                 $req['error'] = [
@@ -119,14 +128,6 @@ class GuzzleCollector extends DataCollector
                     'code' => $error->getCode(),
                     'trace' => $error->getTraceAsString(),
                 ];
-            }
-
-            if ($response && $response->hasHeader('X-Guzzle-Cache')) {
-                $req['cache'] = $response->getHeaderLine('X-Guzzle-Cache');
-            }
-
-            if ($response && $response->hasHeader('X-Guzzle-Mock')) {
-                $req['mock'] = $response->getHeaderLine('X-Guzzle-Mock');
             }
 
             $data[] = $req;
