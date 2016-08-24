@@ -13,7 +13,6 @@ namespace Csa\Bundle\GuzzleBundle\GuzzleHttp\Middleware;
 
 use Csa\Bundle\GuzzleBundle\Cache\StorageAdapterInterface;
 use GuzzleHttp\Promise\FulfilledPromise;
-use GuzzleHttp\Promise\RejectedPromise;
 use Psr\Http\Message\RequestInterface;
 
 /**
@@ -43,15 +42,15 @@ class MockMiddleware extends CacheMiddleware
                 return $this->handleSave($handler, $request, $options);
             }
 
-            try {
-                if (null === $response = $this->adapter->fetch($request)) {
-                    throw new \RuntimeException('Record not found.');
-                }
-
-                $response = $this->addDebugHeader($response, 'REPLAY');
-            } catch (\RuntimeException $e) {
-                return new RejectedPromise($e);
+            if (null === $response = $this->adapter->fetch($request)) {
+                throw new \RuntimeException(sprintf(
+                    'Record not found for request: %s %s',
+                    $request->getMethod(),
+                    $request->getUri()
+                ));
             }
+
+            $response = $this->addDebugHeader($response, 'REPLAY');
 
             return new FulfilledPromise($response);
         };

@@ -67,7 +67,7 @@ class MockMiddlewareTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException \RuntimeException
-     * @expectedExceptionMessage Record not found.
+     * @expectedExceptionMessage Record not found for request: GET http://foo.bar
      */
     public function testReplayFailsWithoutMock()
     {
