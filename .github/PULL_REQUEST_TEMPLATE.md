@@ -6,5 +6,5 @@
 | Deprecations? | [yes|no]
 | Tests pass?   | [yes|no]
 | Fixed tickets | [comma separated list of tickets fixed by the PR]
-| License       | MIT
+| License       | Apache License 2.0
 
