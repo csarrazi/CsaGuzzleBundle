@@ -1,7 +1,7 @@
 {
     "name": "csa/guzzle-bundle",
     "description": "A bundle integrating GuzzleHttp >= 4.0",
-    "license": "MIT",
+    "license": "Apache-2.0",
     "type": "symfony-bundle",
     "authors": [
         { "name": "Charles Sarrazin", "email": "charles@sarraz.in" }
