@@ -69,7 +69,7 @@ the [Contributing Guidelines](CONTRIBUTING.md).
 License
 -------
 
-This library is under the MIT license. For the full copyright and license
+This library is under Apache License 2.0. For the full copyright and license
 information, please view the [LICENSE](src/Resources/meta/LICENSE) file that was
 distributed with this source code.
 
