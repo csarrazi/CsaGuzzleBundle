@@ -9,16 +9,11 @@
     "require": {
         "php": ">=5.5.0",
         "guzzlehttp/guzzle": "^6.1",
-        "symfony/framework-bundle": "^2.6|^3.0",
-        "symfony/expression-language": "^2.6|^3.0",
-        "symfony/dependency-injection": "^2.6|^3.0",
-        "symfony/filesystem": "^2.3|^3.0",
+        "symfony/framework-bundle": "^2.7|^3.0",
+        "symfony/dependency-injection": "^2.7|^3.0",
+        "symfony/filesystem": "^2.7|^3.0",
         "twig/twig": "^1.12|^2.0",
         "namshi/cuzzle": "^2.0"
-    },
-    "conflict": {
-        "guzzlehttp/guzzle-services": "*",
-        "guzzlehttp/command": "*"
     },
     "suggest": {
         "doctrine/cache": "Allows caching of responses"

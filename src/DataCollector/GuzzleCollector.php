@@ -37,10 +37,10 @@ class GuzzleCollector extends DataCollector
      *
      * @param int $maxBodySize The max body size to store in the profiler storage
      */
-    public function __construct($maxBodySize = self::MAX_BODY_SIZE)
+    public function __construct($maxBodySize = self::MAX_BODY_SIZE, \ArrayObject $history = null)
     {
         $this->maxBodySize = $maxBodySize;
-        $this->history = new \ArrayObject();
+        $this->history = $history ?: new \ArrayObject();
         $this->curlFormatter = new CurlFormatter();
         $this->data = [];
     }
@@ -173,6 +173,9 @@ class GuzzleCollector extends DataCollector
         return $this->data;
     }
 
+    /**
+     * @deprecated This method is deprecated since version 2.2. It will be removed in version 3.0
+     */
     public function getHistory()
     {
         return $this->history;
