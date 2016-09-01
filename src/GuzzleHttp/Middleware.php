@@ -22,6 +22,7 @@ use Symfony\Component\Stopwatch\Stopwatch;
  * Csa Guzzle Middleware.
  *
  * @author Charles Sarrazin <charles@sarraz.in>
+ *
  * @deprecated This class is deprecated since version 2.1. It will be removed in version 3.0
  */
 class Middleware
