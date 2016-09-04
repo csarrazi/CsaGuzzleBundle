@@ -14,9 +14,9 @@ namespace Csa\Bundle\GuzzleBundle\Tests\Cache;
 use Csa\Bundle\GuzzleBundle\Cache\PsrAdapter;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
-use Psr\Http\Message\ResponseInterface;
 use Psr\Cache\CacheItemInterface;
 use Psr\Cache\CacheItemPoolInterface;
+use Psr\Http\Message\ResponseInterface;
 
 class PsrAdapterTest extends \PHPUnit_Framework_TestCase
 {
