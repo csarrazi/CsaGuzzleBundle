@@ -12,8 +12,8 @@
 namespace Csa\Bundle\GuzzleBundle\Cache;
 
 use Csa\Bundle\GuzzleBundle\Cache\NamingStrategy\HashNamingStrategy;
-use Psr\Cache\CacheItemPoolInterface;
 use GuzzleHttp\Psr7\Response;
+use Psr\Cache\CacheItemPoolInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
