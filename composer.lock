@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "57ec1a8745dde20381efe3fef7c39fba",
-    "content-hash": "89d9ad45faf7fe6138d589da3a4809d9",
+    "hash": "a06809d07a1d1a0e2f33da48a766399f",
+    "content-hash": "cd43a57fcf650879bc897e5e1cc5dbcd",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -3164,12 +3164,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/web-profiler-bundle.git",
-                "reference": "2f2290550b193cf820ae6cdcbcaf6b95e72bdc0d"
+                "reference": "9be346b01a26a1d25f1d16faae844eaa35cf8ec4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/web-profiler-bundle/zipball/2f2290550b193cf820ae6cdcbcaf6b95e72bdc0d",
-                "reference": "2f2290550b193cf820ae6cdcbcaf6b95e72bdc0d",
+                "url": "https://api.github.com/repos/symfony/web-profiler-bundle/zipball/9be346b01a26a1d25f1d16faae844eaa35cf8ec4",
+                "reference": "9be346b01a26a1d25f1d16faae844eaa35cf8ec4",
                 "shasum": ""
             },
             "require": {
@@ -3215,7 +3215,7 @@
             ],
             "description": "Symfony WebProfilerBundle",
             "homepage": "https://symfony.com",
-            "time": "2016-09-01 15:11:16"
+            "time": "2016-09-02 02:14:06"
         },
         {
             "name": "symfony/yaml",
@@ -3223,12 +3223,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/yaml.git",
-                "reference": "01b75ac66ea4a876ff88489af3b38cd51c87673f"
+                "reference": "aa8be2235b5dd4e472424552390609f61996f5ab"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/yaml/zipball/01b75ac66ea4a876ff88489af3b38cd51c87673f",
-                "reference": "01b75ac66ea4a876ff88489af3b38cd51c87673f",
+                "url": "https://api.github.com/repos/symfony/yaml/zipball/aa8be2235b5dd4e472424552390609f61996f5ab",
+                "reference": "aa8be2235b5dd4e472424552390609f61996f5ab",
                 "shasum": ""
             },
             "require": {
@@ -3270,7 +3270,7 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "https://symfony.com",
-            "time": "2016-08-29 18:58:41"
+            "time": "2016-09-02 02:14:06"
         },
         {
             "name": "webmozart/assert",

@@ -12,75 +12,9 @@
 namespace Csa\Bundle\GuzzleBundle\Tests\GuzzleHttp\Cache;
 
 use Csa\Bundle\GuzzleBundle\GuzzleHttp\Cache\DoctrineAdapter;
-use GuzzleHttp\Psr7\Request;
-use GuzzleHttp\Psr7\Response;
-use Psr\Http\Message\ResponseInterface;
+use Csa\Bundle\GuzzleBundle\Tests\Cache\DoctrineAdapterTest as BaseTest;
 
-class DoctrineAdapterTest extends \PHPUnit_Framework_TestCase
+class DoctrineAdapterTest extends BaseTest
 {
-    public function testConstructor()
-    {
-        $cache = $this->getMock('Doctrine\Common\Cache\Cache');
-        new DoctrineAdapter($cache, 0);
-    }
-
-    public function testFetch()
-    {
-        $cache = $this->getMock('Doctrine\Common\Cache\Cache');
-
-        $cache
-            ->expects($this->at(0))
-            ->method('contains')
-            ->willReturn(false)
-        ;
-        $cache
-            ->expects($this->at(1))
-            ->method('contains')
-            ->willReturn(true)
-        ;
-        $cache
-            ->expects($this->at(2))
-            ->method('fetch')
-            ->willReturn([
-                'status' => 200,
-                'headers' => [],
-                'body' => 'Hello World',
-                'version' => '1.1',
-                'reason' => 'OK',
-            ])
-        ;
-        $adapter = new DoctrineAdapter($cache, 0);
-
-        $request = $this->getRequestMock();
-
-        $this->assertNull($adapter->fetch($request));
-        $this->assertInstanceOf(ResponseInterface::class, $adapter->fetch($request));
-    }
-
-    public function testSave()
-    {
-        $cache = $this->getMock('Doctrine\Common\Cache\Cache');
-
-        $cache
-            ->expects($this->at(0))
-            ->method('save')
-            ->with(
-                $this->isType('string'),
-                [
-                    'status' => 200,
-                    'headers' => [],
-                    'body' => 'Hello World',
-                    'version' => '1.1',
-                    'reason' => 'OK',
-                ],
-                10
-            );
-        $adapter = new DoctrineAdapter($cache, 10);
-        $adapter->save($this->getRequestMock(), new Response(200, [], 'Hello World'));
-    }
-
-    private function getRequestMock()
-    {
-        return new Request('GET', 'http://google.com/', ['Accept' => 'text/html']);
-    }
+    protected $class = DoctrineAdapter::class;
 }
