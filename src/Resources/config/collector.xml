@@ -9,6 +9,7 @@
         <service id="csa_guzzle.data_collector.history_bag" class="ArrayObject" />
 
         <service id="csa_guzzle.data_collector.guzzle" class="Csa\Bundle\GuzzleBundle\DataCollector\GuzzleCollector">
+            <argument />
             <argument type="service" id="csa_guzzle.data_collector.history_bag" />
             <tag name="data_collector" template="CsaGuzzleBundle:Collector:guzzle" id="guzzle" />
         </service>

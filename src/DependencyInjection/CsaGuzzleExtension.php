@@ -39,7 +39,7 @@ class CsaGuzzleExtension extends Extension
         $loader->load('twig.xml');
 
         $dataCollector = $container->getDefinition('csa_guzzle.data_collector.guzzle');
-        $dataCollector->addArgument($config['profiler']['max_body_size']);
+        $dataCollector->replaceArgument(0, $config['profiler']['max_body_size']);
 
         if (!$config['profiler']['enabled']) {
             $container->removeDefinition('csa_guzzle.middleware.history');
