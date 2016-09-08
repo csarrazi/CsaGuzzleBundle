@@ -11,7 +11,9 @@
 
 namespace Csa\Bundle\GuzzleBundle\DataCollector;
 
+use Csa\Bundle\GuzzleBundle\GuzzleHttp\Middleware\CacheMiddleware;
 use Csa\Bundle\GuzzleBundle\GuzzleHttp\Middleware\HistoryMiddleware;
+use Csa\Bundle\GuzzleBundle\GuzzleHttp\Middleware\MockMiddleware;
 use GuzzleHttp\TransferStats;
 use Namshi\Cuzzle\Formatter\CurlFormatter;
 use Psr\Http\Message\StreamInterface;
@@ -109,12 +111,12 @@ class GuzzleCollector extends DataCollector
 
                 $req['httpCode'] = $response->getStatusCode();
 
-                if ($response->hasHeader('X-Guzzle-Cache')) {
-                    $req['cache'] = $response->getHeaderLine('X-Guzzle-Cache');
+                if ($response->hasHeader(CacheMiddleware::DEBUG_HEADER)) {
+                    $req['cache'] = $response->getHeaderLine(CacheMiddleware::DEBUG_HEADER);
                 }
 
-                if ($response->hasHeader('X-Guzzle-Mock')) {
-                    $req['mock'] = $response->getHeaderLine('X-Guzzle-Mock');
+                if ($response->hasHeader(MockMiddleware::DEBUG_HEADER)) {
+                    $req['mock'] = $response->getHeaderLine(MockMiddleware::DEBUG_HEADER);
                 }
             }
 
