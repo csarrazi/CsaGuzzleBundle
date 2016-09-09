@@ -52,7 +52,7 @@ class GuzzleCollectorTest extends \PHPUnit_Framework_TestCase
     public function testCollectCurlData()
     {
         if (!class_exists(\Namshi\Cuzzle\Formatter\CurlFormatter::class)) {
-            $this->markTestSkipped('namshi/cuzzle bundle not installed');
+            $this->markTestSkipped('namshi/cuzzle not installed');
         }
         $mocks = array_fill(0, 3, new Response(204));
 
