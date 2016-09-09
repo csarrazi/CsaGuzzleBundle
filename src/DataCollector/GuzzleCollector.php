@@ -13,7 +13,6 @@ namespace Csa\Bundle\GuzzleBundle\DataCollector;
 
 use Csa\Bundle\GuzzleBundle\GuzzleHttp\Middleware\HistoryMiddleware;
 use GuzzleHttp\TransferStats;
-use Namshi\Cuzzle\Formatter\CurlFormatter;
 use Psr\Http\Message\StreamInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -30,7 +29,7 @@ class GuzzleCollector extends DataCollector
 
     private $maxBodySize;
     private $history;
-    private $curlFormatter;
+    private $curlFormatter = null;
 
     /**
      * Constructor.
@@ -41,7 +40,9 @@ class GuzzleCollector extends DataCollector
     {
         $this->maxBodySize = $maxBodySize;
         $this->history = $history ?: new \ArrayObject();
-        $this->curlFormatter = new CurlFormatter();
+        if (class_exists(\Namshi\Cuzzle\Formatter\CurlFormatter::class)) {
+            $this->curlFormatter = new \Namshi\Cuzzle\Formatter\CurlFormatter();
+        }
         $this->data = [];
     }
 
@@ -96,9 +97,12 @@ class GuzzleCollector extends DataCollector
                 ],
                 'info' => $info,
                 'uri' => urldecode($request->getUri()),
-                'curl' => $this->curlFormatter->format($request),
                 'httpCode' => 0,
             ];
+
+            if ($this->curlFormatter) {
+                $req['curl'] = $this->curlFormatter->format($request);
+            }
 
             if ($response) {
                 $req['response'] = [

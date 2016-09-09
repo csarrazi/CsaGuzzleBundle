@@ -43,15 +43,36 @@ class GuzzleCollectorTest extends \PHPUnit_Framework_TestCase
         $collector->collect($request, $response, new \Exception());
         $calls = $collector->getCalls();
         $this->assertCount(1, $calls);
-        $this->assertStringStartsWith(sprintf(
-            'curl %s -A',
-            escapeshellarg('http://foo.bar')
-            ), $calls[0]['curl']
-        );
 
         $client->get('http://foo.bar');
         $collector->collect($request, $response, new \Exception());
         $this->assertCount(2, $collector->getCalls());
+    }
+
+    public function testCollectCurlData()
+    {
+        if (!class_exists(\Namshi\Cuzzle\Formatter\CurlFormatter::class)) {
+            $this->markTestSkipped('namshi/cuzzle not installed');
+        }
+        $mocks = array_fill(0, 3, new Response(204));
+
+        $mock = new MockHandler($mocks);
+        $handler = HandlerStack::create($mock);
+        $collector = new GuzzleCollector();
+        $handler->push(Middleware::history($collector->getHistory()));
+        $client = new Client(['handler' => $handler]);
+
+        $request = Request::createFromGlobals();
+        $response = $this->getMock('Symfony\Component\HttpFoundation\Response');
+
+        $client->get('http://foo.bar');
+        $collector->collect($request, $response, new \Exception());
+        $calls = $collector->getCalls();
+        $this->assertStringStartsWith(sprintf(
+            'curl %s -A',
+            escapeshellarg('http://foo.bar')
+        ), $calls[0]['curl']
+        );
     }
 
     public function testAddStatsWithMiddleWare()
