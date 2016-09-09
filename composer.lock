@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "289c9826e1f357ed106b96ccec0d4c2a",
-    "content-hash": "46b65830e1ea8652d639e58e11a0991e",
+    "hash": "f0766b0453b0bf7c6f2efd2178cbb33a",
+    "content-hash": "1f8d7cf6a52df29389a32b7dfb2440ab",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -2020,6 +2020,56 @@
                 "instantiate"
             ],
             "time": "2016-03-31 10:24:22"
+        },
+        {
+            "name": "namshi/cuzzle",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/namshi/cuzzle.git",
+                "reference": "78ae0167c0c5649d295d50504e3b284e2f8f84a9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/namshi/cuzzle/zipball/78ae0167c0c5649d295d50504e3b284e2f8f84a9",
+                "reference": "78ae0167c0c5649d295d50504e3b284e2f8f84a9",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^6.0",
+                "php": ">=5.5.0",
+                "psr/log": "^1.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.2.2"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Namshi\\Cuzzle\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nikita Nefedov",
+                    "email": "inefedor@gmail.com"
+                },
+                {
+                    "name": "cirpo",
+                    "email": "alessandro.cinelli@gmail.com"
+                }
+            ],
+            "description": "Get the cURL shell command from a Guzzle request",
+            "time": "2016-07-08 19:10:52"
         },
         {
             "name": "phpdocumentor/reflection-common",
