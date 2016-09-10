@@ -49,7 +49,6 @@ class MockStorageAdapterTest extends \PHPUnit_Framework_TestCase
         /* Mock with host in the file name look for the file with hostname first */
 
         $mockStorage = new $this->class(__DIR__.'/../Fixtures/mocks');
-        var_dump($mockStorage);
         $response = $mockStorage->fetch($this->getRequestMock());
 
         $this->assertInstanceOf(ResponseInterface::class, $response);
