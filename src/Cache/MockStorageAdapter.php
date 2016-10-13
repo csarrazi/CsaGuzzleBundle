@@ -14,6 +14,8 @@ namespace Csa\Bundle\GuzzleBundle\Cache;
 use Csa\Bundle\GuzzleBundle\Cache\NamingStrategy\LegacyNamingStrategy;
 use Csa\Bundle\GuzzleBundle\Cache\NamingStrategy\NamingStrategyInterface;
 use Csa\Bundle\GuzzleBundle\Cache\NamingStrategy\SubfolderNamingStrategy;
+use Csa\Bundle\GuzzleBundle\GuzzleHttp\Middleware\CacheMiddleware;
+use Csa\Bundle\GuzzleBundle\GuzzleHttp\Middleware\MockMiddleware;
 use GuzzleHttp\Psr7;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -25,7 +27,8 @@ class MockStorageAdapter implements StorageAdapterInterface
     /** @var NamingStrategyInterface[] */
     private $namingStrategies = [];
     private $responseHeadersBlacklist = [
-        'X-Guzzle-Cache',
+        CacheMiddleware::DEBUG_HEADER,
+        MockMiddleware::DEBUG_HEADER,
     ];
 
     /**
