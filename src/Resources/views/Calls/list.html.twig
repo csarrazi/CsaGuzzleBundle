@@ -50,6 +50,14 @@
                             </div>
                         </div>
                     {% endif %}
+                    {% if call.error is not null %}
+                        <div class="tab">
+                            <h3 class="tab-title">Error</h3>
+                            <div class="tab-content">
+                                {{ macros.render_error(call.error) }}
+                            </div>
+                        </div>
+                    {% endif %}
                 </div>
             </div>
         </section>

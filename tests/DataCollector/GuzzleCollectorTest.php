@@ -12,6 +12,7 @@
 namespace Csa\Bundle\GuzzleBundle\Tests\DataCollector;
 
 use Csa\Bundle\GuzzleBundle\DataCollector\GuzzleCollector;
+use Csa\Bundle\GuzzleBundle\GuzzleHttp\History\History;
 use Csa\Bundle\GuzzleBundle\GuzzleHttp\Middleware;
 use GuzzleHttp\Client;
 use GuzzleHttp\Handler\MockHandler;
@@ -20,7 +21,7 @@ use GuzzleHttp\Psr7\Response;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * @covers Csa\Bundle\GuzzleBundle\DataCollector\GuzzleCollector
+ * @covers \Csa\Bundle\GuzzleBundle\DataCollector\GuzzleCollector
  */
 class GuzzleCollectorTest extends \PHPUnit_Framework_TestCase
 {
@@ -73,48 +74,5 @@ class GuzzleCollectorTest extends \PHPUnit_Framework_TestCase
             escapeshellarg('http://foo.bar')
         ), $calls[0]['curl']
         );
-    }
-
-    public function testAddStatsWithMiddleWare()
-    {
-        $mocks = array_fill(0, 3, new Response(204));
-
-        $mock = new MockHandler($mocks);
-        $handler = HandlerStack::create($mock);
-        $collector = new GuzzleCollector();
-        $handler->push(Middleware::history($collector->getHistory()));
-        $client = new Client(['handler' => $handler, 'on_stats' => [$collector, 'addStats']]);
-
-        $client->get('http://foo.bar');
-
-        $history = array_values((array) $collector->getHistory());
-
-        $this->assertCount(1, $history);
-        $this->assertArrayHasKey('request', $history[0]);
-        $this->assertArrayHasKey('response', $history[0]);
-        $this->assertArrayHasKey('options', $history[0]);
-        $this->assertArrayHasKey('info', $history[0]);
-        $this->assertArrayHasKey('error', $history[0]);
-    }
-
-    public function testAddStatsWithoutMiddleWare()
-    {
-        $mocks = array_fill(0, 3, new Response(204));
-
-        $mock = new MockHandler($mocks);
-        $handler = HandlerStack::create($mock);
-        $collector = new GuzzleCollector();
-        $client = new Client(['handler' => $handler, 'on_stats' => [$collector, 'addStats']]);
-
-        $client->get('http://foo.bar');
-
-        $history = array_values((array) $collector->getHistory());
-
-        $this->assertCount(1, $history);
-        $this->assertArrayHasKey('request', $history[0]);
-        $this->assertArrayHasKey('response', $history[0]);
-        $this->assertArrayHasKey('options', $history[0]);
-        $this->assertArrayHasKey('info', $history[0]);
-        $this->assertArrayHasKey('error', $history[0]);
     }
 }

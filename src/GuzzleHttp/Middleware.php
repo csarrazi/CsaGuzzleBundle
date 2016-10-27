@@ -12,6 +12,7 @@
 namespace Csa\Bundle\GuzzleBundle\GuzzleHttp;
 
 use Csa\Bundle\GuzzleBundle\Cache\StorageAdapterInterface;
+use Csa\Bundle\GuzzleBundle\GuzzleHttp\History\History;
 use Csa\Bundle\GuzzleBundle\GuzzleHttp\Middleware\CacheMiddleware;
 use Csa\Bundle\GuzzleBundle\GuzzleHttp\Middleware\HistoryMiddleware;
 use Csa\Bundle\GuzzleBundle\GuzzleHttp\Middleware\MockMiddleware;
@@ -37,7 +38,7 @@ class Middleware
         return new CacheMiddleware($adapter, $debug);
     }
 
-    public static function history(\ArrayObject $container)
+    public static function history(History $container)
     {
         return new HistoryMiddleware($container);
     }
