@@ -12,6 +12,7 @@
 namespace Csa\Bundle\GuzzleBundle\Tests\GuzzleHttp;
 
 use Csa\Bundle\GuzzleBundle\GuzzleHttp\Cache\StorageAdapterInterface;
+use Csa\Bundle\GuzzleBundle\GuzzleHttp\History\History;
 use Csa\Bundle\GuzzleBundle\GuzzleHttp\Middleware;
 use Symfony\Component\Stopwatch\Stopwatch;
 
@@ -25,7 +26,7 @@ class MiddlewareTest extends \PHPUnit_Framework_TestCase
 
     public function testHistoryMiddleware()
     {
-        $this->assertInstanceOf(Middleware\HistoryMiddleware::class, Middleware::history(new \ArrayObject()));
+        $this->assertInstanceOf(Middleware\HistoryMiddleware::class, Middleware::history(new History()));
     }
 
     public function testStopwatchMiddleware()

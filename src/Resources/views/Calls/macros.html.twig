@@ -89,6 +89,17 @@
     {% endif %}
 {% endmacro %}
 
+{% macro render_error(error) %}
+    <h4>Message</h4>
+    <p><pre>{{ error.message }}</pre></p>
+
+    <h4>Origin</h4>
+    <p><pre>{{ error.file }}({{ error.line }})</pre></p>
+
+    <h4>Stack trace</h4>
+    <pre><code class="language-text">{{error.trace|nl2br}}</code></pre>
+{% endmacro %}
+
 {% macro render_curl(curl) %}
     <h4>cURL</h4>
 

@@ -162,8 +162,8 @@ class CsaGuzzleExtension extends Extension
             $config['handler'] = new Reference($config['handler']);
         }
 
-        if ($debug) {
-            $config['on_stats'] = [new Reference('csa_guzzle.data_collector.guzzle'), 'addStats'];
+        if ($debug && function_exists('curl_init')) {
+            $config['on_stats'] = [new Reference('csa_guzzle.data_collector.history_bag'), 'addStats'];
         }
 
         return $config;

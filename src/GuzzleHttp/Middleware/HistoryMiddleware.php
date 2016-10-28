@@ -11,6 +11,7 @@
 
 namespace Csa\Bundle\GuzzleBundle\GuzzleHttp\Middleware;
 
+use Csa\Bundle\GuzzleBundle\GuzzleHttp\History\History;
 use GuzzleHttp\Promise\RejectedPromise;
 use Psr\Http\Message\RequestInterface;
 
@@ -21,11 +22,9 @@ use Psr\Http\Message\RequestInterface;
  */
 class HistoryMiddleware
 {
-    const CORRELATION_ID_HEADER = 'X-Guzzle-CorrelationId';
-
     private $container;
 
-    public function __construct(\ArrayObject $container)
+    public function __construct(History $container)
     {
         $this->container = $container;
     }
@@ -33,24 +32,24 @@ class HistoryMiddleware
     public function __invoke(callable $handler)
     {
         return function (RequestInterface $request, array $options) use ($handler) {
-            $correlationId = uniqid();
-            $request = $request->withAddedHeader(self::CORRELATION_ID_HEADER, $correlationId);
-            $this->container[$correlationId] = [
-                'request' => $request,
-                'response' => null,
-                'options' => $options,
-                'error' => null,
-                'info' => [],
-            ];
-
             return $handler($request, $options)->then(
-                function ($value) use ($correlationId) {
-                    $this->container[$correlationId]['response'] = $value;
+                function ($response) use ($request, $options) {
+                    $this->container->mergeInfo($request, [
+                        'response' => $response,
+                        'error' => null,
+                        'options' => $options,
+                        'info' => [],
+                    ]);
 
-                    return $value;
+                    return $response;
                 },
-                function ($reason) use ($correlationId) {
-                    $this->container[$correlationId]['response'] = $reason;
+                function ($reason) use ($request, $options) {
+                    $this->container->mergeInfo($request, [
+                        'response' => null,
+                        'error' => $reason,
+                        'options' => $options,
+                        'info' => [],
+                    ]);
 
                     return new RejectedPromise($reason);
                 }

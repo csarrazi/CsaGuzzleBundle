@@ -11,10 +11,10 @@
 
 namespace Csa\Bundle\GuzzleBundle\DataCollector;
 
+use Csa\Bundle\GuzzleBundle\GuzzleHttp\History\History;
 use Csa\Bundle\GuzzleBundle\GuzzleHttp\Middleware\CacheMiddleware;
-use Csa\Bundle\GuzzleBundle\GuzzleHttp\Middleware\HistoryMiddleware;
 use Csa\Bundle\GuzzleBundle\GuzzleHttp\Middleware\MockMiddleware;
-use GuzzleHttp\TransferStats;
+use GuzzleHttp\Exception\RequestException;
 use Psr\Http\Message\StreamInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -38,39 +38,16 @@ class GuzzleCollector extends DataCollector
      *
      * @param int $maxBodySize The max body size to store in the profiler storage
      */
-    public function __construct($maxBodySize = self::MAX_BODY_SIZE, \ArrayObject $history = null)
+    public function __construct($maxBodySize = self::MAX_BODY_SIZE, History $history = null)
     {
         $this->maxBodySize = $maxBodySize;
-        $this->history = $history ?: new \ArrayObject();
+        $this->history = $history ?: new History();
+
         if (class_exists(\Namshi\Cuzzle\Formatter\CurlFormatter::class)) {
             $this->curlFormatter = new \Namshi\Cuzzle\Formatter\CurlFormatter();
         }
+
         $this->data = [];
-    }
-
-    public function addStats(TransferStats $stats)
-    {
-        $request = $stats->getRequest();
-        if (!$request->hasHeader(HistoryMiddleware::CORRELATION_ID_HEADER)) {
-            $correlationId = uniqid();
-        } else {
-            $correlationId = $request->getHeader(HistoryMiddleware::CORRELATION_ID_HEADER)[0];
-        }
-
-        if (!isset($this->history[$correlationId])) {
-            $this->history[$correlationId] = [
-                'request' => $request,
-                'response' => $stats->getResponse(),
-                'options' => null,
-                'error' => $stats->getHandlerErrorData(),
-                'info' => $stats->getHandlerStats(),
-            ];
-
-            return;
-        }
-
-        $this->history[$correlationId]['request'] = $request;
-        $this->history[$correlationId]['info'] = $stats->getHandlerStats();
     }
 
     /**
@@ -80,9 +57,9 @@ class GuzzleCollector extends DataCollector
     {
         $data = [];
 
-        foreach ($this->history as $transaction) {
+        foreach ($this->history as $request) {
             /* @var \Psr\Http\Message\RequestInterface $request */
-            $request = $transaction['request'];
+            $transaction = $this->history[$request];
             /* @var \Psr\Http\Message\ResponseInterface $response */
             $response = $transaction['response'];
             /* @var \Exception $error */
@@ -100,6 +77,7 @@ class GuzzleCollector extends DataCollector
                 'info' => $info,
                 'uri' => urldecode($request->getUri()),
                 'httpCode' => 0,
+                'error' => null,
             ];
 
             if ($this->curlFormatter) {
@@ -124,7 +102,7 @@ class GuzzleCollector extends DataCollector
                 }
             }
 
-            if ($error) {
+            if ($error && $error instanceof RequestException) {
                 $req['error'] = [
                     'message' => $error->getMessage(),
                     'line' => $error->getLine(),
@@ -158,7 +136,7 @@ class GuzzleCollector extends DataCollector
     public function getErrors()
     {
         return array_filter($this->data, function ($call) {
-            return isset($call['httpCode']) && $call['httpCode'] >= 400;
+            return 0 === $call['httpCode'] || $call['httpCode'] >= 400;
         });
     }
 

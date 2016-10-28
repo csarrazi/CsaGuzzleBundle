@@ -12,7 +12,6 @@
 namespace Csa\Bundle\GuzzleBundle\Cache\NamingStrategy;
 
 use Csa\Bundle\GuzzleBundle\GuzzleHttp\Middleware\CacheMiddleware;
-use Csa\Bundle\GuzzleBundle\GuzzleHttp\Middleware\HistoryMiddleware;
 use Psr\Http\Message\RequestInterface;
 
 abstract class AbstractNamingStrategy implements NamingStrategyInterface
@@ -21,7 +20,6 @@ abstract class AbstractNamingStrategy implements NamingStrategyInterface
         'User-Agent',
         'Host',
         CacheMiddleware::DEBUG_HEADER,
-        HistoryMiddleware::CORRELATION_ID_HEADER,
     ];
 
     public function __construct(array $blacklist = [])
