@@ -12,8 +12,8 @@ and using the `csa_guzzle.subscriber` tag, and giving it an alias:
 </service>
 ```
 
-Subscribers are automatically used by all your clients, if you are using semantic configuration.
-However, if you wish to, you can disable a specific subscriber, for a given client:
+Subscribers are automatically used by all your clients. However, if you wish to, you can disable a specific subscriber, 
+for a given client:
 
 ```yml
 csa_guzzle:
@@ -32,10 +32,9 @@ csa_guzzle:
                 my_subscriber: false # Note the use of the alias defined earlier in the service definition.
 ```
 
-When registering your own clients with the bundle, you can explicitly list all
-enabled subscribers. The `subscribers` attribute takes a comma-delimited list of
-subscriber names. In that case any other subscriber will be disabled for that
-client:
+When registering your own clients with the bundle, all the subscribers are used by default. However, you can explicitly list
+the enabled subscribers. The `subscribers` attribute takes a comma-delimited list of subscriber names. In that case any other
+subscriber will be disabled for that client:
 
 ```xml
 <service id="acme.client" class="%acme.client.class%">
