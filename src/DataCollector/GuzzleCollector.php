@@ -15,6 +15,7 @@ use Csa\Bundle\GuzzleBundle\GuzzleHttp\History\History;
 use Csa\Bundle\GuzzleBundle\GuzzleHttp\Middleware\CacheMiddleware;
 use Csa\Bundle\GuzzleBundle\GuzzleHttp\Middleware\MockMiddleware;
 use GuzzleHttp\Exception\RequestException;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -84,7 +85,7 @@ class GuzzleCollector extends DataCollector
                 $req['curl'] = $this->curlFormatter->format($request);
             }
 
-            if ($response) {
+            if ($response instanceof ResponseInterface) {
                 $req['response'] = [
                     'reasonPhrase' => $response->getReasonPhrase(),
                     'headers' => $response->getHeaders(),
