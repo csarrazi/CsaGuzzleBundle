@@ -6,6 +6,12 @@
     "authors": [
         { "name": "Charles Sarrazin", "email": "charles@sarraz.in" }
     ],
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/iamluc/Tolerance"
+        }
+    ],
     "require": {
         "php": ">=5.5.0",
         "guzzlehttp/guzzle": "^6.1",
@@ -26,7 +32,8 @@
         "psr/cache": "^1.0",
         "symfony/web-profiler-bundle": "^2.3|^3.0",
         "symfony/phpunit-bridge": "^2.7|^3.0",
-        "namshi/cuzzle" : "^2.0"
+        "namshi/cuzzle" : "^2.0",
+        "tolerance/tolerance": "dev-promise"
     },
     "autoload": {
         "psr-4": { "Csa\\Bundle\\GuzzleBundle\\": "src" }
