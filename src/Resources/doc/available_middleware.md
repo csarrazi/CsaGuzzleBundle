@@ -8,6 +8,7 @@ Currently, four middleware are available:
 * the `logger` middleware
 * the `cache` middleware
 * the `mock` middleware
+* the `tolerance` middleware
 
 
 The `debug` and `stopwatch` middleware
@@ -159,6 +160,51 @@ csa_guzzle:
         # ...
         request_headers_blacklist: ['User-Agent', 'Host', 'X-Guzzle-Cache', 'X-Foo']
         response_headers_blacklist: ['X-Guzzle-Cache', 'X-Bar']
+```
+
+The `tolerance` middleware
+--------------------------
+
+*Note: This middleware requires the package `tolerance/tolerance`*
+
+The `tolerance` middleware provides an automatic retry on failed request.
+
+You can enable it using the default configuration, and it will retry the request up to 2 times:
+
+```yml
+# config_test.yml
+csa_guzzle:
+    tolerance: ~
+```
+
+You can of course change the number of retries:
+
+```yml
+# config_test.yml
+csa_guzzle:
+    tolerance:
+        retry: 6
+```
+
+Between each retry, the middleware will wait using the [Tolerance ExponentialBackOff class](http://tolerance.io/en/latest/throttling/waiters.html#exponential-back-off).
+You can provide your own __WaiterFactory__ (which must extend `Csa\Bundle\GuzzleBundle\Tolerance\WaiterFactory`)
+to define your own strategy like this:
+
+```yml
+# config_test.yml
+csa_guzzle:
+    tolerance:
+        waiter_factory: my_waiter_factory_service
+```
+
+By default, a request is considered failed if there is a connection error or if the response status code is >=500.
+You can change the policy by creating your own `Tolerance\Operation\ExceptionCatcher\ThrowableCatcherVoter`:
+
+```yml
+# config_test.yml
+csa_guzzle:
+    tolerance:
+        error_voter: my_error_voter
 ```
 
 Next Section: [Streaming a guzzle response](response_streaming.md)
