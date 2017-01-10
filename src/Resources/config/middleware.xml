@@ -36,6 +36,20 @@
             <tag name="csa_guzzle.middleware" alias="cache" priority="-1500" />
         </service>
 
+        <service id="csa_guzzle.middleware.tolerance" class="Closure">
+            <factory class="Csa\Bundle\GuzzleBundle\GuzzleHttp\Middleware" method="tolerance" />
+            <argument type="service" id="csa_guzzle.tolerance.waiter_factory" />
+            <argument type="service" id="csa_guzzle.tolerance.error_voter" />
+            <tag name="csa_guzzle.middleware" alias="tolerance" priority="-900" />
+        </service>
+
+        <service id="csa_guzzle.tolerance.waiter_factory" class="Csa\Bundle\GuzzleBundle\Tolerance\WaiterFactory">
+            <argument />
+        </service>
+
+        <service id="csa_guzzle.tolerance.error_voter" class="Tolerance\Bridge\Guzzle\Operation\ExceptionCatcher\RequestServerErrorVoter">
+        </service>
+
     </services>
 
 </container>

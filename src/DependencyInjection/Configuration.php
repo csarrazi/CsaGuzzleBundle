@@ -77,6 +77,7 @@ class Configuration implements ConfigurationInterface
                 ->append($this->createCacheNode())
                 ->append($this->createClientsNode())
                 ->append($this->createMockNode())
+                ->append($this->createToleranceNode())
             ->end()
         ;
 
@@ -143,6 +144,23 @@ class Configuration implements ConfigurationInterface
                 ->arrayNode('response_headers_blacklist')
                     ->prototype('scalar')->end()
                 ->end()
+            ->end()
+        ;
+
+        return $node;
+    }
+
+    private function createToleranceNode()
+    {
+        $treeBuilder = new TreeBuilder();
+        $node = $treeBuilder->root('tolerance');
+
+        $node
+            ->canBeEnabled()
+            ->children()
+                ->scalarNode('retry')->defaultValue(2)->end()
+                ->scalarNode('waiter_factory')->defaultNull()->end()
+                ->scalarNode('error_voter')->defaultNull()->end()
             ->end()
         ;
 
