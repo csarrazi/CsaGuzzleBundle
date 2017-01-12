@@ -17,7 +17,9 @@ use Csa\Bundle\GuzzleBundle\GuzzleHttp\Middleware\CacheMiddleware;
 use Csa\Bundle\GuzzleBundle\GuzzleHttp\Middleware\HistoryMiddleware;
 use Csa\Bundle\GuzzleBundle\GuzzleHttp\Middleware\MockMiddleware;
 use Csa\Bundle\GuzzleBundle\GuzzleHttp\Middleware\StopwatchMiddleware;
+use Csa\Bundle\GuzzleBundle\GuzzleHttp\Middleware\ToleranceMiddleware;
 use Symfony\Component\Stopwatch\Stopwatch;
+use Tolerance\Operation\ExceptionCatcher\ThrowableCatcherVoter;
 
 /**
  * Csa Guzzle Middleware.
@@ -46,5 +48,10 @@ class Middleware
     public static function mock(StorageAdapterInterface $storage, $mode, $debug = false)
     {
         return new MockMiddleware($storage, $mode, $debug);
+    }
+
+    public static function tolerance(callable $waiterFactory, ThrowableCatcherVoter $errorVoter)
+    {
+        return new ToleranceMiddleware($waiterFactory, $errorVoter);
     }
 }

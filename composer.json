@@ -6,6 +6,12 @@
     "authors": [
         { "name": "Charles Sarrazin", "email": "charles@sarraz.in" }
     ],
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/iamluc/Tolerance"
+        }
+    ],
     "require": {
         "php": ">=5.5.0",
         "guzzlehttp/guzzle": "^6.1",
@@ -17,7 +23,8 @@
     "suggest": {
         "doctrine/cache": "Allows caching of responses",
         "psr/cache": "Allows caching of responses",
-        "namshi/cuzzle": "Output command to repeat request in command line"
+        "namshi/cuzzle": "Output command to repeat request in command line",
+        "tolerance/tolerance": "Allows retrying failed requests"
     },
     "require-dev": {
         "phpunit/phpunit": "^4.8",
@@ -25,7 +32,8 @@
         "psr/cache": "^1.0",
         "symfony/web-profiler-bundle": "^2.3|^3.0",
         "symfony/phpunit-bridge": "^2.7|^3.0",
-        "namshi/cuzzle" : "^2.0"
+        "namshi/cuzzle" : "^2.0",
+        "tolerance/tolerance": "dev-guzzle-middleware"
     },
     "autoload": {
         "psr-4": { "Csa\\Bundle\\GuzzleBundle\\": "src" }

@@ -20,6 +20,7 @@ use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
+use Tolerance\Operation\Operation;
 
 /**
  * Csa Guzzle Extension.
@@ -53,6 +54,8 @@ class CsaGuzzleExtension extends Extension
         $this->processMockConfiguration($config['mock'], $container, $loader, $config['profiler']['enabled']);
 
         $this->processCacheConfiguration($config['cache'], $container, $config['profiler']['enabled']);
+
+        $this->processToleranceConfiguration($config['tolerance'], $container);
 
         $this->processClientsConfiguration($config, $container, $config['profiler']['enabled']);
     }
@@ -114,6 +117,31 @@ class CsaGuzzleExtension extends Extension
         $container->getDefinition('csa_guzzle.middleware.cache')->addArgument($debug);
 
         $container->setAlias('csa_guzzle.cache_adapter', $config['adapter']);
+    }
+
+    private function processToleranceConfiguration(array $config, ContainerBuilder $container)
+    {
+        if (!$config['enabled']) {
+            $container->removeDefinition('csa_guzzle.middleware.tolerance');
+            $container->removeDefinition('csa_guzzle.tolerance.waiter_factory');
+            $container->removeDefinition('csa_guzzle.tolerance.error_voter');
+
+            return;
+        }
+
+        if (!interface_exists(Operation::class)) {
+            throw new \LogicException('You must install package "tolerance/tolerance" to use the "tolerance" middleware.');
+        }
+
+        if (null !== $config['waiter_factory']) {
+            $container->getDefinition('csa_guzzle.middleware.tolerance')->replaceArgument(0, new Reference($config['waiter_factory']));
+            $container->removeDefinition('csa_guzzle.tolerance.waiter_factory');
+        }
+
+        if (null !== $config['error_voter']) {
+            $container->getDefinition('csa_guzzle.middleware.tolerance')->replaceArgument(1, new Reference($config['error_voter']));
+            $container->removeDefinition('csa_guzzle.tolerance.error_voter');
+        }
     }
 
     private function processClientsConfiguration(array $config, ContainerBuilder $container, $debug)

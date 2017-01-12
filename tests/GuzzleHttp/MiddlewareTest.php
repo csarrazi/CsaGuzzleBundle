@@ -15,6 +15,8 @@ use Csa\Bundle\GuzzleBundle\GuzzleHttp\Cache\StorageAdapterInterface;
 use Csa\Bundle\GuzzleBundle\GuzzleHttp\History\History;
 use Csa\Bundle\GuzzleBundle\GuzzleHttp\Middleware;
 use Symfony\Component\Stopwatch\Stopwatch;
+use Tolerance\Bridge\Guzzle\Waiter\WaiterFactory;
+use Tolerance\Operation\ExceptionCatcher\ThrowableCatcherVoter;
 
 class MiddlewareTest extends \PHPUnit_Framework_TestCase
 {
@@ -39,5 +41,12 @@ class MiddlewareTest extends \PHPUnit_Framework_TestCase
     {
         $adapter = $this->getMock(StorageAdapterInterface::class);
         $this->assertInstanceOf(Middleware\MockMiddleware::class, Middleware::mock($adapter, 'foo'));
+    }
+
+    public function testToleranceMiddleware()
+    {
+        $waiterFactory = $this->getMock(WaiterFactory::class, [], [2]);
+        $errorVoter = $this->getMock(ThrowableCatcherVoter::class);
+        $this->assertInstanceOf(Middleware\ToleranceMiddleware::class, Middleware::tolerance($waiterFactory, $errorVoter));
     }
 }

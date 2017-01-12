@@ -303,6 +303,54 @@ YAML;
         $this->assertContains('X-Guzzle-Cache', $storage->getArgument(1));
     }
 
+    public function testToleranceConfiguration()
+    {
+        $yaml = <<<'YAML'
+tolerance:
+    enabled: false
+YAML;
+
+        $container = $this->createContainer($yaml);
+        $this->assertFalse($container->hasDefinition('csa_guzzle.middleware.tolerance'));
+        $this->assertFalse($container->hasDefinition('csa_guzzle.tolerance.waiter_factory'));
+        $this->assertFalse($container->hasDefinition('csa_guzzle.tolerance.error_voter'));
+
+        $yaml = <<<'YAML'
+tolerance: ~
+YAML;
+
+        $container = $this->createContainer($yaml);
+        $this->assertTrue($container->hasDefinition('csa_guzzle.middleware.tolerance'));
+        $this->assertTrue($container->hasDefinition('csa_guzzle.tolerance.waiter_factory'));
+        $this->assertTrue($container->hasDefinition('csa_guzzle.tolerance.error_voter'));
+
+        $yaml = <<<'YAML'
+tolerance:
+    waiter_factory: my_waiter_factory
+YAML;
+
+        $container = $this->createContainer($yaml);
+        $this->assertTrue($container->hasDefinition('csa_guzzle.middleware.tolerance'));
+        $this->assertFalse($container->hasDefinition('csa_guzzle.tolerance.waiter_factory'));
+        $this->assertTrue($container->hasDefinition('csa_guzzle.tolerance.error_voter'));
+
+        $middleware = $container->getDefinition('csa_guzzle.middleware.tolerance');
+        $this->assertEquals('my_waiter_factory', (string) $middleware->getArgument(0));
+
+        $yaml = <<<'YAML'
+tolerance:
+    error_voter: my_error_voter
+YAML;
+
+        $container = $this->createContainer($yaml);
+        $this->assertTrue($container->hasDefinition('csa_guzzle.middleware.tolerance'));
+        $this->assertTrue($container->hasDefinition('csa_guzzle.tolerance.waiter_factory'));
+        $this->assertFalse($container->hasDefinition('csa_guzzle.tolerance.error_voter'));
+
+        $middleware = $container->getDefinition('csa_guzzle.middleware.tolerance');
+        $this->assertEquals('my_error_voter', (string) $middleware->getArgument(1));
+    }
+
     private function createContainer($yaml)
     {
         $parser = new Parser();
