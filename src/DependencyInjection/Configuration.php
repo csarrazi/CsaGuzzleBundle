@@ -158,7 +158,6 @@ class Configuration implements ConfigurationInterface
         $node
             ->canBeEnabled()
             ->children()
-                ->scalarNode('retry')->defaultValue(2)->end()
                 ->scalarNode('waiter_factory')->defaultNull()->end()
                 ->scalarNode('error_voter')->defaultNull()->end()
             ->end()

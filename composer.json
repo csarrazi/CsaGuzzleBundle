@@ -33,7 +33,7 @@
         "symfony/web-profiler-bundle": "^2.3|^3.0",
         "symfony/phpunit-bridge": "^2.7|^3.0",
         "namshi/cuzzle" : "^2.0",
-        "tolerance/tolerance": "dev-promise"
+        "tolerance/tolerance": "dev-guzzle-middleware"
     },
     "autoload": {
         "psr-4": { "Csa\\Bundle\\GuzzleBundle\\": "src" }

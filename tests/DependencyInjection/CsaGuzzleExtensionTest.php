@@ -308,7 +308,6 @@ YAML;
         $yaml = <<<'YAML'
 tolerance:
     enabled: false
-    retry:   8
 YAML;
 
         $container = $this->createContainer($yaml);
@@ -317,17 +316,13 @@ YAML;
         $this->assertFalse($container->hasDefinition('csa_guzzle.tolerance.error_voter'));
 
         $yaml = <<<'YAML'
-tolerance:
-    retry: 8
+tolerance: ~
 YAML;
 
         $container = $this->createContainer($yaml);
         $this->assertTrue($container->hasDefinition('csa_guzzle.middleware.tolerance'));
         $this->assertTrue($container->hasDefinition('csa_guzzle.tolerance.waiter_factory'));
         $this->assertTrue($container->hasDefinition('csa_guzzle.tolerance.error_voter'));
-
-        $waiterFactory = $container->getDefinition('csa_guzzle.tolerance.waiter_factory');
-        $this->assertEquals(8, $waiterFactory->getArgument(0));
 
         $yaml = <<<'YAML'
 tolerance:
@@ -354,9 +349,6 @@ YAML;
 
         $middleware = $container->getDefinition('csa_guzzle.middleware.tolerance');
         $this->assertEquals('my_error_voter', (string) $middleware->getArgument(1));
-
-        $waiterFactory = $container->getDefinition('csa_guzzle.tolerance.waiter_factory');
-        $this->assertEquals(2, $waiterFactory->getArgument(0));
     }
 
     private function createContainer($yaml)

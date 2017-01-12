@@ -43,8 +43,7 @@
             <tag name="csa_guzzle.middleware" alias="tolerance" priority="-900" />
         </service>
 
-        <service id="csa_guzzle.tolerance.waiter_factory" class="Csa\Bundle\GuzzleBundle\Tolerance\WaiterFactory">
-            <argument />
+        <service id="csa_guzzle.tolerance.waiter_factory" class="Tolerance\Bridge\Guzzle\Waiter\WaiterFactory">
         </service>
 
         <service id="csa_guzzle.tolerance.error_voter" class="Tolerance\Bridge\Guzzle\Operation\ExceptionCatcher\RequestServerErrorVoter">

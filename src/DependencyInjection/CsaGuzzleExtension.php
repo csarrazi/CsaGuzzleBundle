@@ -136,8 +136,6 @@ class CsaGuzzleExtension extends Extension
         if (null !== $config['waiter_factory']) {
             $container->getDefinition('csa_guzzle.middleware.tolerance')->replaceArgument(0, new Reference($config['waiter_factory']));
             $container->removeDefinition('csa_guzzle.tolerance.waiter_factory');
-        } else {
-            $container->getDefinition('csa_guzzle.tolerance.waiter_factory')->replaceArgument(0, $config['retry']);
         }
 
         if (null !== $config['error_voter']) {

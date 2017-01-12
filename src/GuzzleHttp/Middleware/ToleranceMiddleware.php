@@ -11,11 +11,9 @@
 
 namespace Csa\Bundle\GuzzleBundle\GuzzleHttp\Middleware;
 
-use Csa\Bundle\GuzzleBundle\Tolerance\WaiterFactory;
 use Psr\Http\Message\RequestInterface;
+use Tolerance\Bridge\Guzzle\ToleranceMiddleware as RealToleranceMiddleware;
 use Tolerance\Operation\ExceptionCatcher\ThrowableCatcherVoter;
-use Tolerance\Operation\PromiseOperation;
-use Tolerance\Operation\Runner\RetryPromiseOperationRunner;
 
 /**
  * Tolerance Middleware.
@@ -25,7 +23,7 @@ use Tolerance\Operation\Runner\RetryPromiseOperationRunner;
 class ToleranceMiddleware
 {
     /**
-     * @var WaiterFactory
+     * @var callable
      */
     private $waiterFactory;
 
@@ -34,7 +32,7 @@ class ToleranceMiddleware
      */
     private $errorVoter;
 
-    public function __construct(WaiterFactory $waiterFactory, ThrowableCatcherVoter $errorVoter)
+    public function __construct(callable $waiterFactory, ThrowableCatcherVoter $errorVoter)
     {
         $this->waiterFactory = $waiterFactory;
         $this->errorVoter = $errorVoter;
@@ -42,13 +40,10 @@ class ToleranceMiddleware
 
     public function __invoke(callable $nextHandler)
     {
-        return function (RequestInterface $request, array $options) use ($nextHandler) {
-            $operation = new PromiseOperation(function () use ($nextHandler, $request, $options) {
-                return $nextHandler($request, $options);
-            });
-            $runner = new RetryPromiseOperationRunner($this->waiterFactory->create(), $this->errorVoter);
+        $middleware = new RealToleranceMiddleware($nextHandler, $this->waiterFactory, $this->errorVoter);
 
-            return $runner->run($operation);
+        return function (RequestInterface $request, array $options) use ($middleware) {
+            return $middleware($request, $options);
         };
     }
 }

@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "f0af27379e5da3301e650e3456856aa7",
-    "content-hash": "b256775e06e76f7bdea1b29b971bf9d0",
+    "hash": "19c383f85cf6f3bb961d9354b358e4dc",
+    "content-hash": "d6376787e9eb29457ef3af69be2da5b5",
     "packages": [
         {
             "name": "doctrine/cache",
@@ -526,12 +526,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/config.git",
-                "reference": "7cf257ad24791b65bbe8f9d11cc636c19e65ddb6"
+                "reference": "ba3da262813160b4963fb36f573c886592da6acb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/config/zipball/7cf257ad24791b65bbe8f9d11cc636c19e65ddb6",
-                "reference": "7cf257ad24791b65bbe8f9d11cc636c19e65ddb6",
+                "url": "https://api.github.com/repos/symfony/config/zipball/ba3da262813160b4963fb36f573c886592da6acb",
+                "reference": "ba3da262813160b4963fb36f573c886592da6acb",
                 "shasum": ""
             },
             "require": {
@@ -574,7 +574,7 @@
             ],
             "description": "Symfony Config Component",
             "homepage": "https://symfony.com",
-            "time": "2017-01-02 20:33:09"
+            "time": "2017-01-09 21:03:44"
         },
         {
             "name": "symfony/debug",
@@ -639,12 +639,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/dependency-injection.git",
-                "reference": "c1cf3e93e87d39ff9fa182755075375eddbf33a9"
+                "reference": "74b310dbf6a5e717e4c8aafcb2e1ba2eab116a52"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/dependency-injection/zipball/c1cf3e93e87d39ff9fa182755075375eddbf33a9",
-                "reference": "c1cf3e93e87d39ff9fa182755075375eddbf33a9",
+                "url": "https://api.github.com/repos/symfony/dependency-injection/zipball/74b310dbf6a5e717e4c8aafcb2e1ba2eab116a52",
+                "reference": "74b310dbf6a5e717e4c8aafcb2e1ba2eab116a52",
                 "shasum": ""
             },
             "require": {
@@ -694,7 +694,7 @@
             ],
             "description": "Symfony DependencyInjection Component",
             "homepage": "https://symfony.com",
-            "time": "2017-01-10 14:32:56"
+            "time": "2017-01-11 21:31:22"
         },
         {
             "name": "symfony/event-dispatcher",
@@ -863,12 +863,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/framework-bundle.git",
-                "reference": "dac3fe56d2ef91b2734e002fc3496d2f4720c435"
+                "reference": "993332e11d5691f3fb8d3a9ed98d6795f78faf6f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/framework-bundle/zipball/dac3fe56d2ef91b2734e002fc3496d2f4720c435",
-                "reference": "dac3fe56d2ef91b2734e002fc3496d2f4720c435",
+                "url": "https://api.github.com/repos/symfony/framework-bundle/zipball/993332e11d5691f3fb8d3a9ed98d6795f78faf6f",
+                "reference": "993332e11d5691f3fb8d3a9ed98d6795f78faf6f",
                 "shasum": ""
             },
             "require": {
@@ -876,7 +876,7 @@
                 "php": ">=5.5.9",
                 "symfony/cache": "~3.3",
                 "symfony/class-loader": "~3.2",
-                "symfony/config": "~2.8|~3.0",
+                "symfony/config": "~3.3",
                 "symfony/dependency-injection": "~3.3",
                 "symfony/event-dispatcher": "~2.8|~3.0",
                 "symfony/filesystem": "~2.8|~3.0",
@@ -889,14 +889,15 @@
             },
             "conflict": {
                 "phpdocumentor/reflection-docblock": "<3.0",
-                "phpdocumentor/type-resolver": "<0.2.0"
+                "phpdocumentor/type-resolver": "<0.2.0",
+                "symfony/console": "<3.3"
             },
             "require-dev": {
                 "doctrine/annotations": "~1.0",
                 "phpdocumentor/reflection-docblock": "^3.0",
                 "symfony/asset": "~2.8|~3.0",
                 "symfony/browser-kit": "~2.8|~3.0",
-                "symfony/console": "~2.8.8|~3.0.8|~3.1.2|~3.2",
+                "symfony/console": "~3.3",
                 "symfony/css-selector": "~2.8|~3.0",
                 "symfony/dom-crawler": "~2.8|~3.0",
                 "symfony/expression-language": "~2.8|~3.0",
@@ -954,7 +955,7 @@
             ],
             "description": "Symfony FrameworkBundle",
             "homepage": "https://symfony.com",
-            "time": "2017-01-10 14:32:56"
+            "time": "2017-01-11 12:05:48"
         },
         {
             "name": "symfony/http-foundation",
@@ -1281,12 +1282,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "2a05ea563d0ff89aacf03eecd03b79559573983e"
+                "reference": "465689da4dc54a63488791f1ed3610334ab191f7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/2a05ea563d0ff89aacf03eecd03b79559573983e",
-                "reference": "2a05ea563d0ff89aacf03eecd03b79559573983e",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/465689da4dc54a63488791f1ed3610334ab191f7",
+                "reference": "465689da4dc54a63488791f1ed3610334ab191f7",
                 "shasum": ""
             },
             "require": {
@@ -1300,7 +1301,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.0-dev"
+                    "dev-master": "2.1-dev"
                 }
             },
             "autoload": {
@@ -1335,7 +1336,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2017-01-10 15:05:50"
+            "time": "2017-01-11 19:39:41"
         }
     ],
     "packages-dev": [
@@ -2439,16 +2440,16 @@
         },
         {
             "name": "sebastian/recursion-context",
-            "version": "dev-master",
+            "version": "1.0.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/recursion-context.git",
-                "reference": "2c3ba150cbec723aa057506e73a8d33bdb286c9a"
+                "reference": "b19cc3298482a335a95f3016d2f8a6950f0fbcd7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/recursion-context/zipball/2c3ba150cbec723aa057506e73a8d33bdb286c9a",
-                "reference": "2c3ba150cbec723aa057506e73a8d33bdb286c9a",
+                "url": "https://api.github.com/repos/sebastianbergmann/recursion-context/zipball/b19cc3298482a335a95f3016d2f8a6950f0fbcd7",
+                "reference": "b19cc3298482a335a95f3016d2f8a6950f0fbcd7",
                 "shasum": ""
             },
             "require": {
@@ -2460,7 +2461,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.0.x-dev"
+                    "dev-master": "1.0.x-dev"
                 }
             },
             "autoload": {
@@ -2488,7 +2489,7 @@
             ],
             "description": "Provides functionality to recursively process PHP variables",
             "homepage": "http://www.github.com/sebastianbergmann/recursion-context",
-            "time": "2016-11-19 07:33:16"
+            "time": "2016-10-03 07:41:43"
         },
         {
             "name": "sebastian/version",
@@ -2702,12 +2703,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/twig-bridge.git",
-                "reference": "3a81b79e9c247513be72fb0a582ac2a72d93fcfe"
+                "reference": "706a17fe41ff6937adbe4c06990a8a8b4f28992a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/twig-bridge/zipball/3a81b79e9c247513be72fb0a582ac2a72d93fcfe",
-                "reference": "3a81b79e9c247513be72fb0a582ac2a72d93fcfe",
+                "url": "https://api.github.com/repos/symfony/twig-bridge/zipball/706a17fe41ff6937adbe4c06990a8a8b4f28992a",
+                "reference": "706a17fe41ff6937adbe4c06990a8a8b4f28992a",
                 "shasum": ""
             },
             "require": {
@@ -2775,7 +2776,7 @@
             ],
             "description": "Symfony Twig Bridge",
             "homepage": "https://symfony.com",
-            "time": "2017-01-06 15:22:02"
+            "time": "2017-01-11 19:11:51"
         },
         {
             "name": "symfony/var-dumper",
@@ -2961,16 +2962,16 @@
         },
         {
             "name": "tolerance/tolerance",
-            "version": "dev-promise",
+            "version": "dev-guzzle-middleware",
             "source": {
                 "type": "git",
                 "url": "https://github.com/iamluc/Tolerance.git",
-                "reference": "f7844b035b01cbdecd7f8f71b8376d4340f91c91"
+                "reference": "c603dd04d296859c45e7ce76a1fae28c080fdf07"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/iamluc/Tolerance/zipball/f7844b035b01cbdecd7f8f71b8376d4340f91c91",
-                "reference": "f7844b035b01cbdecd7f8f71b8376d4340f91c91",
+                "url": "https://api.github.com/repos/iamluc/Tolerance/zipball/c603dd04d296859c45e7ce76a1fae28c080fdf07",
+                "reference": "c603dd04d296859c45e7ce76a1fae28c080fdf07",
                 "shasum": ""
             },
             "require": {
@@ -3012,9 +3013,9 @@
             ],
             "description": "Fault tolerance library and micro-services helpers",
             "support": {
-                "source": "https://github.com/iamluc/Tolerance/tree/promise"
+                "source": "https://github.com/iamluc/Tolerance/tree/guzzle-middleware"
             },
-            "time": "2017-01-09 10:16:54"
+            "time": "2017-01-12 13:17:50"
         },
         {
             "name": "webmozart/assert",

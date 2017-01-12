@@ -12,11 +12,11 @@
 namespace Csa\Bundle\GuzzleBundle\Tests\GuzzleHttp\Middleware;
 
 use Csa\Bundle\GuzzleBundle\GuzzleHttp\Middleware\ToleranceMiddleware;
-use Csa\Bundle\GuzzleBundle\Tolerance\WaiterFactory;
 use GuzzleHttp\Client;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
+use Tolerance\Bridge\Guzzle\Waiter\WaiterFactory;
 use Tolerance\Operation\ExceptionCatcher\ThrowableCatcherVoter;
 use Tolerance\Waiter\Waiter;
 use Tolerance\Waiter\WaiterException;
@@ -24,7 +24,7 @@ use Tolerance\Waiter\WaiterException;
 class ToleranceMiddlewareTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @expectedException \Tolerance\Operation\Exception\PromiseException
+     * @expectedException \GuzzleHttp\Exception\ServerException
      */
     public function testMiddlewareFails()
     {
@@ -43,7 +43,7 @@ class ToleranceMiddlewareTest extends \PHPUnit_Framework_TestCase
         $waiterFactory = $this->getMock(WaiterFactory::class, [], [3]);
         $waiterFactory
             ->expects($this->once())
-            ->method('create')
+            ->method('__invoke')
             ->willReturn($waiter)
         ;
 
@@ -77,7 +77,7 @@ class ToleranceMiddlewareTest extends \PHPUnit_Framework_TestCase
         $waiterFactory = $this->getMock(WaiterFactory::class, [], [3]);
         $waiterFactory
             ->expects($this->once())
-            ->method('create')
+            ->method('__invoke')
             ->willReturn($waiter)
         ;
 

@@ -14,8 +14,8 @@ namespace Csa\Bundle\GuzzleBundle\Tests\GuzzleHttp;
 use Csa\Bundle\GuzzleBundle\GuzzleHttp\Cache\StorageAdapterInterface;
 use Csa\Bundle\GuzzleBundle\GuzzleHttp\History\History;
 use Csa\Bundle\GuzzleBundle\GuzzleHttp\Middleware;
-use Csa\Bundle\GuzzleBundle\Tolerance\WaiterFactory;
 use Symfony\Component\Stopwatch\Stopwatch;
+use Tolerance\Bridge\Guzzle\Waiter\WaiterFactory;
 use Tolerance\Operation\ExceptionCatcher\ThrowableCatcherVoter;
 
 class MiddlewareTest extends \PHPUnit_Framework_TestCase
