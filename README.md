@@ -42,14 +42,14 @@ See [Upgrade.md](UPGRADE.md).
 Documentation
 -------------
 
-### Documentation for stable (2.0@dev/dev-master)
+### Documentation for stable (2.*)
 
-* [Installation](src/Resources/doc/install.md)
-* [Creating clients](src/Resources/doc/clients.md)
-* [Registering new middleware](src/Resources/doc/middleware.md)
-* [Available middleware](src/Resources/doc/available_middleware.md)
-* [Streaming a guzzle response](src/Resources/doc/response_streaming.md)
-* [Configuration reference](src/Resources/doc/configuration_reference.md)
+* [Installation](../2.x/src/Resources/doc/install.md)
+* [Creating clients](../2.x/src/Resources/doc/clients.md)
+* [Registering new middleware](../2.x/src/Resources/doc/middleware.md)
+* [Available middleware](../2.x/src/Resources/doc/available_middleware.md)
+* [Streaming a guzzle response](../2.x/src/Resources/doc/response_streaming.md)
+* [Configuration reference](../2.x/src/Resources/doc/configuration_reference.md)
 
 ### Documentation for legacy (1.3)
 
@@ -59,6 +59,15 @@ Documentation
 * [Streaming a guzzle response](../1.3/src/Resources/doc/response_streaming.md)
 * [Service descriptions](../1.3/src/Resources/doc/service_descriptions.md)
 * [Configuration reference](../1.3/src/Resources/doc/configuration_reference.md)
+
+### Documentation for next version (master)
+
+* [Installation](../master/src/Resources/doc/install.md)
+* [Creating clients](../master/src/Resources/doc/clients.md)
+* [Registering new middleware](../master/src/Resources/doc/middleware.md)
+* [Available middleware](../master/src/Resources/doc/available_middleware.md)
+* [Streaming a guzzle response](../master/src/Resources/doc/response_streaming.md)
+* [Configuration reference](../master/src/Resources/doc/configuration_reference.md)
 
 Contributing
 ------------

@@ -57,7 +57,7 @@ class MiddlewarePassTest extends \PHPUnit_Framework_TestCase
 
     public function testDisableSpecificMiddlewareForClient()
     {
-        $client = $this->createClient(['!foo', 'foo', 'bar']);
+        $client = $this->createClient(['!foo']);
 
         $container = $this->createContainer();
         $container->setDefinition('client', $client);
@@ -70,8 +70,28 @@ class MiddlewarePassTest extends \PHPUnit_Framework_TestCase
         $pass->process($container);
 
         $handlerDefinition = $client->getArgument(0)['handler'];
-        $this->assertCount(1, $calls = $handlerDefinition->getMethodCalls());
+        $this->assertCount(2, $calls = $handlerDefinition->getMethodCalls());
         $this->assertEquals(['push', [new Reference('bar'), 'bar']], $calls[0]);
+        $this->assertEquals(['push', [new Reference('qux'), 'qux']], $calls[1]);
+    }
+
+    /**
+     * @expectedException \Symfony\Component\DependencyInjection\Exception\LogicException
+     * @expectedExceptionMessage You cannot mix whitelisting and blacklisting of middleware at the same time.
+     */
+    public function testForbidWhitelistingAlongWithBlacklisting()
+    {
+        $client = $this->createClient(['!foo', 'bar']);
+
+        $container = $this->createContainer();
+        $container->setDefinition('client', $client);
+
+        foreach (['foo', 'bar', 'qux'] as $alias) {
+            $this->createMiddleware($container, $alias);
+        }
+
+        $pass = new MiddlewarePass();
+        $pass->process($container);
     }
 
     public function testMiddlewareWithPriority()
