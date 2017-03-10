@@ -15,6 +15,7 @@ use GuzzleHttp\HandlerStack;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
+use Symfony\Component\DependencyInjection\Exception\LogicException;
 use Symfony\Component\DependencyInjection\Reference;
 
 /**
@@ -155,6 +156,14 @@ class MiddlewarePass implements CompilerPassInterface
         }
     }
 
+    /**
+     * @param array $middlewareBag The list of availables middleware
+     * @param array $tags          The tags containing middleware configuration
+     *
+     * @return array The list of middleware to enable for the client
+     *
+     * @throws LogicException When middleware configuration is invalid
+     */
     private function filterClientMiddleware(array $middlewareBag, array $tags)
     {
         if (!isset($tags[0]['middleware'])) {
@@ -173,8 +182,18 @@ class MiddlewarePass implements CompilerPassInterface
             }
         }
 
-        return array_filter($middlewareBag, function ($value) use ($whiteList, $blackList) {
-            return in_array($value['alias'], $whiteList, true) && !in_array($value['alias'], $blackList, true);
-        });
+        if ($whiteList && $blackList) {
+            throw new LogicException('You cannot mix whitelisting and blacklisting of middleware at the same time.');
+        }
+
+        if ($whiteList) {
+            return array_filter($middlewareBag, function ($value) use ($whiteList) {
+                return in_array($value['alias'], $whiteList, true);
+            });
+        } else {
+            return array_filter($middlewareBag, function ($value) use ($blackList) {
+                return !in_array($value['alias'], $blackList, true);
+            });
+        }
     }
 }

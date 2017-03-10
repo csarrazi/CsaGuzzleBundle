@@ -41,7 +41,7 @@ csa_guzzle:
             middleware: ['!my_middleware']
 ```
 
-Disabled middleware have priority over enabled middleware.
+You can either whitelist or blacklist middleware. Using both whitelisting and blacklisting will trigger an exception.
 
 When registering your own clients with the bundle, you can explicitly list all
 enabled middleware. The `middleware` attribute takes a space-delimited list of
@@ -52,7 +52,7 @@ for that client:
 
 ```xml
 <service id="acme.client" class="%acme.client.class%">
-    <tag name="csa_guzzle.client" middleware="my_middleware another_middleware !yet_another_middleware" />
+    <tag name="csa_guzzle.client" middleware="my_middleware another_middleware" />
 </service>
 ```
 
@@ -63,7 +63,7 @@ acme.client:
     class: %acme.client.class%
 
     tags:
-      - { name: csa_guzzle.client, middleware: 'my_middleware another_middleware !yet_another_middleware'}
+      - { name: csa_guzzle.client, middleware: 'my_middleware another_middleware'}
 ```
 
 Next section: [Available middleware](available_middleware.md)
