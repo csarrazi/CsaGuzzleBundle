@@ -94,6 +94,32 @@ class MiddlewarePassTest extends \PHPUnit_Framework_TestCase
         $pass->process($container);
     }
 
+    public function testServicesCanUseEitherWhitelistingOrBlacklisting()
+    {
+        $client1 = $this->createClient(['foo', 'bar']);
+        $client2 = $this->createClient(['!foo', '!bar']);
+
+        $container = $this->createContainer();
+        $container->setDefinition('client1', $client1);
+        $container->setDefinition('client2', $client2);
+
+        foreach (['foo', 'bar', 'qux'] as $alias) {
+            $this->createMiddleware($container, $alias);
+        }
+
+        $pass = new MiddlewarePass();
+        $pass->process($container);
+
+        $handlerDefinition = $client1->getArgument(0)['handler'];
+        $this->assertCount(2, $calls = $handlerDefinition->getMethodCalls());
+        $this->assertEquals(['push', [new Reference('foo'), 'foo']], $calls[0]);
+        $this->assertEquals(['push', [new Reference('bar'), 'bar']], $calls[1]);
+
+        $handlerDefinition = $client2->getArgument(0)['handler'];
+        $this->assertCount(1, $calls = $handlerDefinition->getMethodCalls());
+        $this->assertEquals(['push', [new Reference('qux'), 'qux']], $calls[0]);
+    }
+
     public function testMiddlewareWithPriority()
     {
         $client = $this->createClient();
