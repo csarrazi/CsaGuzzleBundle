@@ -11,7 +11,7 @@
         <service id="csa_guzzle.data_collector.guzzle" class="Csa\Bundle\GuzzleBundle\DataCollector\GuzzleCollector">
             <argument />
             <argument type="service" id="csa_guzzle.data_collector.history_bag" />
-            <tag name="data_collector" template="CsaGuzzleBundle:Collector:guzzle" id="guzzle" />
+            <tag name="data_collector" template="@CsaGuzzle/Collector/guzzle.html.twig" id="guzzle" />
         </service>
 
     </services>
