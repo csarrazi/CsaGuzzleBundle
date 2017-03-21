@@ -74,5 +74,10 @@ class GuzzleCollectorTest extends \PHPUnit_Framework_TestCase
             escapeshellarg('http://foo.bar')
         ), $calls[0]['curl']
         );
+
+        $client->post('http://foo.bar', ['body' => str_pad('', GuzzleCollector::MAX_BODY_SIZE + 1)]);
+        $collector->collect($request, $response, new \Exception());
+        $calls = $collector->getCalls();
+        $this->assertArrayNotHasKey('curl', $calls[1], 'This request body size shouldn\'t be passed to CurlFormatter');
     }
 }
