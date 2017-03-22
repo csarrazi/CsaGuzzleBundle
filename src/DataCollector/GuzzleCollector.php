@@ -80,7 +80,7 @@ class GuzzleCollector extends DataCollector
                 'error' => null,
             ];
 
-            if ($this->curlFormatter) {
+            if ($this->curlFormatter && $request->getBody()->getSize() <= $this->maxBodySize) {
                 $req['curl'] = $this->curlFormatter->format($request);
             }
 
