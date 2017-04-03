@@ -66,8 +66,9 @@ class MockStorageAdapterTest extends \PHPUnit_Framework_TestCase
     public function testSave()
     {
         $request = $this->getRequestMock();
-        $mockStorage = new $this->class($this->tmpDir, [], ['X-Foo']);
-        $mockStorage->save($request, new Response(404, ['X-Foo' => 'bar'], 'Not found'));
+        $request2 = $request->withHeader('X-Baz', 'qux');
+        $mockStorage = new $this->class($this->tmpDir, ['x-baz'], ['X-Foo']);
+        $mockStorage->save($request2, new Response(404, ['X-Foo' => 'bar'], 'Not found'));
         $response = $mockStorage->fetch($request);
 
         $this->assertCount(1, glob($this->tmpDir.'/google.com/GET_*'));

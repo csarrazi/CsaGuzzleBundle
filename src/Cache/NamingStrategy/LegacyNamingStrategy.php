@@ -28,7 +28,7 @@ class LegacyNamingStrategy extends AbstractNamingStrategy
     {
         $this->withHost = $withHost;
 
-        parent::__construct($blacklist);
+        parent::__construct($blacklist, false);
     }
 
     /**

@@ -41,6 +41,7 @@ class MockStorageAdapter implements StorageAdapterInterface
         $this->storagePath = $storagePath;
 
         $this->namingStrategies[] = new SubfolderNamingStrategy($requestHeadersBlacklist);
+        $this->namingStrategies[] = new SubfolderNamingStrategy($requestHeadersBlacklist, false);
         $this->namingStrategies[] = new LegacyNamingStrategy(true, $requestHeadersBlacklist);
         $this->namingStrategies[] = new LegacyNamingStrategy(false, $requestHeadersBlacklist);
 
