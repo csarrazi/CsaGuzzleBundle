@@ -224,7 +224,7 @@ YAML;
         $client = $container->getDefinition('csa_guzzle.client.foo');
 
         $this->assertEquals(
-            [MiddlewarePass::CLIENT_TAG => [['middleware' => '!stopwatch !debug !foo stopwatch history logger']]],
+            [MiddlewarePass::CLIENT_TAG => [['middleware' => '!stopwatch !debug !foo']]],
             $client->getTags(),
             'Only explicitly disabled middleware shouldn\'t be added.'
         );

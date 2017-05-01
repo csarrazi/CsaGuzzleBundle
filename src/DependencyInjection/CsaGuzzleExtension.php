@@ -137,9 +137,17 @@ class CsaGuzzleExtension extends Extension
 
             if (!empty($options['middleware'])) {
                 if ($debug) {
-                    $options['middleware'][] = 'stopwatch';
-                    $options['middleware'][] = 'history';
-                    $options['middleware'][] = 'logger';
+                    $addDebugMiddleware = true;
+
+                    foreach ($options['middleware'] as $middleware) {
+                        if ('!' === ($middleware[0])) {
+                            $addDebugMiddleware = false;
+                        }
+                    }
+
+                    if ($addDebugMiddleware) {
+                        $options['middleware'] = array_merge($options['middleware'], ['stopwatch', 'history', 'logger']);
+                    }
                 }
 
                 $attributes['middleware'] = implode(' ', array_unique($options['middleware']));
