@@ -170,7 +170,7 @@ class GuzzleCollector extends DataCollector
      */
     public function reset()
     {
-        $this->data = array();
+        $this->data = [];
     }
 
     /**
