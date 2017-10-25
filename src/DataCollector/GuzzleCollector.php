@@ -168,6 +168,14 @@ class GuzzleCollector extends DataCollector
     /**
      * {@inheritdoc}
      */
+    public function reset()
+    {
+        $this->data = array();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getName()
     {
         return 'guzzle';

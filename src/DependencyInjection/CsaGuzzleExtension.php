@@ -20,6 +20,7 @@ use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
+use Symfony\Component\Stopwatch\Stopwatch;
 
 /**
  * Csa Guzzle Extension.
@@ -41,9 +42,12 @@ class CsaGuzzleExtension extends Extension
         $dataCollector = $container->getDefinition('csa_guzzle.data_collector.guzzle');
         $dataCollector->replaceArgument(0, $config['profiler']['max_body_size']);
 
+        if (!class_exists(Stopwatch::class) || !$config['profiler']['enabled']) {
+            $container->removeDefinition('csa_guzzle.middleware.stopwatch');
+        }
+
         if (!$config['profiler']['enabled']) {
             $container->removeDefinition('csa_guzzle.middleware.history');
-            $container->removeDefinition('csa_guzzle.middleware.stopwatch');
             $container->removeDefinition('csa_guzzle.data_collector.guzzle');
             $container->removeDefinition('csa_guzzle.twig.extension');
         }
