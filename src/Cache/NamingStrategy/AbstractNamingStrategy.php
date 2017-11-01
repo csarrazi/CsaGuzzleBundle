@@ -42,6 +42,7 @@ abstract class AbstractNamingStrategy implements NamingStrategyInterface
             'method' => $request->getMethod(),
             'path' => $request->getUri()->getPath(),
             'query' => $request->getUri()->getQuery(),
+            'body' => md5($request->getBody()),
             'user_info' => $request->getUri()->getUserInfo(),
             'port' => $request->getUri()->getPort(),
             'scheme' => $request->getUri()->getScheme(),
