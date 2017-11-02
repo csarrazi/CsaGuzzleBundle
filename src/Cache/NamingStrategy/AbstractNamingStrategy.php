@@ -21,12 +21,15 @@ abstract class AbstractNamingStrategy implements NamingStrategyInterface
         'Host',
         CacheMiddleware::DEBUG_HEADER,
     ];
+    private $normalizeRequest;
 
-    public function __construct(array $blacklist = [])
+    public function __construct(array $blacklist = [], $normalizeRequest = true)
     {
         if (!empty($blacklist)) {
             $this->blacklist = $blacklist;
         }
+
+        $this->normalizeRequest = $normalizeRequest;
     }
 
     /**
@@ -38,6 +41,12 @@ abstract class AbstractNamingStrategy implements NamingStrategyInterface
      */
     protected function getFingerprint(RequestInterface $request)
     {
+        if ($this->normalizeRequest) {
+            $headers = array_diff_key(array_change_key_case($request->getHeaders()), array_change_key_case(array_flip($this->blacklist)));
+        } else {
+            $headers = array_diff_key($request->getHeaders(), array_flip($this->blacklist));
+        }
+
         return md5(serialize([
             'method' => $request->getMethod(),
             'path' => $request->getUri()->getPath(),
@@ -45,7 +54,7 @@ abstract class AbstractNamingStrategy implements NamingStrategyInterface
             'user_info' => $request->getUri()->getUserInfo(),
             'port' => $request->getUri()->getPort(),
             'scheme' => $request->getUri()->getScheme(),
-            'headers' => array_diff_key($request->getHeaders(), array_flip($this->blacklist)),
+            'headers' => $headers,
         ]));
     }
 }
