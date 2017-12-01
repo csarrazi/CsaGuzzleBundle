@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "7b45b4f79ee8233bd0f81e3ed03588e1",
+    "content-hash": "dad239ad3265ddb3cfde1caae10d1f2d",
     "packages": [
         {
             "name": "csa/guzzle-cache-middleware",
@@ -766,12 +766,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/dependency-injection.git",
-                "reference": "3f057050b657c9cd3404e9b6d71f5f245688cff1"
+                "reference": "c7b0f52a33f82f34bdaac40462e6ec8a84eca694"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/dependency-injection/zipball/3f057050b657c9cd3404e9b6d71f5f245688cff1",
-                "reference": "3f057050b657c9cd3404e9b6d71f5f245688cff1",
+                "url": "https://api.github.com/repos/symfony/dependency-injection/zipball/c7b0f52a33f82f34bdaac40462e6ec8a84eca694",
+                "reference": "c7b0f52a33f82f34bdaac40462e6ec8a84eca694",
                 "shasum": ""
             },
             "require": {
@@ -829,7 +829,7 @@
             ],
             "description": "Symfony DependencyInjection Component",
             "homepage": "https://symfony.com",
-            "time": "2017-11-30 15:12:01"
+            "time": "2017-12-01 14:34:03"
         },
         {
             "name": "symfony/event-dispatcher",
@@ -998,12 +998,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/framework-bundle.git",
-                "reference": "6b11bb89bfb42e685498779652cbcc49d9d96e82"
+                "reference": "f7195cd67da8becefb8c35a3486b504877d4b62a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/framework-bundle/zipball/6b11bb89bfb42e685498779652cbcc49d9d96e82",
-                "reference": "6b11bb89bfb42e685498779652cbcc49d9d96e82",
+                "url": "https://api.github.com/repos/symfony/framework-bundle/zipball/f7195cd67da8becefb8c35a3486b504877d4b62a",
+                "reference": "f7195cd67da8becefb8c35a3486b504877d4b62a",
                 "shasum": ""
             },
             "require": {
@@ -1104,7 +1104,7 @@
             ],
             "description": "Symfony FrameworkBundle",
             "homepage": "https://symfony.com",
-            "time": "2017-11-29 13:47:22"
+            "time": "2017-12-01 14:38:06"
         },
         {
             "name": "symfony/http-foundation",
@@ -1573,7 +1573,7 @@
                 "cache",
                 "caching"
             ],
-            "time": "2017-08-25T06:51:37+00:00"
+            "time": "2017-08-25 06:51:37"
         },
         {
             "name": "doctrine/instantiator",
@@ -1625,7 +1625,7 @@
                 "constructor",
                 "instantiate"
             ],
-            "time": "2017-09-19T12:41:22+00:00"
+            "time": "2017-09-19 12:41:22"
         },
         {
             "name": "myclabs/deep-copy",
@@ -1675,7 +1675,7 @@
                 "object",
                 "object graph"
             ],
-            "time": "2017-11-29T14:36:38+00:00"
+            "time": "2017-11-29 14:36:38"
         },
         {
             "name": "namshi/cuzzle",
@@ -1725,7 +1725,7 @@
                 }
             ],
             "description": "Get the cURL shell command from a Guzzle request",
-            "time": "2017-04-14T15:28:16+00:00"
+            "time": "2017-04-14 15:28:16"
         },
         {
             "name": "phpdocumentor/reflection-common",
@@ -1779,7 +1779,7 @@
                 "reflection",
                 "static analysis"
             ],
-            "time": "2017-09-11T18:02:19+00:00"
+            "time": "2017-09-11 18:02:19"
         },
         {
             "name": "phpdocumentor/reflection-docblock",
@@ -1828,7 +1828,7 @@
                 }
             ],
             "description": "With this component, a library can provide support for annotations via DocBlocks or otherwise retrieve information that is embedded in a DocBlock.",
-            "time": "2017-11-30T09:27:01+00:00"
+            "time": "2017-11-30 09:27:01"
         },
         {
             "name": "phpdocumentor/type-resolver",
@@ -1938,7 +1938,7 @@
                 "spy",
                 "stub"
             ],
-            "time": "2017-11-24T13:59:53+00:00"
+            "time": "2017-11-24 13:59:53"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -2001,7 +2001,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2017-04-02T07:44:40+00:00"
+            "time": "2017-04-02 07:44:40"
         },
         {
             "name": "phpunit/php-file-iterator",
@@ -2048,7 +2048,7 @@
                 "filesystem",
                 "iterator"
             ],
-            "time": "2017-11-27T13:52:08+00:00"
+            "time": "2017-11-27 13:52:08"
         },
         {
             "name": "phpunit/php-text-template",
@@ -2138,7 +2138,7 @@
             "keywords": [
                 "timer"
             ],
-            "time": "2017-03-07T15:42:04+00:00"
+            "time": "2017-03-07 15:42:04"
         },
         {
             "name": "phpunit/php-token-stream",
@@ -2187,7 +2187,7 @@
             "keywords": [
                 "tokenizer"
             ],
-            "time": "2017-11-27T08:47:38+00:00"
+            "time": "2017-11-27 08:47:38"
         },
         {
             "name": "phpunit/phpunit",
@@ -2269,7 +2269,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2017-12-01T05:15:50+00:00"
+            "time": "2017-12-01 05:15:50"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
@@ -2328,7 +2328,7 @@
                 "mock",
                 "xunit"
             ],
-            "time": "2017-06-30T09:13:00+00:00"
+            "time": "2017-06-30 09:13:00"
         },
         {
             "name": "sebastian/code-unit-reverse-lookup",
@@ -2373,7 +2373,7 @@
             ],
             "description": "Looks up which function or method a line of code belongs to",
             "homepage": "https://github.com/sebastianbergmann/code-unit-reverse-lookup/",
-            "time": "2017-03-04T10:23:55+00:00"
+            "time": "2017-03-04 10:23:55"
         },
         {
             "name": "sebastian/comparator",
@@ -2437,7 +2437,7 @@
                 "compare",
                 "equality"
             ],
-            "time": "2017-03-07T10:34:43+00:00"
+            "time": "2017-03-07 10:34:43"
         },
         {
             "name": "sebastian/diff",
@@ -2489,7 +2489,7 @@
             "keywords": [
                 "diff"
             ],
-            "time": "2017-05-22T07:24:03+00:00"
+            "time": "2017-05-22 07:24:03"
         },
         {
             "name": "sebastian/environment",
@@ -2539,7 +2539,7 @@
                 "environment",
                 "hhvm"
             ],
-            "time": "2016-11-26T07:53:53+00:00"
+            "time": "2016-11-26 07:53:53"
         },
         {
             "name": "sebastian/exporter",
@@ -2606,7 +2606,7 @@
                 "export",
                 "exporter"
             ],
-            "time": "2017-03-07T10:36:49+00:00"
+            "time": "2017-03-07 10:36:49"
         },
         {
             "name": "sebastian/global-state",
@@ -2657,7 +2657,7 @@
             "keywords": [
                 "global state"
             ],
-            "time": "2017-02-23T14:11:06+00:00"
+            "time": "2017-02-23 14:11:06"
         },
         {
             "name": "sebastian/object-enumerator",
@@ -2703,7 +2703,7 @@
             ],
             "description": "Traverses array structures and object graphs to enumerate all referenced objects",
             "homepage": "https://github.com/sebastianbergmann/object-enumerator/",
-            "time": "2017-03-07T10:37:45+00:00"
+            "time": "2017-03-07 10:37:45"
         },
         {
             "name": "sebastian/recursion-context",
@@ -2756,7 +2756,7 @@
             ],
             "description": "Provides functionality to recursively process PHP variables",
             "homepage": "http://www.github.com/sebastianbergmann/recursion-context",
-            "time": "2017-03-08T08:21:15+00:00"
+            "time": "2017-03-08 08:21:15"
         },
         {
             "name": "sebastian/resource-operations",
@@ -2798,7 +2798,7 @@
             ],
             "description": "Provides a list of PHP built-in functions that operate on resources",
             "homepage": "https://www.github.com/sebastianbergmann/resource-operations",
-            "time": "2016-10-03T07:43:09+00:00"
+            "time": "2016-10-03 07:43:09"
         },
         {
             "name": "sebastian/version",
@@ -2841,7 +2841,7 @@
             ],
             "description": "Library that helps with managing the version number of Git-hosted PHP projects",
             "homepage": "https://github.com/sebastianbergmann/version",
-            "time": "2016-10-03T07:35:21+00:00"
+            "time": "2016-10-03 07:35:21"
         },
         {
             "name": "symfony/phpunit-bridge",
@@ -2903,7 +2903,7 @@
             ],
             "description": "Symfony PHPUnit Bridge",
             "homepage": "https://symfony.com",
-            "time": "2017-11-22T09:23:45+00:00"
+            "time": "2017-11-22 09:23:45"
         },
         {
             "name": "symfony/polyfill-php72",
@@ -2958,7 +2958,7 @@
                 "portable",
                 "shim"
             ],
-            "time": "2017-10-11T12:05:26+00:00"
+            "time": "2017-10-11 12:05:26"
         },
         {
             "name": "symfony/twig-bridge",
@@ -3048,7 +3048,7 @@
             ],
             "description": "Symfony Twig Bridge",
             "homepage": "https://symfony.com",
-            "time": "2017-11-21T17:31:29+00:00"
+            "time": "2017-11-21 17:31:29"
         },
         {
             "name": "symfony/var-dumper",
@@ -3117,7 +3117,7 @@
                 "debug",
                 "dump"
             ],
-            "time": "2017-11-30T15:12:01+00:00"
+            "time": "2017-11-30 15:12:01"
         },
         {
             "name": "symfony/web-profiler-bundle",
@@ -3183,7 +3183,7 @@
             ],
             "description": "Symfony WebProfilerBundle",
             "homepage": "https://symfony.com",
-            "time": "2017-11-24T14:34:34+00:00"
+            "time": "2017-11-24 14:34:34"
         },
         {
             "name": "symfony/yaml",
@@ -3241,7 +3241,7 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "https://symfony.com",
-            "time": "2017-11-29T13:47:22+00:00"
+            "time": "2017-11-29 13:47:22"
         },
         {
             "name": "webmozart/assert",
@@ -3291,16 +3291,12 @@
                 "check",
                 "validate"
             ],
-            "time": "2016-11-23T20:04:41+00:00"
+            "time": "2016-11-23 20:04:41"
         }
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": {
-        "csa/guzzle-cache-middleware": 20,
-        "csa/guzzle-history-middleware": 20,
-        "csa/guzzle-stopwatch-middleware": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
