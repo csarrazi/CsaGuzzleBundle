@@ -6,12 +6,11 @@
 
     <services>
 
-        <service id="csa_guzzle.mock.storage" class="Csa\Bundle\GuzzleBundle\GuzzleHttp\Cache\MockStorageAdapter" public="false">
+        <service id="csa_guzzle.mock.storage" class="Csa\Bundle\GuzzleBundle\GuzzleHttp\Cache\Adapter\MockStorageAdapter" public="false">
             <argument /> <!-- storagePath -->
         </service>
 
-        <service id="csa_guzzle.middleware.mock" class="Closure">
-            <factory class="Csa\Bundle\GuzzleBundle\GuzzleHttp\Middleware" method="mock" />
+        <service id="csa_guzzle.middleware.mock" class="Csa\GuzzleHttp\Middleware\Cache\MockMiddleware">
             <argument type="service" id="csa_guzzle.mock.storage" />
             <argument /> <!-- mode -->
             <argument /> <!-- debug -->

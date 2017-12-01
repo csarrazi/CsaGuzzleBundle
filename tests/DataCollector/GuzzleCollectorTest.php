@@ -12,8 +12,7 @@
 namespace Csa\Bundle\GuzzleBundle\Tests\DataCollector;
 
 use Csa\Bundle\GuzzleBundle\DataCollector\GuzzleCollector;
-use Csa\Bundle\GuzzleBundle\GuzzleHttp\History\History;
-use Csa\Bundle\GuzzleBundle\GuzzleHttp\Middleware;
+use Csa\GuzzleHttp\Middleware\History\HistoryMiddleware;
 use GuzzleHttp\Client;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
@@ -32,11 +31,11 @@ class GuzzleCollectorTest extends \PHPUnit_Framework_TestCase
         $mock = new MockHandler($mocks);
         $handler = HandlerStack::create($mock);
         $collector = new GuzzleCollector();
-        $handler->push(Middleware::history($collector->getHistory()));
+        $handler->push(new HistoryMiddleware($collector->getHistory()));
         $client = new Client(['handler' => $handler]);
 
         $request = Request::createFromGlobals();
-        $response = $this->getMock('Symfony\Component\HttpFoundation\Response');
+        $response = $this->createMock('Symfony\Component\HttpFoundation\Response');
         $collector->collect($request, $response, new \Exception());
         $this->assertCount(0, $collector->getCalls());
 
@@ -60,11 +59,11 @@ class GuzzleCollectorTest extends \PHPUnit_Framework_TestCase
         $mock = new MockHandler($mocks);
         $handler = HandlerStack::create($mock);
         $collector = new GuzzleCollector();
-        $handler->push(Middleware::history($collector->getHistory()));
+        $handler->push(new HistoryMiddleware($collector->getHistory()));
         $client = new Client(['handler' => $handler]);
 
         $request = Request::createFromGlobals();
-        $response = $this->getMock('Symfony\Component\HttpFoundation\Response');
+        $response = $this->createMock('Symfony\Component\HttpFoundation\Response');
 
         $client->get('http://foo.bar');
         $collector->collect($request, $response, new \Exception());

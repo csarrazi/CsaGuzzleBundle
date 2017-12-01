@@ -6,7 +6,7 @@
 
     <services>
 
-        <service id="csa_guzzle.data_collector.history_bag" class="Csa\Bundle\GuzzleBundle\GuzzleHttp\History\History" />
+        <service id="csa_guzzle.data_collector.history_bag" class="Csa\GuzzleHttp\Middleware\History\History" />
 
         <service id="csa_guzzle.data_collector.guzzle" class="Csa\Bundle\GuzzleBundle\DataCollector\GuzzleCollector">
             <argument />

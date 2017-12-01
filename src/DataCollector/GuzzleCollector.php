@@ -11,9 +11,9 @@
 
 namespace Csa\Bundle\GuzzleBundle\DataCollector;
 
-use Csa\Bundle\GuzzleBundle\GuzzleHttp\History\History;
-use Csa\Bundle\GuzzleBundle\GuzzleHttp\Middleware\CacheMiddleware;
-use Csa\Bundle\GuzzleBundle\GuzzleHttp\Middleware\MockMiddleware;
+use Csa\GuzzleHttp\Middleware\History\History;
+use Csa\GuzzleHttp\Middleware\Cache\CacheMiddleware;
+use Csa\GuzzleHttp\Middleware\Cache\MockMiddleware;
 use GuzzleHttp\Exception\RequestException;
 use Psr\Http\Message\StreamInterface;
 use Symfony\Component\HttpFoundation\Request;
