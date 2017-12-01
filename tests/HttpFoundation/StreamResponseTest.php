@@ -13,8 +13,9 @@ namespace Csa\Bundle\GuzzleBundle\Tests\HttpFoundation;
 
 use Csa\Bundle\GuzzleBundle\HttpFoundation\StreamResponse;
 use GuzzleHttp\Psr7\Response;
+use PHPUnit\Framework\TestCase;
 
-class StreamResponseTest extends \PHPUnit_Framework_TestCase
+class StreamResponseTest extends TestCase
 {
     public function testNormalOutput()
     {

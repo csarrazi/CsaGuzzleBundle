@@ -24,13 +24,11 @@
         "tolerance/tolerance": "Allows retrying failed requests"
     },
     "require-dev": {
-        "phpunit/phpunit": "^5.0",
-        "doctrine/cache": "^1.1",
-        "psr/cache": "^1.0",
+        "phpunit/phpunit": "^6.5",
         "symfony/web-profiler-bundle": "^2.3|^3.0|^4.0",
         "symfony/phpunit-bridge": "^2.7|^3.0|^4.0",
-        "namshi/cuzzle" : "^2.0",
-        "symfony/stopwatch": "^2.7|^3.0|^4.0"
+        "symfony/yaml": "^2.7|^3.0|^4.0",
+        "namshi/cuzzle" : "^2.0"
     },
     "autoload": {
         "psr-4": { "Csa\\Bundle\\GuzzleBundle\\": "src" }

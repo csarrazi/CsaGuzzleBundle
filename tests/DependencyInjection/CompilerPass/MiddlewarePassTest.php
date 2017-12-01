@@ -13,11 +13,12 @@ namespace Csa\Bundle\GuzzleBundle\Tests\DependencyInjection\CompilerPass;
 
 use Csa\Bundle\GuzzleBundle\DependencyInjection\CompilerPass\MiddlewarePass;
 use GuzzleHttp\HandlerStack;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
-class MiddlewarePassTest extends \PHPUnit_Framework_TestCase
+class MiddlewarePassTest extends TestCase
 {
     public function testAllMiddlewareAddedToTaggedClientsByDefault()
     {
