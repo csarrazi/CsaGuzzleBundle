@@ -4,16 +4,21 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "3ad2069ed9dd73d936b8389ef56f6795",
+    "content-hash": "7b45b4f79ee8233bd0f81e3ed03588e1",
     "packages": [
         {
-            "name": "csa/guzzle-middleware-cache",
+            "name": "csa/guzzle-cache-middleware",
             "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/csarrazi/guzzle-cache-middleware.git",
+                "reference": "a6a8716849b02d7597f815d0f6be7255a24c9c95"
+            },
             "dist": {
-                "type": "path",
-                "url": "../guzzle-middleware-cache",
-                "reference": "c45f63c043fe5fbaad0f46d568cb35001c91f88f",
-                "shasum": null
+                "type": "zip",
+                "url": "https://api.github.com/repos/csarrazi/guzzle-cache-middleware/zipball/a6a8716849b02d7597f815d0f6be7255a24c9c95",
+                "reference": "a6a8716849b02d7597f815d0f6be7255a24c9c95",
+                "shasum": ""
             },
             "require": {
                 "guzzlehttp/guzzle": "^6.1",
@@ -43,11 +48,7 @@
                     "Csa\\GuzzleHttp\\Middleware\\Cache\\": "src"
                 }
             },
-            "autoload-dev": {
-                "psr-4": {
-                    "Csa\\Tests\\GuzzleHttp\\Middleware\\Cache\\": "tests"
-                }
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "Apache-2.0"
             ],
@@ -57,16 +58,22 @@
                     "email": "charles@sarraz.in"
                 }
             ],
-            "description": "A Cache middleware for GuzzleHttp >= 6.0"
+            "description": "A Cache middleware for GuzzleHttp >= 6.0",
+            "time": "2017-12-01 11:45:31"
         },
         {
-            "name": "csa/guzzle-middleware-history",
+            "name": "csa/guzzle-history-middleware",
             "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/csarrazi/guzzle-history-middleware.git",
+                "reference": "70c0a20b7ce5f19c8ec7ea8097e987c5d3340327"
+            },
             "dist": {
-                "type": "path",
-                "url": "../guzzle-middleware-history",
-                "reference": "e8f5e86a4a56a14984e9a3a813f29c11ac5433b5",
-                "shasum": null
+                "type": "zip",
+                "url": "https://api.github.com/repos/csarrazi/guzzle-history-middleware/zipball/70c0a20b7ce5f19c8ec7ea8097e987c5d3340327",
+                "reference": "70c0a20b7ce5f19c8ec7ea8097e987c5d3340327",
+                "shasum": ""
             },
             "require": {
                 "guzzlehttp/guzzle": "^6.1",
@@ -87,11 +94,7 @@
                     "Csa\\GuzzleHttp\\Middleware\\History\\": "src"
                 }
             },
-            "autoload-dev": {
-                "psr-4": {
-                    "Csa\\Tests\\GuzzleHttp\\Middleware\\History\\": "tests"
-                }
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "Apache-2.0"
             ],
@@ -101,16 +104,22 @@
                     "email": "charles@sarraz.in"
                 }
             ],
-            "description": "A History middleware for GuzzleHttp >= 6.0"
+            "description": "A History middleware for GuzzleHttp >= 6.0",
+            "time": "2017-12-01 11:48:15"
         },
         {
-            "name": "csa/guzzle-middleware-stopwatch",
+            "name": "csa/guzzle-stopwatch-middleware",
             "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/csarrazi/guzzle-stopwatch-middleware.git",
+                "reference": "1612a9c87eb3c6167d38c4ea79ef3055cf50e93e"
+            },
             "dist": {
-                "type": "path",
-                "url": "../guzzle-middleware-stopwatch",
-                "reference": "6072843c0e93d7624f65c68aa07f2594bbda11d5",
-                "shasum": null
+                "type": "zip",
+                "url": "https://api.github.com/repos/csarrazi/guzzle-stopwatch-middleware/zipball/1612a9c87eb3c6167d38c4ea79ef3055cf50e93e",
+                "reference": "1612a9c87eb3c6167d38c4ea79ef3055cf50e93e",
+                "shasum": ""
             },
             "require": {
                 "guzzlehttp/guzzle": "^6.1",
@@ -132,11 +141,7 @@
                     "Csa\\GuzzleHttp\\Middleware\\Stopwatch\\": "src"
                 }
             },
-            "autoload-dev": {
-                "psr-4": {
-                    "Csa\\Tests\\GuzzleHttp\\Middleware\\Stopwatch\\": "tests"
-                }
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "Apache-2.0"
             ],
@@ -146,7 +151,8 @@
                     "email": "charles@sarraz.in"
                 }
             ],
-            "description": "A Stopwatch middleware for GuzzleHttp >= 6.0"
+            "description": "A Stopwatch middleware for GuzzleHttp >= 6.0",
+            "time": "2017-12-01 11:52:02"
         },
         {
             "name": "guzzlehttp/guzzle",
@@ -1567,7 +1573,7 @@
                 "cache",
                 "caching"
             ],
-            "time": "2017-08-25 06:51:37"
+            "time": "2017-08-25T06:51:37+00:00"
         },
         {
             "name": "doctrine/instantiator",
@@ -1619,7 +1625,7 @@
                 "constructor",
                 "instantiate"
             ],
-            "time": "2017-09-19 12:41:22"
+            "time": "2017-09-19T12:41:22+00:00"
         },
         {
             "name": "myclabs/deep-copy",
@@ -1719,7 +1725,7 @@
                 }
             ],
             "description": "Get the cURL shell command from a Guzzle request",
-            "time": "2017-04-14 15:28:16"
+            "time": "2017-04-14T15:28:16+00:00"
         },
         {
             "name": "phpdocumentor/reflection-common",
@@ -1773,7 +1779,7 @@
                 "reflection",
                 "static analysis"
             ],
-            "time": "2017-09-11 18:02:19"
+            "time": "2017-09-11T18:02:19+00:00"
         },
         {
             "name": "phpdocumentor/reflection-docblock",
@@ -1822,7 +1828,7 @@
                 }
             ],
             "description": "With this component, a library can provide support for annotations via DocBlocks or otherwise retrieve information that is embedded in a DocBlock.",
-            "time": "2017-11-30 09:27:01"
+            "time": "2017-11-30T09:27:01+00:00"
         },
         {
             "name": "phpdocumentor/type-resolver",
@@ -1932,7 +1938,7 @@
                 "spy",
                 "stub"
             ],
-            "time": "2017-11-24 13:59:53"
+            "time": "2017-11-24T13:59:53+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -1999,20 +2005,20 @@
         },
         {
             "name": "phpunit/php-file-iterator",
-            "version": "dev-master",
+            "version": "1.4.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-file-iterator.git",
-                "reference": "3cc8f69b3028d0f96a9078e6295d86e9bf019be5"
+                "reference": "730b01bc3e867237eaac355e06a36b85dd93a8b4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-file-iterator/zipball/3cc8f69b3028d0f96a9078e6295d86e9bf019be5",
-                "reference": "3cc8f69b3028d0f96a9078e6295d86e9bf019be5",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-file-iterator/zipball/730b01bc3e867237eaac355e06a36b85dd93a8b4",
+                "reference": "730b01bc3e867237eaac355e06a36b85dd93a8b4",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.1"
+                "php": ">=5.3.3"
             },
             "type": "library",
             "extra": {
@@ -2042,7 +2048,7 @@
                 "filesystem",
                 "iterator"
             ],
-            "time": "2016-10-03 07:40:28"
+            "time": "2017-11-27T13:52:08+00:00"
         },
         {
             "name": "phpunit/php-text-template",
@@ -2132,7 +2138,7 @@
             "keywords": [
                 "timer"
             ],
-            "time": "2017-03-07 15:42:04"
+            "time": "2017-03-07T15:42:04+00:00"
         },
         {
             "name": "phpunit/php-token-stream",
@@ -2431,7 +2437,7 @@
                 "compare",
                 "equality"
             ],
-            "time": "2017-03-07 10:34:43"
+            "time": "2017-03-07T10:34:43+00:00"
         },
         {
             "name": "sebastian/diff",
@@ -2483,7 +2489,7 @@
             "keywords": [
                 "diff"
             ],
-            "time": "2017-05-22 07:24:03"
+            "time": "2017-05-22T07:24:03+00:00"
         },
         {
             "name": "sebastian/environment",
@@ -2651,7 +2657,7 @@
             "keywords": [
                 "global state"
             ],
-            "time": "2017-02-23 14:11:06"
+            "time": "2017-02-23T14:11:06+00:00"
         },
         {
             "name": "sebastian/object-enumerator",
@@ -2897,7 +2903,7 @@
             ],
             "description": "Symfony PHPUnit Bridge",
             "homepage": "https://symfony.com",
-            "time": "2017-11-22 09:23:45"
+            "time": "2017-11-22T09:23:45+00:00"
         },
         {
             "name": "symfony/polyfill-php72",
@@ -2952,7 +2958,7 @@
                 "portable",
                 "shim"
             ],
-            "time": "2017-10-11 12:05:26"
+            "time": "2017-10-11T12:05:26+00:00"
         },
         {
             "name": "symfony/twig-bridge",
@@ -3042,7 +3048,7 @@
             ],
             "description": "Symfony Twig Bridge",
             "homepage": "https://symfony.com",
-            "time": "2017-11-21 17:31:29"
+            "time": "2017-11-21T17:31:29+00:00"
         },
         {
             "name": "symfony/var-dumper",
@@ -3111,7 +3117,7 @@
                 "debug",
                 "dump"
             ],
-            "time": "2017-11-30 15:12:01"
+            "time": "2017-11-30T15:12:01+00:00"
         },
         {
             "name": "symfony/web-profiler-bundle",
@@ -3177,7 +3183,7 @@
             ],
             "description": "Symfony WebProfilerBundle",
             "homepage": "https://symfony.com",
-            "time": "2017-11-24 14:34:34"
+            "time": "2017-11-24T14:34:34+00:00"
         },
         {
             "name": "symfony/yaml",
@@ -3285,15 +3291,15 @@
                 "check",
                 "validate"
             ],
-            "time": "2016-11-23 20:04:41"
+            "time": "2016-11-23T20:04:41+00:00"
         }
     ],
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "csa/guzzle-middleware-cache": 20,
-        "csa/guzzle-middleware-history": 20,
-        "csa/guzzle-middleware-stopwatch": 20
+        "csa/guzzle-cache-middleware": 20,
+        "csa/guzzle-history-middleware": 20,
+        "csa/guzzle-stopwatch-middleware": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
