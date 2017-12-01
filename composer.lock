@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "1c35c63fe973173ee4bc861a7ab5ec6c",
+    "content-hash": "c37d1c8d645b12ca936823ca916f05bd",
     "packages": [
         {
             "name": "csa/guzzle-cache-middleware",
@@ -3315,7 +3315,7 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "https://symfony.com",
-            "time": "2017-11-29T13:47:22+00:00"
+            "time": "2017-11-29 13:47:22"
         },
         {
             "name": "theseer/tokenizer",
@@ -3414,7 +3414,7 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=5.6.0"
+        "php": "^7.1"
     },
     "platform-dev": []
 }
