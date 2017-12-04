@@ -12,12 +12,12 @@
         "symfony/framework-bundle": "^2.7|^3.0|^4.0",
         "symfony/dependency-injection": "^2.7|^3.0|^4.0",
         "symfony/filesystem": "^2.7|^3.0|^4.0",
-        "twig/twig": "^1.12|^2.0",
+        "twig/twig": "^1.12|^2.0"
+    },
+    "suggest": {
         "csa/guzzle-cache-middleware": "^1.0.0",
         "csa/guzzle-history-middleware": "^1.0.0",
         "csa/guzzle-stopwatch-middleware": "^1.0.0"
-    },
-    "suggest": {
         "doctrine/cache": "Allows caching of responses",
         "psr/cache": "Allows caching of responses",
         "namshi/cuzzle": "Output command to repeat request in command line",
