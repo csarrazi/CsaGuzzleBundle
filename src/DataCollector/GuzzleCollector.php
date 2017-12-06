@@ -172,4 +172,12 @@ class GuzzleCollector extends DataCollector
     {
         return 'guzzle';
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function reset()
+    {
+        $this->data = [];
+    }
 }
