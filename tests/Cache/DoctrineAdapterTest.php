@@ -22,13 +22,13 @@ class DoctrineAdapterTest extends \PHPUnit_Framework_TestCase
 
     public function testConstructor()
     {
-        $cache = $this->getMock('Doctrine\Common\Cache\Cache');
+        $cache = $this->createMock('Doctrine\Common\Cache\Cache');
         new $this->class($cache, 0);
     }
 
     public function testFetch()
     {
-        $cache = $this->getMock('Doctrine\Common\Cache\Cache');
+        $cache = $this->createMock('Doctrine\Common\Cache\Cache');
 
         $cache
             ->expects($this->at(0))
@@ -61,7 +61,7 @@ class DoctrineAdapterTest extends \PHPUnit_Framework_TestCase
 
     public function testSave()
     {
-        $cache = $this->getMock('Doctrine\Common\Cache\Cache');
+        $cache = $this->createMock('Doctrine\Common\Cache\Cache');
 
         $cache
             ->expects($this->at(0))

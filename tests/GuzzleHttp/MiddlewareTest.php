@@ -20,7 +20,7 @@ class MiddlewareTest extends \PHPUnit_Framework_TestCase
 {
     public function testCacheMiddleware()
     {
-        $adapter = $this->getMock(StorageAdapterInterface::class);
+        $adapter = $this->createMock(StorageAdapterInterface::class);
         $this->assertInstanceOf(Middleware\CacheMiddleware::class, Middleware::cache($adapter));
     }
 
@@ -37,7 +37,7 @@ class MiddlewareTest extends \PHPUnit_Framework_TestCase
 
     public function testMockMiddleware()
     {
-        $adapter = $this->getMock(StorageAdapterInterface::class);
+        $adapter = $this->createMock(StorageAdapterInterface::class);
         $this->assertInstanceOf(Middleware\MockMiddleware::class, Middleware::mock($adapter, 'foo'));
     }
 }

@@ -28,7 +28,7 @@ class CacheMiddlewareTest extends \PHPUnit_Framework_TestCase
         $mock = new MockHandler($mocks);
         $handler = HandlerStack::create($mock);
 
-        $adapter = $this->getMock(StorageAdapterInterface::class);
+        $adapter = $this->createMock(StorageAdapterInterface::class);
         $adapter
             ->expects($this->at(0))
             ->method('fetch')

@@ -22,14 +22,14 @@ class PsrAdapterTest extends \PHPUnit_Framework_TestCase
 {
     public function testConstructor()
     {
-        $cache = $this->getMock(CacheItemPoolInterface::class);
+        $cache = $this->createMock(CacheItemPoolInterface::class);
         new PsrAdapter($cache, 0);
     }
 
     public function testFetch()
     {
-        $cache = $this->getMock(CacheItemPoolInterface::class);
-        $item = $this->getMock(CacheItemInterface::class);
+        $cache = $this->createMock(CacheItemPoolInterface::class);
+        $item = $this->createMock(CacheItemInterface::class);
 
         $item
             ->expects($this->at(0))
@@ -67,8 +67,8 @@ class PsrAdapterTest extends \PHPUnit_Framework_TestCase
 
     public function testSave()
     {
-        $cache = $this->getMock(CacheItemPoolInterface::class);
-        $item = $this->getMock(CacheItemInterface::class);
+        $cache = $this->createMock(CacheItemPoolInterface::class);
+        $item = $this->createMock(CacheItemInterface::class);
 
         $item
             ->expects($this->at(0))
