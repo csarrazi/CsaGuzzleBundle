@@ -158,6 +158,7 @@ class CsaGuzzleExtension extends Extension
             }
 
             $client->addTag(MiddlewarePass::CLIENT_TAG, $attributes);
+            $client->setPublic(true);
 
             $clientServiceId = sprintf('csa_guzzle.client.%s', $name);
             $container->setDefinition($clientServiceId, $client);
