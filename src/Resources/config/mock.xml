@@ -6,7 +6,7 @@
 
     <services>
 
-        <service id="csa_guzzle.mock.storage" class="Csa\Bundle\GuzzleBundle\GuzzleHttp\Cache\Adapter\MockStorageAdapter" public="false">
+        <service id="csa_guzzle.mock.storage" class="Csa\GuzzleHttp\Middleware\Cache\Adapter\MockStorageAdapter" public="false">
             <argument /> <!-- storagePath -->
         </service>
 
