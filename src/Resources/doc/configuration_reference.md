@@ -13,6 +13,7 @@ csa_guzzle:
         service:              ~
         format:               '{hostname} {req_header_User-Agent} - [{date_common_log}] "{method} {target} HTTP/{version}" {code} {res_header_Content-Length}'
         level:                debug
+    default_client:       ~
     cache:
         enabled:              false
         adapter:              ~
@@ -20,14 +21,17 @@ csa_guzzle:
 
         # Prototype
         name:
-            class:            GuzzleHttp\Client
-            config:           ~
-            middleware:       []
-            alias:            ~
+            class:                GuzzleHttp\Client
+            lazy:                 false
+            config:               ~
+            middleware:           []
+            alias:                null
     mock:
         enabled:              false
         storage_path:         ~ # Required
         mode:                 replay
+        request_headers_blacklist: []
+        response_headers_blacklist: []
 ```
 
 To log request/response body you can use `{req_body}` and `{res_body}` respectively in `format` setting.
