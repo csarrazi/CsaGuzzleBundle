@@ -27,6 +27,7 @@ use Symfony\Component\DependencyInjection\Reference;
 class MiddlewarePass implements CompilerPassInterface
 {
     const MIDDLEWARE_TAG = 'csa_guzzle.middleware';
+
     const CLIENT_TAG = 'csa_guzzle.client';
 
     public function process(ContainerBuilder $container)

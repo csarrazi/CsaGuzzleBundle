@@ -74,6 +74,7 @@ class Configuration implements ConfigurationInterface
                         ->end()
                     ->end()
                 ->end()
+                ->scalarNode('default_client')->end()
                 ->append($this->createCacheNode())
                 ->append($this->createClientsNode())
                 ->append($this->createMockNode())

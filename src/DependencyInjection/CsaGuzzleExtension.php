@@ -12,6 +12,8 @@
 namespace Csa\Bundle\GuzzleBundle\DependencyInjection;
 
 use Csa\Bundle\GuzzleBundle\DependencyInjection\CompilerPass\MiddlewarePass;
+use GuzzleHttp\Client;
+use GuzzleHttp\ClientInterface;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -122,6 +124,11 @@ class CsaGuzzleExtension extends Extension
 
     private function processClientsConfiguration(array $config, ContainerBuilder $container, $debug)
     {
+        if (empty($config['default_client'])) {
+            $keys = array_keys($config['clients']);
+            $config['default_client'] = reset($keys);
+        }
+
         foreach ($config['clients'] as $name => $options) {
             $client = new Definition($options['class']);
             $client->setLazy($options['lazy']);
@@ -165,6 +172,11 @@ class CsaGuzzleExtension extends Extension
 
             if (isset($options['alias'])) {
                 $container->setAlias($options['alias'], $clientServiceId);
+            }
+
+            if ($config['default_client'] === $name) {
+                $container->setAlias(ClientInterface::class, $clientServiceId);
+                $container->setAlias(Client::class, $clientServiceId);
             }
         }
     }

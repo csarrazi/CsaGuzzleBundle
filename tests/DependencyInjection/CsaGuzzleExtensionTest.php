@@ -13,6 +13,7 @@ namespace Csa\Bundle\GuzzleBundle\Tests\DependencyInjection;
 
 use Csa\Bundle\GuzzleBundle\DependencyInjection\CompilerPass\MiddlewarePass;
 use Csa\Bundle\GuzzleBundle\DependencyInjection\CsaGuzzleExtension;
+use GuzzleHttp\ClientInterface;
 use GuzzleHttp\MessageFormatter;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -48,6 +49,9 @@ YAML;
             $client->getArgument(0),
             'Config must be passed to client constructor.'
         );
+
+        $defaultClient = $container->getAlias(ClientInterface::class);
+        $this->assertEquals('csa_guzzle.client.foo', $defaultClient);
 
         $this->assertFalse($client->isLazy());
     }
