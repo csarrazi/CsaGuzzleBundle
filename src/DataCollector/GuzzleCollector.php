@@ -30,7 +30,9 @@ class GuzzleCollector extends DataCollector
     const MAX_BODY_SIZE = 0x10000;
 
     private $maxBodySize;
+
     private $history;
+
     private $curlFormatter = null;
 
     /**
