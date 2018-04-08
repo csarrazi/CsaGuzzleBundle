@@ -11,9 +11,9 @@
 
 namespace Csa\Bundle\GuzzleBundle\DataCollector;
 
-use Csa\Bundle\GuzzleBundle\GuzzleHttp\History\History;
-use Csa\Bundle\GuzzleBundle\GuzzleHttp\Middleware\CacheMiddleware;
-use Csa\Bundle\GuzzleBundle\GuzzleHttp\Middleware\MockMiddleware;
+use Csa\GuzzleHttp\Middleware\Cache\CacheMiddleware;
+use Csa\GuzzleHttp\Middleware\Cache\MockMiddleware;
+use Csa\GuzzleHttp\Middleware\History\History;
 use GuzzleHttp\Exception\RequestException;
 use Psr\Http\Message\StreamInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -30,7 +30,9 @@ class GuzzleCollector extends DataCollector
     const MAX_BODY_SIZE = 0x10000;
 
     private $maxBodySize;
+
     private $history;
+
     private $curlFormatter = null;
 
     /**
@@ -80,7 +82,7 @@ class GuzzleCollector extends DataCollector
                 'error' => null,
             ];
 
-            if ($this->curlFormatter) {
+            if ($this->curlFormatter && $request->getBody()->getSize() <= $this->maxBodySize) {
                 $req['curl'] = $this->curlFormatter->format($request);
             }
 
@@ -163,6 +165,14 @@ class GuzzleCollector extends DataCollector
     public function getHistory()
     {
         return $this->history;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function reset()
+    {
+        $this->data = [];
     }
 
     /**

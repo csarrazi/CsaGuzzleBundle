@@ -9,13 +9,13 @@ Add the required package using composer.
 ### Stable version
 
 ```bash
-composer require csa/guzzle-bundle:^2.0
+composer require csa/guzzle-bundle:^3.0
 ```
 
 ### Legacy version
 
 ```bash
-composer require csa/guzzle-bundle:^1.3
+composer require csa/guzzle-bundle:^2.0
 ```
 
 ### Bleeding-edge version
@@ -53,6 +53,61 @@ You may also enable the included logger, in order log outcoming requests:
 ```yml
 csa_guzzle:
     logger: true
+```
+
+Autowiring
+----------
+
+If you rely on Symfony autowiring, you can choose to alias a specific service to the `GuzzleHttp\ClientInterface`
+interface and `GuzzlHttp\Client` class.
+
+```yml
+csa_guzzle:
+    profiler: '%kernel.debug%'
+    logger: true
+    clients:
+        github_api:
+            config:
+                base_uri: 'https://api.github.com'
+                headers:
+                    Accept: application/vnd.github.v3+json
+        jsonplaceholder:
+            config:
+                base_uri: 'https://jsonplaceholder.typicode.com'
+                headers:
+                    Accept: application/json
+    default_client: github_api
+```
+
+Then, your github_api client will be automatically injected into your controller or service:
+
+```php
+<?php
+
+namespace App\Controller;
+
+use Twig\Environment;
+use Symfony\Component\HttpFoundation\Response;
+use GuzzleHttp\Client;
+
+class DefaultController
+{
+    private $twig;
+    private $client;
+
+    public function __construct(Environment $twig, Client $client)
+    {
+        $this->twig = $twig;
+        $this->client = $client;
+    }
+
+    public function index()
+    {
+        $this->client->get('/users');
+
+        return new Response($this->twig->render("base.html.twig"), 200, ['Content-Type' => 'text/html']);
+    }
+}
 ```
 
 Next section: [Creating clients](clients.md)

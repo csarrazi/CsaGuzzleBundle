@@ -13,11 +13,12 @@ namespace Csa\Bundle\GuzzleBundle\Tests\DependencyInjection\CompilerPass;
 
 use Csa\Bundle\GuzzleBundle\DependencyInjection\CompilerPass\MiddlewarePass;
 use GuzzleHttp\HandlerStack;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
-class MiddlewarePassTest extends \PHPUnit_Framework_TestCase
+class MiddlewarePassTest extends TestCase
 {
     public function testAllMiddlewareAddedToTaggedClientsByDefault()
     {
@@ -57,7 +58,7 @@ class MiddlewarePassTest extends \PHPUnit_Framework_TestCase
 
     public function testDisableSpecificMiddlewareForClient()
     {
-        $client = $this->createClient(['!foo', 'foo', 'bar']);
+        $client = $this->createClient(['!foo']);
 
         $container = $this->createContainer();
         $container->setDefinition('client', $client);
@@ -70,8 +71,54 @@ class MiddlewarePassTest extends \PHPUnit_Framework_TestCase
         $pass->process($container);
 
         $handlerDefinition = $client->getArgument(0)['handler'];
-        $this->assertCount(1, $calls = $handlerDefinition->getMethodCalls());
+        $this->assertCount(2, $calls = $handlerDefinition->getMethodCalls());
         $this->assertEquals(['push', [new Reference('bar'), 'bar']], $calls[0]);
+        $this->assertEquals(['push', [new Reference('qux'), 'qux']], $calls[1]);
+    }
+
+    /**
+     * @expectedException \Symfony\Component\DependencyInjection\Exception\LogicException
+     * @expectedExceptionMessage You cannot mix whitelisting and blacklisting of middleware at the same time.
+     */
+    public function testForbidWhitelistingAlongWithBlacklisting()
+    {
+        $client = $this->createClient(['!foo', 'bar']);
+
+        $container = $this->createContainer();
+        $container->setDefinition('client', $client);
+
+        foreach (['foo', 'bar', 'qux'] as $alias) {
+            $this->createMiddleware($container, $alias);
+        }
+
+        $pass = new MiddlewarePass();
+        $pass->process($container);
+    }
+
+    public function testServicesCanUseEitherWhitelistingOrBlacklisting()
+    {
+        $client1 = $this->createClient(['foo', 'bar']);
+        $client2 = $this->createClient(['!foo', '!bar']);
+
+        $container = $this->createContainer();
+        $container->setDefinition('client1', $client1);
+        $container->setDefinition('client2', $client2);
+
+        foreach (['foo', 'bar', 'qux'] as $alias) {
+            $this->createMiddleware($container, $alias);
+        }
+
+        $pass = new MiddlewarePass();
+        $pass->process($container);
+
+        $handlerDefinition = $client1->getArgument(0)['handler'];
+        $this->assertCount(2, $calls = $handlerDefinition->getMethodCalls());
+        $this->assertEquals(['push', [new Reference('foo'), 'foo']], $calls[0]);
+        $this->assertEquals(['push', [new Reference('bar'), 'bar']], $calls[1]);
+
+        $handlerDefinition = $client2->getArgument(0)['handler'];
+        $this->assertCount(1, $calls = $handlerDefinition->getMethodCalls());
+        $this->assertEquals(['push', [new Reference('qux'), 'qux']], $calls[0]);
     }
 
     public function testMiddlewareWithPriority()

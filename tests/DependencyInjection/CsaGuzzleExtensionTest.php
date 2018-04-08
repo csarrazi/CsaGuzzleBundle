@@ -13,12 +13,14 @@ namespace Csa\Bundle\GuzzleBundle\Tests\DependencyInjection;
 
 use Csa\Bundle\GuzzleBundle\DependencyInjection\CompilerPass\MiddlewarePass;
 use Csa\Bundle\GuzzleBundle\DependencyInjection\CsaGuzzleExtension;
+use GuzzleHttp\ClientInterface;
 use GuzzleHttp\MessageFormatter;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\Yaml\Parser;
 
-class CsaGuzzleExtensionTest extends \PHPUnit_Framework_TestCase
+class CsaGuzzleExtensionTest extends TestCase
 {
     public function testClientCreated()
     {
@@ -47,6 +49,9 @@ YAML;
             $client->getArgument(0),
             'Config must be passed to client constructor.'
         );
+
+        $defaultClient = $container->getAlias(ClientInterface::class);
+        $this->assertEquals('csa_guzzle.client.foo', $defaultClient);
 
         $this->assertFalse($client->isLazy());
     }
@@ -224,7 +229,7 @@ YAML;
         $client = $container->getDefinition('csa_guzzle.client.foo');
 
         $this->assertEquals(
-            [MiddlewarePass::CLIENT_TAG => [['middleware' => '!stopwatch !debug !foo stopwatch history logger']]],
+            [MiddlewarePass::CLIENT_TAG => [['middleware' => '!stopwatch !debug !foo']]],
             $client->getTags(),
             'Only explicitly disabled middleware shouldn\'t be added.'
         );

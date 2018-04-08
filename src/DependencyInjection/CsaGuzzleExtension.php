@@ -12,6 +12,8 @@
 namespace Csa\Bundle\GuzzleBundle\DependencyInjection;
 
 use Csa\Bundle\GuzzleBundle\DependencyInjection\CompilerPass\MiddlewarePass;
+use GuzzleHttp\Client;
+use GuzzleHttp\ClientInterface;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -20,6 +22,7 @@ use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
+use Symfony\Component\Stopwatch\Stopwatch;
 
 /**
  * Csa Guzzle Extension.
@@ -41,9 +44,12 @@ class CsaGuzzleExtension extends Extension
         $dataCollector = $container->getDefinition('csa_guzzle.data_collector.guzzle');
         $dataCollector->replaceArgument(0, $config['profiler']['max_body_size']);
 
+        if (!class_exists(Stopwatch::class) || !$config['profiler']['enabled']) {
+            $container->removeDefinition('csa_guzzle.middleware.stopwatch');
+        }
+
         if (!$config['profiler']['enabled']) {
             $container->removeDefinition('csa_guzzle.middleware.history');
-            $container->removeDefinition('csa_guzzle.middleware.stopwatch');
             $container->removeDefinition('csa_guzzle.data_collector.guzzle');
             $container->removeDefinition('csa_guzzle.twig.extension');
         }
@@ -118,6 +124,11 @@ class CsaGuzzleExtension extends Extension
 
     private function processClientsConfiguration(array $config, ContainerBuilder $container, $debug)
     {
+        if (empty($config['default_client'])) {
+            $keys = array_keys($config['clients']);
+            $config['default_client'] = reset($keys);
+        }
+
         foreach ($config['clients'] as $name => $options) {
             $client = new Definition($options['class']);
             $client->setLazy($options['lazy']);
@@ -137,21 +148,35 @@ class CsaGuzzleExtension extends Extension
 
             if (!empty($options['middleware'])) {
                 if ($debug) {
-                    $options['middleware'][] = 'stopwatch';
-                    $options['middleware'][] = 'history';
-                    $options['middleware'][] = 'logger';
+                    $addDebugMiddleware = true;
+
+                    foreach ($options['middleware'] as $middleware) {
+                        if ('!' === ($middleware[0])) {
+                            $addDebugMiddleware = false;
+                        }
+                    }
+
+                    if ($addDebugMiddleware) {
+                        $options['middleware'] = array_merge($options['middleware'], ['stopwatch', 'history', 'logger']);
+                    }
                 }
 
                 $attributes['middleware'] = implode(' ', array_unique($options['middleware']));
             }
 
             $client->addTag(MiddlewarePass::CLIENT_TAG, $attributes);
+            $client->setPublic(true);
 
             $clientServiceId = sprintf('csa_guzzle.client.%s', $name);
             $container->setDefinition($clientServiceId, $client);
 
             if (isset($options['alias'])) {
                 $container->setAlias($options['alias'], $clientServiceId);
+            }
+
+            if ($config['default_client'] === $name) {
+                $container->setAlias(ClientInterface::class, $clientServiceId);
+                $container->setAlias(Client::class, $clientServiceId);
             }
         }
     }

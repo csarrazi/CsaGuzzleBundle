@@ -6,14 +6,12 @@
 
     <services>
 
-        <service id="csa_guzzle.middleware.stopwatch" class="Closure">
-            <factory class="Csa\Bundle\GuzzleBundle\GuzzleHttp\Middleware" method="stopwatch" />
+        <service id="csa_guzzle.middleware.stopwatch" class="Csa\GuzzleHttp\Middleware\Stopwatch\StopwatchMiddleware">
             <argument type="service" id="debug.stopwatch" />
             <tag name="csa_guzzle.middleware" alias="stopwatch" />
         </service>
 
-        <service id="csa_guzzle.middleware.history" class="Closure">
-            <factory class="Csa\Bundle\GuzzleBundle\GuzzleHttp\Middleware" method="history" />
+        <service id="csa_guzzle.middleware.history" class="Csa\GuzzleHttp\Middleware\History\HistoryMiddleware">
             <argument type="service" id="csa_guzzle.data_collector.history_bag" />
             <tag name="csa_guzzle.middleware" alias="history" priority="-1000" />
         </service>
@@ -30,8 +28,7 @@
             <argument /> <!-- Format template -->
         </service>
 
-        <service id="csa_guzzle.middleware.cache" class="Closure">
-            <factory class="Csa\Bundle\GuzzleBundle\GuzzleHttp\Middleware" method="cache" />
+        <service id="csa_guzzle.middleware.cache" class="Csa\GuzzleHttp\Middleware\Cache\CacheMiddleware">
             <argument type="service" id="csa_guzzle.cache_adapter" />
             <tag name="csa_guzzle.middleware" alias="cache" priority="-1500" />
         </service>
