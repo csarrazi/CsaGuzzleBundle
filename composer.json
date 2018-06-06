@@ -3,16 +3,17 @@
     "description": "A bundle integrating GuzzleHttp >= 4.0",
     "license": "Apache-2.0",
     "type": "symfony-bundle",
-    "authors": [
-        { "name": "Charles Sarrazin", "email": "charles@sarraz.in" }
-    ],
+    "authors": [{
+        "name": "Charles Sarrazin",
+        "email": "charles@sarraz.in"
+    }],
     "require": {
         "php": "^7.1",
         "guzzlehttp/guzzle": "^6.1",
-        "symfony/framework-bundle": "^2.7|^3.0|^4.0",
-        "symfony/dependency-injection": "^2.7|^3.0|^4.0",
-        "symfony/filesystem": "^2.7|^3.0|^4.0",
-        "twig/twig": "^1.12|^2.0",
+        "symfony/framework-bundle": "^2.8|^3.0|^4.0",
+        "symfony/dependency-injection": "^2.8|^3.0|^4.0",
+        "symfony/filesystem": "^2.8|^3.0|^4.0",
+        "twig/twig": "^1.34|^2.4",
         "csa/guzzle-cache-middleware": "^1.0.0",
         "csa/guzzle-history-middleware": "^1.0.0",
         "csa/guzzle-stopwatch-middleware": "^1.0.0"
@@ -21,21 +22,24 @@
         "doctrine/cache": "Allows caching of responses",
         "psr/cache": "Allows caching of responses",
         "namshi/cuzzle": "Output command to repeat request in command line",
-        "tolerance/tolerance": "Allows retrying failed requests",
-        "symfony/asset": "Allows you to use the Symfony Profiler, as this bundle relies on the asset helper"
+        "tolerance/tolerance": "Allows retrying failed requests"
     },
     "require-dev": {
-        "phpunit/phpunit": "^6.5",
-        "symfony/web-profiler-bundle": "^2.7|^3.0|^4.0",
-        "symfony/phpunit-bridge": "^2.7|^3.0|^4.0",
-        "symfony/yaml": "^2.7|^3.0|^4.0",
-        "namshi/cuzzle" : "^2.0"
+        "phpunit/phpunit": "^7.0",
+        "symfony/web-profiler-bundle": "^2.8|^3.0|^4.0",
+        "symfony/phpunit-bridge": "^2.8|^3.0|^4.0",
+        "symfony/yaml": "^2.8|^3.0|^4.0",
+        "namshi/cuzzle": "^2.0"
     },
     "autoload": {
-        "psr-4": { "Csa\\Bundle\\GuzzleBundle\\": "src" }
+        "psr-4": {
+            "Csa\\Bundle\\GuzzleBundle\\": "src"
+        }
     },
     "autoload-dev": {
-        "psr-4": { "Csa\\Bundle\\GuzzleBundle\\Tests\\": "tests" }
+        "psr-4": {
+            "Csa\\Bundle\\GuzzleBundle\\Tests\\": "tests"
+        }
     },
     "minimum-stability": "dev",
     "extra": {

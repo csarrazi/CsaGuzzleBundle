@@ -57,7 +57,7 @@ class GuzzleExtension extends \Twig_Extension
                 $xml = new \DomDocument('1.0');
                 $xml->preserveWhiteSpace = false;
                 $xml->formatOutput = true;
-                $xml->loadXml($code);
+                $xml->loadXml($code, LIBXML_NOWARNING);
 
                 return $xml->saveXml();
             default:
