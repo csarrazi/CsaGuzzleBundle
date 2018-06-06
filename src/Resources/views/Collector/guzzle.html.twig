@@ -1,8 +1,6 @@
 {% extends '@WebProfiler/Profiler/layout.html.twig' %}
 
 {% block toolbar %}
-    {% set profiler_markup_version = profiler_markup_version|default(1) %}
-
     {% set callCount = collector.calls|length %}
     {% set errorCount = collector.errors|length %}
 
@@ -37,13 +35,8 @@
     {% endif %}
 
     {% set icon %}
-        {% if profiler_markup_version == 1 %}
-            {{ include('@CsaGuzzle/Icon/guzzle.svg', { height: 28, color: '#3F3F3F' }) }}
-            <span class="sf-toolbar-status sf-toolbar-status-{{ color_code }}">{{ callCount }}</span>
-        {% else %}
-            {{ include('@CsaGuzzle/Icon/guzzle.svg') }}
-            <span class="sf-toolbar-value">{{ callCount }}</span>
-        {% endif %}
+        {{ include('@CsaGuzzle/Icon/guzzle.svg') }}
+        <span class="sf-toolbar-value">{{ callCount }}</span>
         {% if collector.totalTime > 0 %}
             <span class="sf-toolbar-label">
                 in <span class="sf-toolbar-value">{{ collector.totalTime|csa_guzzle_format_duration }}</span>
@@ -93,25 +86,14 @@
 
 {% block head %}
     {{ parent() }}
-    <link rel="stylesheet" href="{{ asset('bundles/csaguzzle/css/screen.min.css') }}">
-    <script src="{{ asset('bundles/csaguzzle/js/guzzle.min.js') }}"></script>
-    {% set profiler_markup_version = profiler_markup_version|default(1) %}
-    {% if profiler_markup_version == 1 %}
-        <link rel="stylesheet" href="{{ asset('bundles/csaguzzle/css/legacy.min.css') }}">
-        <script src="{{ asset('bundles/csaguzzle/js/legacy.min.js') }}"></script>
-        <script type="text/javascript">window.addEventListener('load', Guzzle.createTabs, false);</script>
-    {% endif %}
+    <style>{{ include('@CsaGuzzle/css/screen.min.css') }}</style>
+    <script>{{ include('@CsaGuzzle/js/guzzle.min.js') }}</script>
 {% endblock %}
 
 {% block menu %}
     <span class="label {% if collector.errors|length > 0 %}label-status-error{% endif %}">
         <span class="icon">
-            {% set profiler_markup_version = profiler_markup_version|default(1) %}
-            {% if profiler_markup_version == 1 %}
-                {{ include('@CsaGuzzle/Icon/guzzle.svg', { height: 30, color: '#3F3F3F' }) }}
-            {% else %}
-                {{ include('@CsaGuzzle/Icon/guzzle.svg')}}
-            {% endif %}
+            {{ include('@CsaGuzzle/Icon/guzzle.svg') }}
 
         </span>
         <strong>{{ collector.name|capitalize|default('HTTP calls') }}</strong>
