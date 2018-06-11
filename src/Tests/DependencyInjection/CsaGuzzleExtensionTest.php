@@ -22,7 +22,7 @@ class CsaGuzzleExtensionTest extends \PHPUnit_Framework_TestCase
 {
     public function testClientCreated()
     {
-        $yaml = <<<YAML
+        $yaml = <<<'YAML'
 profiler:
     enabled: false
 clients:
@@ -51,7 +51,7 @@ YAML;
 
     public function testClientAliasing()
     {
-        $yaml = <<<YAML
+        $yaml = <<<'YAML'
 profiler:
     enabled: false
 clients:
@@ -82,7 +82,7 @@ YAML;
 
     /**
      * @dataProvider clientConfigInstance
-     * @covers CsaGuzzleExtension::buildGuzzleConfig
+     * @covers \CsaGuzzleExtension::buildGuzzleConfig
      */
     public function testClientConfigInstanceOverride($instanceKey, $serviceId)
     {
@@ -111,7 +111,7 @@ YAML;
      */
     public function testInvalidClientConfig()
     {
-        $yaml = <<<YAML
+        $yaml = <<<'YAML'
 clients:
     foo:
         config: ~       # legacy mode
@@ -124,7 +124,7 @@ YAML;
 
     public function testClientWithDescription()
     {
-        $yaml = <<<YAML
+        $yaml = <<<'YAML'
 clients:
     foo:
         config: { base_url: example.com }
@@ -139,7 +139,7 @@ YAML;
 
     public function testSubscribersAddedToClient()
     {
-        $yaml = <<<YAML
+        $yaml = <<<'YAML'
 logger: true
 profiler: true
 clients:
@@ -165,7 +165,7 @@ YAML;
 
     public function testCustomSubscribersAddedToClient()
     {
-        $yaml = <<<YAML
+        $yaml = <<<'YAML'
 logger: true
 profiler: true
 clients:
@@ -196,7 +196,7 @@ YAML;
 
     public function testLoggerConfiguration()
     {
-        $yaml = <<<YAML
+        $yaml = <<<'YAML'
 logger:
     enabled: true
     service: monolog.logger
@@ -211,7 +211,7 @@ YAML;
             $this->assertSame('monolog.logger', (string) $container->getDefinition('csa_guzzle.subscriber.logger')->getArgument(0));
         }
 
-        $yaml = <<<YAML
+        $yaml = <<<'YAML'
 logger: false
 YAML;
 
@@ -221,14 +221,14 @@ YAML;
 
     public function testCacheConfiguration()
     {
-        $yaml = <<<YAML
+        $yaml = <<<'YAML'
 cache: false
 YAML;
 
         $container = $this->createContainer($yaml);
         $this->assertFalse($container->hasDefinition('csa_guzzle.subscriber.cache'));
 
-        $yaml = <<<YAML
+        $yaml = <<<'YAML'
 cache:
     enabled: true
     adapter: my.adapter.id
@@ -242,7 +242,7 @@ YAML;
 
     public function testLegacyCacheConfiguration()
     {
-        $yaml = <<<YAML
+        $yaml = <<<'YAML'
 cache:
     enabled: true
     service: my.service.id
@@ -271,7 +271,7 @@ YAML;
      */
     public function testLegacyWrongCacheAdapterTypeThrowsException()
     {
-        $yaml = <<<YAML
+        $yaml = <<<'YAML'
 cache:
     enabled: true
     adapter:

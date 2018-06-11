@@ -40,7 +40,7 @@ class Configuration implements ConfigurationInterface
                     return isset($v['factory_class']);
                 })
                 ->then(function () {
-                    trigger_error('The ClientFactory class is deprecated since version 1.3 and will be removed in 2.0. Use the \'csa_guzzle.client\' tag instead', E_USER_DEPRECATED);
+                    @trigger_error('The ClientFactory class is deprecated since version 1.3 and will be removed in 2.0. Use the \'csa_guzzle.client\' tag instead', E_USER_DEPRECATED);
                 })
             ->end()
             ->fixXmlConfig('client')
@@ -127,7 +127,7 @@ class Configuration implements ConfigurationInterface
                     return isset($v['service']);
                 })
                 ->then(function ($v) {
-                    trigger_error('The csa_guzzle.cache.service configuration key is deprecated since version 1.3 and will be removed in 2.0. Please directly use csa_guzzle.cache.adapter instead', E_USER_DEPRECATED);
+                    @trigger_error('The csa_guzzle.cache.service configuration key is deprecated since version 1.3 and will be removed in 2.0. Please directly use csa_guzzle.cache.adapter instead', E_USER_DEPRECATED);
 
                     return $v;
                 })
@@ -146,7 +146,7 @@ class Configuration implements ConfigurationInterface
                             return is_array($v) && (isset($v['type']) || isset($v['service']));
                         })
                         ->then(function ($v) {
-                            trigger_error('The csa_guzzle.cache.adapter.type and csa_guzzle.cache.adapter.service configuration keys are deprecated since version 1.3 and will be removed in 2.0. Please directly use csa_guzzle.cache.adapter instead', E_USER_DEPRECATED);
+                            @trigger_error('The csa_guzzle.cache.adapter.type and csa_guzzle.cache.adapter.service configuration keys are deprecated since version 1.3 and will be removed in 2.0. Please directly use csa_guzzle.cache.adapter instead', E_USER_DEPRECATED);
 
                             return $v;
                         })

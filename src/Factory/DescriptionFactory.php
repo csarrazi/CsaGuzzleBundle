@@ -19,9 +19,13 @@ use Symfony\Component\Config\Resource\FileResource;
 class DescriptionFactory
 {
     private $resources = [];
+
     private $loader;
+
     private $debug;
+
     private $descriptions = [];
+
     private $cacheDir;
 
     public function __construct(LoaderInterface $loader, $cacheDir, $debug = false)
@@ -52,9 +56,6 @@ class DescriptionFactory
         return new Description($this->descriptions[$alias]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function loadDescriptions()
     {
         if (!empty($this->descriptions)) {

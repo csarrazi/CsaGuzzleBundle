@@ -27,6 +27,7 @@ class GuzzleCollector extends DataCollector
     const MAX_BODY_SIZE = 0x10000;
 
     private $history;
+
     private $maxBodySize;
 
     /**

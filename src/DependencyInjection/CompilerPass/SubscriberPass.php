@@ -24,7 +24,9 @@ use Symfony\Component\DependencyInjection\Reference;
 class SubscriberPass implements CompilerPassInterface
 {
     const FACTORY_SERVICE_ID = 'csa_guzzle.client_factory';
+
     const SUBSCRIBER_TAG = 'csa_guzzle.subscriber';
+
     const CLIENT_TAG = 'csa_guzzle.client';
 
     public function process(ContainerBuilder $container)
