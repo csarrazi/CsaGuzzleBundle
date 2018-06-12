@@ -25,6 +25,7 @@ use GuzzleHttp\Event\SubscriberInterface;
 class ClientFactory
 {
     private $class;
+
     private $subscribers;
 
     /**
@@ -46,7 +47,7 @@ class ClientFactory
      */
     public function create(array $options = [], array $subscribers = [])
     {
-        trigger_error('The ClientFactory class is deprecated since version 1.3 and will be removed in 2.0. Use the \'csa_guzzle.client\' tag instead', E_USER_DEPRECATED);
+        @trigger_error('The ClientFactory class is deprecated since version 1.3 and will be removed in 2.0. Use the \'csa_guzzle.client\' tag instead', E_USER_DEPRECATED);
         $client = new $this->class($options);
 
         if ($client instanceof HasEmitterInterface) {
@@ -62,7 +63,7 @@ class ClientFactory
 
     public function registerSubscriber($name, SubscriberInterface $subscriber)
     {
-        trigger_error('The ClientFactory class is deprecated since version 1.3 and will be removed in 2.0. Use the \'csa_guzzle.client\' tag instead', E_USER_DEPRECATED);
+        @trigger_error('The ClientFactory class is deprecated since version 1.3 and will be removed in 2.0. Use the \'csa_guzzle.client\' tag instead', E_USER_DEPRECATED);
         $this->subscribers[$name] = $subscriber;
     }
 }

@@ -3,30 +3,36 @@
     "description": "A bundle integrating GuzzleHttp >= 4.0",
     "license": "MIT",
     "type": "symfony-bundle",
-    "authors": [
-        { "name": "Charles Sarrazin", "email": "charles@sarraz.in" }
-    ],
+    "authors": [{
+        "name": "Charles Sarrazin",
+        "email": "charles@sarraz.in"
+    }],
     "require": {
-        "php": ">=5.4.0",
-        "guzzlehttp/guzzle": "~4.0|~5.0",
-        "guzzlehttp/log-subscriber": "~1.0",
-        "symfony/framework-bundle": "~2.3|~3.0",
-        "twig/twig": "~1.12",
-        "symfony/expression-language": "~2.4|~3.0"
+        "php": ">=5.4.0|<7.1",
+        "guzzlehttp/guzzle": "^4.0|^5.0",
+        "guzzlehttp/log-subscriber": "^1.0",
+        "symfony/framework-bundle": "^2.8|^3.0",
+        "symfony/dependency-injection": "^2.8|^3.0",
+        "symfony/http-kernel": "^2.8|^3.0",
+        "twig/twig": "^1.34|^2.4",
+        "symfony/expression-language": "^2.8|^3.0"
     },
     "suggest": {
         "doctrine/cache": "Allows caching of responses",
         "guzzlehttp/guzzle-services": "Allow web service description"
     },
     "require-dev": {
-        "phpunit/phpunit": "~4.0",
-        "doctrine/cache": "~1.1",
-        "symfony/web-profiler-bundle": "~2.3",
-        "guzzlehttp/guzzle-services": "~0.3",
-        "symfony/phpunit-bridge": "~2.7|~3.0"
+        "phpunit/phpunit": "^4.0",
+        "doctrine/cache": "^1.1",
+        "symfony/web-profiler-bundle": "^2.8|^3.0",
+        "guzzlehttp/guzzle-services": ">=0.3|<0.6",
+        "symfony/phpunit-bridge": "^2.8|^3.0",
+        "symfony/yaml": "^2.8|^3.0"
     },
     "autoload": {
-        "psr-4": { "Csa\\Bundle\\GuzzleBundle\\": "src" }
+        "psr-4": {
+            "Csa\\Bundle\\GuzzleBundle\\": "src"
+        }
     },
     "minimum-stability": "dev",
     "extra": {

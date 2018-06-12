@@ -27,7 +27,7 @@ use GuzzleHttp\Message\ResponseInterface;
 class DebugSubscriber implements SubscriberInterface, \IteratorAggregate
 {
     /**
-     * @var array An array of guzzle transactions (requests and responses).
+     * @var array an array of guzzle transactions (requests and responses)
      */
     private $transactions = [];
 
@@ -63,10 +63,10 @@ class DebugSubscriber implements SubscriberInterface, \IteratorAggregate
     /**
      * Add a request to the history.
      *
-     * @param RequestInterface  $request   Request to add.
-     * @param array             $info      Transfer info.
-     * @param ResponseInterface $response  Response of the request.
-     * @param RequestException  $exception The exception thrown during the request, if any.
+     * @param RequestInterface  $request   request to add
+     * @param array             $info      transfer info
+     * @param ResponseInterface $response  response of the request
+     * @param RequestException  $exception the exception thrown during the request, if any
      */
     private function add(
         RequestInterface $request,

@@ -19,7 +19,9 @@ use GuzzleHttp\Message\ResponseInterface;
 class DoctrineAdapter implements StorageAdapterInterface
 {
     private $cache;
+
     private $ttl;
+
     private $messageFactory;
 
     public function __construct(Cache $cache, $ttl = 0)
