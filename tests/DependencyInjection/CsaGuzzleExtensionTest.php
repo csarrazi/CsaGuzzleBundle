@@ -316,6 +316,11 @@ YAML;
         ];
 
         $container = $this->createContainer('', $services);
+
+        if (!method_exists($container, 'registerForAutoconfiguration')) {
+            $this->markTestSkipped('Not supported for this symfony version');
+        }
+
         $container->compile();
 
         $this->assertTrue($container->hasDefinition(AutoconfiguredClient::class));
@@ -334,6 +339,11 @@ autoconfigure: true
 YAML;
 
         $container = $this->createContainer($yaml, $services);
+
+        if (!method_exists($container, 'registerForAutoconfiguration')) {
+            $this->markTestSkipped('Not supported for this symfony version');
+        }
+
         $container->compile();
 
         $this->assertTrue($container->hasDefinition(AutoconfiguredClient::class));
@@ -348,7 +358,9 @@ YAML;
 
         foreach ($services as $serviceId => $serviceClass) {
             $definition = new Definition($serviceClass);
-            $definition->setAutoconfigured(true);
+            if (method_exists($definition, 'setAutoconfigured')) {
+                $definition->setAutoconfigured(true);
+            }
             $definition->setPublic(true);
 
             $container->setDefinition($serviceId, $definition);
