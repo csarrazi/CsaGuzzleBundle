@@ -54,6 +54,11 @@ class CsaGuzzleExtension extends Extension
             $container->removeDefinition('csa_guzzle.twig.extension');
         }
 
+        if ($config['autoconfigure']) {
+            $container->registerForAutoconfiguration(ClientInterface::class)
+                ->addTag('csa_guzzle.client');
+        }
+
         $this->processLoggerConfiguration($config['logger'], $container);
 
         $this->processMockConfiguration($config['mock'], $container, $loader, $config['profiler']['enabled']);
