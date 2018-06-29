@@ -3,10 +3,12 @@
     "description": "A bundle integrating GuzzleHttp >= 4.0",
     "license": "Apache-2.0",
     "type": "symfony-bundle",
-    "authors": [{
-        "name": "Charles Sarrazin",
-        "email": "charles@sarraz.in"
-    }],
+    "authors": [
+        {
+            "name": "Charles Sarrazin",
+            "email": "charles@sarraz.in"
+        }
+    ],
     "require": {
         "php": "^7.1",
         "guzzlehttp/guzzle": "^6.1",
@@ -45,7 +47,7 @@
     "extra": {
         "branch-alias": {
             "dev-2.x": "2.3-dev",
-            "dev-master": "3.1-dev"
+            "dev-master": "3.2-dev"
         }
     }
 }
