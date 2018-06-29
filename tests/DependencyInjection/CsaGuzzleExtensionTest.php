@@ -13,6 +13,7 @@ namespace Csa\Bundle\GuzzleBundle\Tests\DependencyInjection;
 
 use Csa\Bundle\GuzzleBundle\DependencyInjection\CompilerPass\MiddlewarePass;
 use Csa\Bundle\GuzzleBundle\DependencyInjection\CsaGuzzleExtension;
+use Csa\Bundle\GuzzleBundle\Tests\AutoconfiguredClient;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\MessageFormatter;
 use PHPUnit\Framework\TestCase;
@@ -308,10 +309,62 @@ YAML;
         $this->assertContains('X-Guzzle-Cache', $storage->getArgument(1));
     }
 
-    private function createContainer($yaml)
+    public function testAutoconfigurationDoesNotRegistersServiceWhenDisabledByDefault()
+    {
+        $services = [
+            AutoconfiguredClient::class => AutoconfiguredClient::class,
+        ];
+
+        $container = $this->createContainer('', $services);
+
+        if (!method_exists($container, 'registerForAutoconfiguration')) {
+            $this->markTestSkipped('Not supported for this symfony version');
+        }
+
+        $container->compile();
+
+        $this->assertTrue($container->hasDefinition(AutoconfiguredClient::class));
+        $actualDefinition = $container->getDefinition(AutoconfiguredClient::class);
+        $this->assertFalse($actualDefinition->hasTag('csa_guzzle.client'));
+    }
+
+    public function testAutoconfigurationRegistersServiceWhenEnabled()
+    {
+        $services = [
+            AutoconfiguredClient::class => AutoconfiguredClient::class,
+        ];
+
+        $yaml = <<<'YAML'
+autoconfigure: true
+YAML;
+
+        $container = $this->createContainer($yaml, $services);
+
+        if (!method_exists($container, 'registerForAutoconfiguration')) {
+            $this->markTestSkipped('Not supported for this symfony version');
+        }
+
+        $container->compile();
+
+        $this->assertTrue($container->hasDefinition(AutoconfiguredClient::class));
+        $actualDefinition = $container->getDefinition(AutoconfiguredClient::class);
+        $this->assertTrue($actualDefinition->hasTag('csa_guzzle.client'));
+    }
+
+    private function createContainer($yaml, array $services = [])
     {
         $parser = new Parser();
         $container = new ContainerBuilder();
+
+        foreach ($services as $serviceId => $serviceClass) {
+            $definition = new Definition($serviceClass);
+            if (method_exists($definition, 'setAutoconfigured')) {
+                $definition->setAutoconfigured(true);
+            }
+            $definition->setPublic(true);
+
+            $container->setDefinition($serviceId, $definition);
+        }
 
         $loader = new CsaGuzzleExtension();
         $loader->load([$parser->parse($yaml)], $container);

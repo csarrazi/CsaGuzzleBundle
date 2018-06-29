@@ -75,6 +75,7 @@ class Configuration implements ConfigurationInterface
                     ->end()
                 ->end()
                 ->scalarNode('default_client')->info('The first client defined is used if not set')->end()
+                ->booleanNode('autoconfigure')->defaultFalse()->end()
                 ->append($this->createCacheNode())
                 ->append($this->createClientsNode())
                 ->append($this->createMockNode())
