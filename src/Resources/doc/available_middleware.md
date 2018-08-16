@@ -76,6 +76,14 @@ csa_guzzle:
         format: debug
 ```
 
+You could also change the level of logging, for `dev`, you likely want `debug`, for `prod`, you likely want `error`. You'll find more log levels in the [LogLevel of php-fig](https://github.com/php-fig/log/blob/master/Psr/Log/LogLevel.php).
+
+```yml
+csa_guzzle:
+    logger:
+        enabled: true
+        level: debug
+```
 
 The `cache` middleware
 ----------------------
