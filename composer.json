@@ -1,8 +1,8 @@
 {
     "name": "csa/guzzle-bundle",
+    "type": "symfony-bundle",
     "description": "A bundle integrating GuzzleHttp >= 4.0",
     "license": "Apache-2.0",
-    "type": "symfony-bundle",
     "authors": [
         {
             "name": "Charles Sarrazin",
@@ -11,27 +11,33 @@
     ],
     "require": {
         "php": "^7.1",
-        "guzzlehttp/guzzle": "^6.1",
-        "symfony/framework-bundle": "^2.8|^3.0|^4.0",
-        "symfony/dependency-injection": "^2.8|^3.0|^4.0",
-        "symfony/filesystem": "^2.8|^3.0|^4.0",
-        "twig/twig": "^1.34|^2.4",
         "csa/guzzle-cache-middleware": "^1.0.0",
         "csa/guzzle-history-middleware": "^1.0.0",
-        "csa/guzzle-stopwatch-middleware": "^1.0.0"
+        "csa/guzzle-stopwatch-middleware": "^1.0.0",
+        "guzzlehttp/guzzle": "^6.1",
+        "symfony/dependency-injection": "^2.8 || ^3.0 || ^4.0",
+        "symfony/filesystem": "^2.8 || ^3.0 || ^4.0",
+        "symfony/framework-bundle": "^2.8 || ^3.0 || ^4.0",
+        "twig/twig": "^1.34 || ^2.4"
+    },
+    "require-dev": {
+        "namshi/cuzzle": "^2.0",
+        "phpunit/phpunit": "^7.0",
+        "symfony/phpunit-bridge": "^2.8 || ^3.0 || ^4.0",
+        "symfony/web-profiler-bundle": "^2.8 || ^3.0 || ^4.0",
+        "symfony/yaml": "^2.8 || ^3.0 || ^4.0"
     },
     "suggest": {
         "doctrine/cache": "Allows caching of responses",
-        "psr/cache": "Allows caching of responses",
         "namshi/cuzzle": "Output command to repeat request in command line",
+        "psr/cache": "Allows caching of responses",
         "tolerance/tolerance": "Allows retrying failed requests"
     },
-    "require-dev": {
-        "phpunit/phpunit": "^7.0",
-        "symfony/web-profiler-bundle": "^2.8|^3.0|^4.0",
-        "symfony/phpunit-bridge": "^2.8|^3.0|^4.0",
-        "symfony/yaml": "^2.8|^3.0|^4.0",
-        "namshi/cuzzle": "^2.0"
+    "extra": {
+        "branch-alias": {
+            "dev-2.x": "2.3-dev",
+            "dev-master": "3.2-dev"
+        }
     },
     "autoload": {
         "psr-4": {
@@ -43,11 +49,5 @@
             "Csa\\Bundle\\GuzzleBundle\\Tests\\": "tests"
         }
     },
-    "minimum-stability": "dev",
-    "extra": {
-        "branch-alias": {
-            "dev-2.x": "2.3-dev",
-            "dev-master": "3.2-dev"
-        }
-    }
+    "minimum-stability": "dev"
 }
