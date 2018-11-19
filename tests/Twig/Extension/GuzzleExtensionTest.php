@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the CsaGuzzleBundle package
+ *
+ * (c) Thiago Cordeiro <thiagoguetten@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code
+ */
+
 namespace Csa\Bundle\GuzzleBundle\Tests\Twig\Extension;
 
 use Csa\Bundle\GuzzleBundle\Twig\Extension\GuzzleExtension;
@@ -7,20 +16,20 @@ use PHPUnit\Framework\TestCase;
 use Twig_Filter;
 use Twig_SimpleFunction;
 
-class AaaGuzzleExtensionTest extends TestCase
+class GuzzleExtensionTest extends TestCase
 {
-    private const PRETTY_XML = <<<XML
+    private const PRETTY_XML = <<<'XML'
 <?xml version="1.0" encoding="UTF-8"?>
 <content>test</content>
 XML;
 
-    private const PRETTY_JSON = <<<JSON
+    private const PRETTY_JSON = <<<'JSON'
 {
     "content": "test"
 }
 JSON;
 
-    private const PRETTY_JSON2 = <<<JSON
+    private const PRETTY_JSON2 = <<<'JSON'
 [
     {
         "content": "test"
@@ -28,14 +37,14 @@ JSON;
 ]
 JSON;
 
-    private const PRETTY_PHP = <<<STRING
+    private const PRETTY_PHP = <<<'STRING'
 stdClass Object
 (
     [content] => test
 )
 STRING;
 
-    private const PRETTY_MARKUP = <<<STRING
+    private const PRETTY_MARKUP = <<<'STRING'
 body;test
 STRING;
 
@@ -134,28 +143,28 @@ STRING;
     {
         return [
             'xml'   => [
-                'lang'   => 'xml',
-                'body'   => '<?xml version="1.0" encoding="UTF-8"?><content>test</content>',
+                'lang' => 'xml',
+                'body' => '<?xml version="1.0" encoding="UTF-8"?><content>test</content>',
                 'pretty' => self::PRETTY_XML,
             ],
             'json'  => [
-                'lang'   => 'json',
-                'body'   => '{"content":"test"}',
+                'lang' => 'json',
+                'body' => '{"content":"test"}',
                 'pretty' => self::PRETTY_JSON,
             ],
             'json2' => [
-                'lang'   => 'json',
-                'body'   => '[{"content":"test"}]',
+                'lang' => 'json',
+                'body' => '[{"content":"test"}]',
                 'pretty' => self::PRETTY_JSON2,
             ],
             'php'   => [
-                'lang'   => 'php',
-                'body'   => 'O:8:"stdClass":1:{s:7:"content";s:4:"test";}',
+                'lang' => 'php',
+                'body' => 'O:8:"stdClass":1:{s:7:"content";s:4:"test";}',
                 'pretty' => self::PRETTY_PHP,
             ],
             'other' => [
-                'lang'   => 'markup',
-                'body'   => 'body;test',
+                'lang' => 'markup',
+                'body' => 'body;test',
                 'pretty' => self::PRETTY_MARKUP,
             ],
         ];
@@ -174,18 +183,18 @@ STRING;
             'status 200' => ['statusCode' => 200, 'expectedMessage' => 'success'],
             'status 199' => ['statusCode' => 199, 'expectedMessage' => 'informational'],
             'status 100' => ['statusCode' => 100, 'expectedMessage' => 'informational'],
-            'status 99'  => ['statusCode' => 99, 'expectedMessage' => 'unknown'],
-            'status 0'   => ['statusCode' => 0, 'expectedMessage' => 'unknown'],
+            'status 99' => ['statusCode' => 99, 'expectedMessage' => 'unknown'],
+            'status 0' => ['statusCode' => 0, 'expectedMessage' => 'unknown'],
         ];
     }
 
     public function formatDurationDataSet(): array
     {
         return [
-            '15 Seconds'   => ['seconds' => 15, 'formatted' => '15.00 s'],
-            '92 Seconds'   => ['seconds' => 92, 'formatted' => '92.00 s'],
-            '136 Seconds'  => ['seconds' => 136, 'formatted' => '136.00 s'],
-            '532 Seconds'  => ['seconds' => 532, 'formatted' => '532.00 s'],
+            '15 Seconds' => ['seconds' => 15, 'formatted' => '15.00 s'],
+            '92 Seconds' => ['seconds' => 92, 'formatted' => '92.00 s'],
+            '136 Seconds' => ['seconds' => 136, 'formatted' => '136.00 s'],
+            '532 Seconds' => ['seconds' => 532, 'formatted' => '532.00 s'],
             '1689 Seconds' => ['seconds' => 1689, 'formatted' => '1689.00 s'],
         ];
     }
