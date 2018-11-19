@@ -43,6 +43,8 @@ class GuzzleExtension extends \Twig_Extension
             case 0 === strpos($body, '{'):
             case 0 === strpos($body, '['):
                 return 'json';
+            case (@unserialize($body) !== false):
+                return 'php';
             default:
                 return 'markup';
         }
@@ -60,6 +62,8 @@ class GuzzleExtension extends \Twig_Extension
                 $xml->loadXml($code, LIBXML_NOWARNING);
 
                 return $xml->saveXml();
+            case 'php':
+                return print_r(unserialize($code), true);
             default:
                 return $code;
         }
