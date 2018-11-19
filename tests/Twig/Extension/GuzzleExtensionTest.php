@@ -13,7 +13,7 @@ namespace Csa\Bundle\GuzzleBundle\Tests\Twig\Extension;
 
 use Csa\Bundle\GuzzleBundle\Twig\Extension\GuzzleExtension;
 use PHPUnit\Framework\TestCase;
-use Twig_Filter;
+use Twig_SimpleFilter;
 use Twig_SimpleFunction;
 
 class GuzzleExtensionTest extends TestCase
@@ -60,7 +60,7 @@ STRING;
     {
         $filters = $this->extension->getFilters();
 
-        $names = array_map(function (Twig_Filter $filter) {
+        $names = array_map(function (Twig_SimpleFilter $filter) {
             return $filter->getName();
         }, $filters);
 
