@@ -3,7 +3,7 @@
 /*
  * This file is part of the CsaGuzzleBundle package
  *
- * (c) Thiago Cordeiro <thiagoguetten@gmail.com>
+ * (c) Charles Sarrazin <charles@sarraz.in>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code
@@ -142,12 +142,12 @@ STRING;
     public function langBodyDataSet(): array
     {
         return [
-            'xml'   => [
+            'xml' => [
                 'lang' => 'xml',
                 'body' => '<?xml version="1.0" encoding="UTF-8"?><content>test</content>',
                 'pretty' => self::PRETTY_XML,
             ],
-            'json'  => [
+            'json' => [
                 'lang' => 'json',
                 'body' => '{"content":"test"}',
                 'pretty' => self::PRETTY_JSON,
@@ -157,7 +157,7 @@ STRING;
                 'body' => '[{"content":"test"}]',
                 'pretty' => self::PRETTY_JSON2,
             ],
-            'php'   => [
+            'php' => [
                 'lang' => 'php',
                 'body' => 'O:8:"stdClass":1:{s:7:"content";s:4:"test";}',
                 'pretty' => self::PRETTY_PHP,
