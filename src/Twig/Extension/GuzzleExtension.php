@@ -43,7 +43,7 @@ class GuzzleExtension extends \Twig_Extension
             case 0 === strpos($body, '{'):
             case 0 === strpos($body, '['):
                 return 'json';
-            case (@unserialize($body) !== false):
+            case false !== @unserialize($body):
                 return 'php';
             default:
                 return 'markup';
