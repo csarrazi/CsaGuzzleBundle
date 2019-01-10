@@ -31,8 +31,13 @@ class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder()
     {
-        $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('csa_guzzle');
+        $treeBuilder = new TreeBuilder('csa_guzzle');
+        if (method_exists($treeBuilder, 'getRootNode')) {
+            $rootNode = $treeBuilder->getRootNode();
+        } else {
+            // BC layer for symfony/config < 4.2
+            $rootNode = $treeBuilder->root('csa_guzzle');
+        }
 
         $rootNode
             ->fixXmlConfig('client')
@@ -87,8 +92,13 @@ class Configuration implements ConfigurationInterface
 
     private function createCacheNode()
     {
-        $treeBuilder = new TreeBuilder();
-        $node = $treeBuilder->root('cache');
+        $treeBuilder = new TreeBuilder('cache');
+        if (method_exists($treeBuilder, 'getRootNode')) {
+            $node = $treeBuilder->getRootNode();
+        } else {
+            // BC layer for symfony/config < 4.2
+            $node = $treeBuilder->root('cache');
+        }
 
         $node
             ->canBeEnabled()
@@ -108,8 +118,13 @@ class Configuration implements ConfigurationInterface
 
     private function createClientsNode()
     {
-        $treeBuilder = new TreeBuilder();
-        $node = $treeBuilder->root('clients');
+        $treeBuilder = new TreeBuilder('clients');
+        if (method_exists($treeBuilder, 'getRootNode')) {
+            $node = $treeBuilder->getRootNode();
+        } else {
+            // BC layer for symfony/config < 4.2
+            $node = $treeBuilder->root('clients');
+        }
 
         $node
             ->useAttributeAsKey('name')
@@ -131,8 +146,13 @@ class Configuration implements ConfigurationInterface
 
     private function createMockNode()
     {
-        $treeBuilder = new TreeBuilder();
-        $node = $treeBuilder->root('mock');
+        $treeBuilder = new TreeBuilder('mock');
+        if (method_exists($treeBuilder, 'getRootNode')) {
+            $node = $treeBuilder->getRootNode();
+        } else {
+            // BC layer for symfony/config < 4.2
+            $node = $treeBuilder->root('mock');
+        }
 
         $node
             ->canBeEnabled()
