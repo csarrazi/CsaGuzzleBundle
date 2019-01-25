@@ -1,7 +1,7 @@
 Available middleware
 ====================
 
-Currently, four middleware are available:
+Currently, five middleware are available:
 
 * the `debug` middleware
 * the `stopwatch` middleware
