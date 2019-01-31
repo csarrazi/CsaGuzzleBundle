@@ -240,6 +240,64 @@ YAML;
         $this->assertSame('my.adapter.id', (string) $alias);
     }
 
+    /**
+     * @dataProvider providerCacheServices
+     *
+     * @param string $identifier
+     */
+    public function testServicesArePresentWhenCacheIsEnabled($identifier)
+    {
+        $yaml = <<<'YAML'
+cache:
+    enabled: true
+    adapter: foo
+YAML;
+
+        $container = $this->createContainer($yaml);
+
+        $this->assertTrue($container->hasDefinition($identifier), sprintf(
+            'Failed asserting that container has a definition for a service with identifier "%s".',
+            $identifier
+        ));
+    }
+
+    /**
+     * @dataProvider providerCacheServices
+     *
+     * @param string $identifier
+     */
+    public function testServicesAreAbsentWhenCacheIsDisabled($identifier)
+    {
+        $yaml = <<<'YAML'
+cache: 
+    enabled: false
+YAML;
+
+        $container = $this->createContainer($yaml);
+
+        $this->assertFalse($container->hasDefinition($identifier), sprintf(
+            'Failed asserting that container does not have a definition for a service with identifier "%s".',
+            $identifier
+        ));
+    }
+
+    /**
+     * @return array
+     */
+    public function providerCacheServices()
+    {
+        $identifiers = [
+            'csa_guzzle.cache.adapter.doctrine',
+            'csa_guzzle.subscriber.cache',
+        ];
+
+        return array_map(function ($identifier) {
+            return [
+                $identifier,
+            ];
+        }, $identifiers);
+    }
+
     public function testLegacyCacheConfiguration()
     {
         $yaml = <<<'YAML'

@@ -78,6 +78,7 @@ class CsaGuzzleExtension extends Extension
     private function processCacheConfiguration(array $config, ContainerBuilder $container)
     {
         if (!$config['enabled']) {
+            $container->removeDefinition('csa_guzzle.cache.adapter.doctrine');
             $container->removeDefinition('csa_guzzle.subscriber.cache');
 
             return;
