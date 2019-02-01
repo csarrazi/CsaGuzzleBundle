@@ -84,6 +84,8 @@ To have a client supported by the bundle, simply tag it as such:
 acme.client:
     class: %acme.client.class%
     arguments: [{ base_uri: http://acme.com, timeout: 2.0} ]
+    tags:
+        - { name: csa_guzzle.client }
 ```
 
 Next section: [Registering new middleware](middleware.md)
