@@ -8,7 +8,7 @@ CsaGuzzleBundle
 [![Total Downloads](https://poser.pugx.org/csa/guzzle-bundle/downloads)](https://packagist.org/packages/csa/guzzle-bundle "Total Downloads")
 [![License](https://poser.pugx.org/csa/guzzle-bundle/license)](https://packagist.org/packages/csa/guzzle-bundle)
 [![Travis Build Status](https://travis-ci.org/csarrazi/CsaGuzzleBundle.png?branch=master)](https://travis-ci.org/csarrazi/CsaGuzzleBundle "Build status")
-[![SensioLabsInsight](https://insight.sensiolabs.com/projects/eceadd60-cc6c-473c-9d20-e8207654d70b/mini.png)](https://insight.sensiolabs.com/projects/eceadd60-cc6c-473c-9d20-e8207654d70b "SensioLabsInsight")
+[![SymfonyInsight](https://insight.symfony.com/projects/eceadd60-cc6c-473c-9d20-e8207654d70b/mini.svg)](https://insight.symfony.com/projects/eceadd60-cc6c-473c-9d20-e8207654d70b "SensioLabs Insight")
 [![Appveyor Build Status](https://ci.appveyor.com/api/projects/status/e5sev7kmv8l4q13q/branch/master?svg=true)](https://ci.appveyor.com/project/csarrazi/csaguzzlebundle/branch/master "Appveyor")
 
 Description
