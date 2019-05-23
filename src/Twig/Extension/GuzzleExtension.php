@@ -11,27 +11,36 @@
 
 namespace Csa\Bundle\GuzzleBundle\Twig\Extension;
 
+use Twig\Extension\AbstractExtension;
+use Twig\TwigFilter;
+use Twig\TwigFunction;
+
 /**
  * Csa Guzzle Collector.
  *
  * @author Charles Sarrazin <charles@sarraz.in>
  */
-class GuzzleExtension extends \Twig_Extension
+class GuzzleExtension extends AbstractExtension
 {
     public function getFilters()
     {
         return [
-            new \Twig_SimpleFilter('csa_guzzle_pretty_print', [$this, 'prettyPrint']),
-            new \Twig_SimpleFilter('csa_guzzle_status_code_class', [$this, 'statusCodeClass']),
-            new \Twig_SimpleFilter('csa_guzzle_format_duration', [$this, 'formatDuration']),
-            new \Twig_SimpleFilter('csa_guzzle_short_uri', [$this, 'shortenUri']),
+            new TwigFilter('csa_guzzle_pretty_print', [$this, 'prettyPrint']),
+            new TwigFilter('csa_guzzle_status_code_class', [$this, 'statusCodeClass']),
+            new TwigFilter('csa_guzzle_format_duration', [$this, 'formatDuration']),
+            new TwigFilter('csa_guzzle_short_uri', [$this, 'shortenUri']),
         ];
     }
 
+    /**
+     * Get functions.
+     *
+     * @return TwigFunction[]
+     */
     public function getFunctions()
     {
         return [
-            new \Twig_SimpleFunction('csa_guzzle_detect_lang', [$this, 'detectLang']),
+            new TwigFunction('csa_guzzle_detect_lang', [$this, 'detectLang']),
         ];
     }
 
@@ -48,6 +57,14 @@ class GuzzleExtension extends \Twig_Extension
         }
     }
 
+    /**
+     * Pretty print.
+     *
+     * @param $code
+     * @param $lang
+     *
+     * @return false|string
+     */
     public function prettyPrint($code, $lang)
     {
         switch ($lang) {
@@ -110,6 +127,11 @@ class GuzzleExtension extends \Twig_Extension
         );
     }
 
+    /**
+     * Get name.
+     *
+     * @return string
+     */
     public function getName()
     {
         return 'csa_guzzle';
