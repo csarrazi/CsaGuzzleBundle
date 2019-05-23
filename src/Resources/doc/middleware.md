@@ -14,8 +14,33 @@ is as easy as creating a symfony service and using the `csa_guzzle.middleware` t
 </service>
 ```
 
+You can also define middleware as a class with the `__invoke` method like this:
+
+```php
+class Middleware
+{
+    public function __invoke(callable $handler): callable
+    {
+        return function (RequestInterface $request, array $options) use ($handler) {
+            $request = $request->withHeader('X-Test', 'I was here');
+
+            return $handler($request, $options);
+        };
+    }
+}
+
+```
+
+The service definition for such a class is then:
+
+```yaml
+My\Middleware:
+    tags:
+        - { name: csa_guzzle.middleware, alias: my_middleware, priority: 100 }
+```
+
 Middleware are automatically used by all your clients, if you are using the semantic configuration.
-However, if you wish to, you can enable specific middleware, for a given client:
+However, if you wish to, you can limit a client to a list of specific middleware:
 
 ```yml
 csa_guzzle:
