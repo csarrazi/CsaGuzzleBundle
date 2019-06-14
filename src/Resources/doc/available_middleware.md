@@ -101,7 +101,7 @@ class, in which you should inject your doctrine cache service. For example, usin
 
 ```xml
 <services>
-    <service id="my_storage_adapter" class="Csa\Bundle\GuzzleBundle\GuzzleHttp\Cache\DoctrineAdapter">
+    <service id="my_storage_adapter" class="Csa\GuzzleHttp\Middleware\Cache\Adapter\DoctrineAdapter">
         <argument type="service" id="my_cache_service" />
     </service>
 
