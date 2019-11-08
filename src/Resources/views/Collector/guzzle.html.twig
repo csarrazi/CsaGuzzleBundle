@@ -7,7 +7,7 @@
     {% set cacheHitCount = 0 %}
     {% set cacheMissCount = 0 %}
 
-    {% for call in collector.calls if call.cache is defined and call.cache == 'HIT' %}
+    {% for call in collector.calls|filter(call => call.cache is defined and call.cache == 'HIT') %}
         {% if call.cache == 'HIT' %}
             {% set cacheHitCount = cacheHitCount + 1 %}
         {% else %}
@@ -18,7 +18,7 @@
     {% set mockReplayCount = 0 %}
     {% set mockRecordCount = 0 %}
 
-    {% for call in collector.calls if call.mock is defined %}
+    {% for call in collector.calls|filter(call => call.mock is defined) %}
         {% if call.mock == 'REPLAY' %}
             {% set mockReplayCount = mockReplayCount + 1 %}
         {% else %}
