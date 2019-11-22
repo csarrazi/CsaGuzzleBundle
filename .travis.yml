@@ -20,6 +20,7 @@ install:
 
 env:
   global:
+    - MIN_PHP=7.2.9
     - SYMFONY_DEPRECATIONS_HELPER=strict
     - deps=no
 

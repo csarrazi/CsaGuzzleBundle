@@ -19,13 +19,14 @@ use Psr\Http\Message\StreamInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\DataCollector\DataCollector;
+use Symfony\Component\HttpKernel\Kernel;
 
 /**
  * Csa Guzzle Collector.
  *
  * @author Charles Sarrazin <charles@sarraz.in>
  */
-class GuzzleCollector extends DataCollector
+abstract class InternalGuzzleCollector extends DataCollector
 {
     const MAX_BODY_SIZE = 0x10000;
 
@@ -55,7 +56,7 @@ class GuzzleCollector extends DataCollector
     /**
      * {@inheritdoc}
      */
-    public function collect(Request $request, Response $response, \Exception $exception = null)
+    protected function doCollect(Request $request, Response $response, \Throwable $exception = null)
     {
         $data = [];
 
@@ -181,5 +182,23 @@ class GuzzleCollector extends DataCollector
     public function getName()
     {
         return 'guzzle';
+    }
+}
+
+if (Kernel::MAJOR_VERSION >= 5) {
+    final class GuzzleCollector extends InternalGuzzleCollector
+    {
+        public function collect(Request $request, Response $response, \Throwable $exception = null)
+        {
+            parent::doCollect($request, $response, $exception);
+        }
+    }
+} else {
+    class GuzzleCollector extends InternalGuzzleCollector
+    {
+        public function collect(Request $request, Response $response, \Exception $exception = null)
+        {
+            parent::doCollect($request, $response, $exception);
+        }
     }
 }
