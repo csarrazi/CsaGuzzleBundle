@@ -129,7 +129,7 @@ class CsaGuzzleExtension extends Extension
 
     private function processClientsConfiguration(array $config, ContainerBuilder $container, $debug)
     {
-        if (empty($config['default_client'])) {
+        if (empty($config['default_client']) && false !== ($config['default_client'] ?? null)) {
             $keys = array_keys($config['clients']);
             $config['default_client'] = reset($keys);
         }
