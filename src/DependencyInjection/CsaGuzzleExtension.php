@@ -140,11 +140,7 @@ class CsaGuzzleExtension extends Extension
 
             if (isset($options['config'])) {
                 if (!is_array($options['config'])) {
-                    throw new InvalidArgumentException(sprintf(
-                        'Config for "csa_guzzle.client.%s" should be an array, but got %s',
-                        $name,
-                        gettype($options['config'])
-                    ));
+                    throw new InvalidArgumentException(sprintf('Config for "csa_guzzle.client.%s" should be an array, but got %s', $name, gettype($options['config'])));
                 }
                 $client->addArgument($this->buildGuzzleConfig($options['config'], $debug));
             }
