@@ -5,6 +5,14 @@ UPGRADE documentation
 * Upgrade [from 1.1 to 1.2](#upgrade-from-11-to-12)
 * Upgrade [from 1.2 to 1.3](#upgrade-from-12-to-13)
 * Upgrade [from 1.x to 2.0](#upgrade-from-1x-to-20)
+* Upgrade [from 2.x to 3.0](#upgrade-from-2x-to-30)
+
+UPGRADE FROM 2.x to 3.0
+-----------------------
+
+The upgrade procedure is straightforward.
+
+The 3.0 version bump was mostly due to the upgraded dependency versions and moving the middleware to separate repositories.
 
 UPGRADE FROM 1.x to 2.0
 -----------------------
