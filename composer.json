@@ -10,7 +10,7 @@
         }
     ],
     "require": {
-        "php": "^7.1",
+        "php": "^7.1 || ^8.0",
         "csa/guzzle-cache-middleware": "^1.0.0",
         "csa/guzzle-history-middleware": "^1.0.0",
         "csa/guzzle-stopwatch-middleware": "^1.0.0",
