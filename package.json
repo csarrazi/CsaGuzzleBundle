@@ -29,6 +29,6 @@
     "webpack": "^4.32.2"
   },
   "dependencies": {
-    "prismjs": "^1.23.0"
+    "prismjs": "^1.24.0"
   }
 }
